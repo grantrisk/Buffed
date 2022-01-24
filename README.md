@@ -5,8 +5,8 @@
 **_TBD_** 
 
 ## 2. Team Communication
-Discord - Primary <br>
-Email - Secondary <br>
+* Discord - Primary <br>
+* Email - Secondary <br>
 
 ## 3. Team Members
 * Steven Allen  /  sja3869@uncw.edu <br>
