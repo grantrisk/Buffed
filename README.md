@@ -9,10 +9,10 @@ Discord - Primary <br>
 Email - Secondary <br>
 
 ## 3. Team Members
-- Steven Allen | (mailto:sja3869@uncw.edu)<br>
--Tabs Chemelli |(mailto:tpc9316@uncw.edu)<br>
--Blake Jackson | (mailto:baj8533@uncw.edu)<br>
--Grant Risk | (mailto:gr2257@uncw.edu) <br>
+-Steven Allen | (mailto:sja3869@uncw.edu)
+-Tabs Chemelli |(tpc9316@uncw.edu)
+-Blake Jackson | (mailto:baj8533@uncw.edu)
+-Grant Risk | (mailto:gr2257@uncw.edu)
 
 ## 4. Role Assignment 
 **Lead Developer - _TBD_ <br>
