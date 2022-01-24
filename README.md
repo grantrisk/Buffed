@@ -1,16 +1,18 @@
 # CSC 450 - Team Project
+**_TBD_**
 
 ## 1. Project Description
+**_TBD_** 
 
 ## 2. Team Communication
 Discord - Primary <br>
 Email - Secondary <br>
 
 ## 3. Team Members
-Steven Allen <br>
-Tabs Chemelli <br>
-Blake Jackson <br>
-Grant Risk <br>
+- Steven Allen | (mailto:sja3869@uncw.edu)<br>
+-Tabs Chemelli |(mailto:tpc9316@uncw.edu)<br>
+-Blake Jackson | (mailto:baj8533@uncw.edu)<br>
+-Grant Risk | (mailto:gr2257@uncw.edu) <br>
 
 ## 4. Role Assignment 
 **Lead Developer - _TBD_ <br>
