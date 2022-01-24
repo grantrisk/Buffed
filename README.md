@@ -15,10 +15,10 @@ Email - Secondary <br>
 * Grant Risk  /  gr2257@uncw.edu <br>
 
 ## 4. Role Assignment 
-**Lead Developer - _TBD_ <br>
-Developer - _TBD_ <br>
-Developer - _TBD_ <br>
-Project Manager - Blake Jackson** <br>
+* Lead Developer - _TBD_ <br>
+* Developer - _TBD_ <br>
+* Developer - _TBD_ <br>
+* Project Manager - Blake Jackson <br>
 
 ## 5. Feature List
 >1 sentence bullets beginning with "The user can..." or "The system will..." that illustrate the features (capabilities) of your software product. These should be written at a high level. For example, "The user can add and remove stock symbols they would like to track to their dashboard." You must have 10-20 features. <br>
