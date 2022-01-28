@@ -20,7 +20,7 @@ Our application - will use web technologies to allow the average person to be ab
 * Developer - Tabs Chemelli <br>
 * Developer - Steven Allen <br>
 * Developer - Cody Jackson <br>
-* Project Manager/Developer - Blake Jackson <br>
+* Developer - Blake Jackson <br>
 
 ## 5. Feature List
 >1 sentence bullets beginning with "The user can..." or "The system will..." that illustrate the features (capabilities) of your software product. These should be written at a high level. For example, "The user can add and remove stock symbols they would like to track to their dashboard." You must have 10-20 features. <br>
