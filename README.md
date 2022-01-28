@@ -10,7 +10,7 @@ Our application - will use web technologies to allow the average person to be ab
 
 ## 3. Team Members
 * Steven Allen  /  sja3869@uncw.edu <br>
-* Tabs Chemelli  /  tpc9316@uncw.edu <br>
+* Tabs Chemelli  /  tpc9316@uncw.edu<br>
 * Blake Jackson  /  baj8533@uncw.edu <br>
 * Grant Risk  /  gr2257@uncw.edu <br>
 * Cody Jackson / clj1175@uncw.edu
