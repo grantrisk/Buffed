@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+        <meta charset="utf-8">
+        <title>My Meals</title>
+    </head>
+
+    <body>
+        <h1>My Goals</h1>
+
+    <header>
+        <div class="container">
+            <strong>
+                <nav>
+                    <ul class="menu">
+                        <li><a href = "{{ url_for('login') }}">Login</a></li>
+                        <li><a href = "{{ url_for('register') }}">Register</a></li>
+                        <li><a href = "{{ url_for('dashboard') }}">Dashboard</a></li>
+                        <li><a href = "{{ url_for('my_goals') }}">My Goals</a></li>
+                        <li><a href = "{{ url_for('my_meals') }}">My Meals</a></li>
+                        <li><a href = "{{ url_for('find_meals') }}">Find Meals</a></li>
+                        <li><a href = "{{ url_for('my_profile') }}">My Profile</a></li>
+                        <li><a href = "{{ url_for('about') }}">About</a></li>
+                    </ul>
+                </nav>
+            </strong>
+        </div>
+    </header>
+
+        {% block content %}
+        {% endblock %}
+
+    </body>
+</html>
