@@ -7,9 +7,29 @@
     </head>
 
     <body>
-        <h1>Welcome to Buffed. Please login.</h1>
-        <p>Here you will be able to login to the system.</p>
+        <h1>Login</h1>
+
+    <header>
+        <div class="container">
+            <strong>
+                <nav>
+                    <ul class="menu">
+                        <li><a href = "{{ url_('login') }}">Login</a></li>
+                        <li><a href = "{{ url_('register') }}">Register</a></li>
+                        <li><a href = "{{ url_('dashboard') }}">Dashboard</a></li>
+                        <li><a href = "{{ url_('my goals') }}">My Goals</a></li>
+                        <li><a href = "{{ url_('my meals') }}">My Meals</a></li>
+                        <li><a href = "{{ url_('find meals') }}">Find Meals</a></li>
+                        <li><a href = "{{ url_('my profile') }}">My Profile</a></li>
+                        <li><a href = "{{ url_('about') }}">About</a></li>
+                    </ul>
+                </nav>
+            </strong>
+        </div>
+    </header>
+
+        {% block content %}
+        {% endblock %}
+
     </body>
-
-
 </html>
