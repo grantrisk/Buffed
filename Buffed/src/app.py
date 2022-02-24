@@ -35,7 +35,14 @@ def dashboard():
 
 @app.route('/my_goals')
 def my_goals():
-    return render_template('my_goals.html')
+
+    goals = [
+        {"id": 1, "name": "bulk", "calories": 4500, "desired_weight": 200, "number_of_meals": 4,
+         "protein": [480, 700], "fat": [100, 200], "carbs": [280, 500]},
+        {"id": 2, "name": "cut", "calories": 2500, "desired_weight": 155, "number_of_meals": 3,
+         "protein": [200, 300], "fat": [50, 100], "carbs": [150, 250]}
+    ]
+    return render_template('my_goals.html', goals=goals)
 
 
 @app.route('/my_profile')

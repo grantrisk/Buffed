@@ -1,5 +1,28 @@
 {% extends "base.html" %}
-
+{% block title %}
+    My Goals
+{% endblock %}
 {% block content %}
-<h1>My Goals</h1>
+    <h1>My Goals</h1>
+    <h2>Saved Goals:</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Goal Name</th>
+                <th scope="col">Calories</th>
+                <th scope="col">Desired Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for goal in goals %}
+                <tr>
+                    <td> {{ goal.id }}</td>
+                    <td>{{ goal.name }}</td>
+                    <td>{{ goal.calories }}</td>
+                    <td>{{ goal.desired_weight }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
