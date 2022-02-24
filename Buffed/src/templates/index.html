@@ -1,5 +1,18 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-<h1>Home</h1>
-{% endblock %}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Buffed</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+</head>
+
+<body>
+<div class="home-page-header">
+    <h1>Buffed</h1>
+    <h2>Landing page with info about app, etc.</h2>
+    <a href="{{ url_for('dashboard') }}"><h2>Login</h2></a>
+</div>
+</body>
+</html>
