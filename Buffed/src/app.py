@@ -34,6 +34,10 @@ def my_goals():
 def my_profile():
     return render_template('my_profile.html')
 
+@app.route('/todays_plan')
+def todays_plan():
+    return render_template('todays_plan.html')\
+
 @app.route('/about')
 def about():
     return render_template('about.html')
