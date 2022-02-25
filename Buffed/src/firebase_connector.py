@@ -42,27 +42,20 @@ class FirebaseConnector:
 
     # def get_email(self, user: User) -> str:
     #     """
-    #     This method returns the workouts for a user. It raises an exception if the user does not exist.
-    #     :param user: the User object for whom you want to get workouts
-    #     :return: a List of Workout objects or an empty list if the user has no workouts
+    #     This method returns the email for a user.
+    #     :param user: the User object
+    #     :return: the email of the user
     #     """
     #     pass
     #
     # def get_password(self, user: User) -> str:
     #     """
-    #     This method returns the workouts for a user. It raises an exception if the user does not exist.
-    #     :param user: the User object for whom you want to get workouts
-    #     :return: a List of Workout objects or an empty list if the user has no workouts
+    #     This method returns the password for a user.
+    #     :param user: the User object
+    #     :return: the password of the user
     #     """
     #     pass
 
-    # def get_login_credentials(self, user: User) -> (str, str):
-    #     """
-    #     This method returns the workouts for a user. It raises an exception if the user does not exist.
-    #     :param user: the User object for whom you want to get workouts
-    #     :return: a List of Workout objects or an empty list if the user has no workouts
-    #     """
-    #     pass
 
     def get_display_name(self, user: User) -> str:
         """
