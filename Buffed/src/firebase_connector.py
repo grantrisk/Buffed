@@ -4,7 +4,7 @@ from models import Meal, User
 
 class FirebaseConnector:
     """
-    Provides an interface to fetch data stored in Firebase
+    Provides an interface to fetch data stored from Firebase.
     """
 
     def __init__(self, email: str, password: str, name: str, birthdate: str, gender: str,
