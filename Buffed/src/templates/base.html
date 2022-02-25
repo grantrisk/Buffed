@@ -1,22 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<defs>
-  <style>
-    @font-face {
-      font-family: LemonTuesday, Lemon Tuesday;
-      src: url('../static/resources/Lemon Tuesday.otf');
-    }
-  </style>
-</defs>
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <title>
-        {% block title %}
-        {% endblock %}
-    </title>
+    <title>{% block title %}{% endblock %} - Buffed</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
 </head>
 <body>
@@ -28,7 +16,7 @@
         <h1 id="date-text">January 1, 2001 - 12:01</h1>
     </div>
     <div class="top-bar-wrapper-right">
-        <h1><a class="logout" href="#">Logout</a></h1>
+        <h1><a class="logout" href="{{ url_for('index') }}">Logout</a></h1>
     </div>
 </div>
 
