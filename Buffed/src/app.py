@@ -73,8 +73,6 @@ def my_goals():
     return render_template('my_goals.html', goals=goals)
 
 
-
-
 @app.route('/my_profile')
 def my_profile():
     """
