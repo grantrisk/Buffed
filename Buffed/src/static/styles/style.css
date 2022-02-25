@@ -99,6 +99,15 @@ h1, h2, a {
     margin-right: 50px;
 }
 
+.home-page-header h1 {
+    font-family: LemonTuesday, sans-serif;
+    text-align: center;
+}
+
+.home-page-header h2 {
+    text-align: center;
+}
+
 @media screen and (max-height: 450px) {
     .sidenav {
         padding-top: 15px;
