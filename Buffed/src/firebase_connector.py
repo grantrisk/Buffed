@@ -40,23 +40,6 @@ class FirebaseConnector:
         """
         pass
 
-    # def get_email(self, user: User) -> str:
-    #     """
-    #     This method returns the email for a user.
-    #     :param user: the User object
-    #     :return: the email of the user
-    #     """
-    #     pass
-    #
-    # def get_password(self, user: User) -> str:
-    #     """
-    #     This method returns the password for a user.
-    #     :param user: the User object
-    #     :return: the password of the user
-    #     """
-    #     pass
-
-
     def get_display_name(self, user: User) -> str:
         """
         The method retrieves the name of the user
