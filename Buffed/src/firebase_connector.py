@@ -40,42 +40,66 @@ class FirebaseConnector:
         """
         pass
 
-    def get_email(self, user: User) -> str:
-        """
-        This method returns the workouts for a user. It raises an exception if the user does not exist.
-        :param user: the User object for whom you want to get workouts
-        :return: a List of Workout objects or an empty list if the user has no workouts
-        """
-        pass
+    # def get_email(self, user: User) -> str:
+    #     """
+    #     This method returns the workouts for a user. It raises an exception if the user does not exist.
+    #     :param user: the User object for whom you want to get workouts
+    #     :return: a List of Workout objects or an empty list if the user has no workouts
+    #     """
+    #     pass
+    #
+    # def get_password(self, user: User) -> str:
+    #     """
+    #     This method returns the workouts for a user. It raises an exception if the user does not exist.
+    #     :param user: the User object for whom you want to get workouts
+    #     :return: a List of Workout objects or an empty list if the user has no workouts
+    #     """
+    #     pass
 
-    def get_password(self, user: User) -> str:
-        """
-        This method returns the workouts for a user. It raises an exception if the user does not exist.
-        :param user: the User object for whom you want to get workouts
-        :return: a List of Workout objects or an empty list if the user has no workouts
-        """
-        pass
-
-    def get_login_credentials(self, user: User) -> (str, str):
-        """
-        This method returns the workouts for a user. It raises an exception if the user does not exist.
-        :param user: the User object for whom you want to get workouts
-        :return: a List of Workout objects or an empty list if the user has no workouts
-        """
-        pass
+    # def get_login_credentials(self, user: User) -> (str, str):
+    #     """
+    #     This method returns the workouts for a user. It raises an exception if the user does not exist.
+    #     :param user: the User object for whom you want to get workouts
+    #     :return: a List of Workout objects or an empty list if the user has no workouts
+    #     """
+    #     pass
 
     def get_display_name(self, user: User) -> str:
         """
-        This method returns the workouts for a user. It raises an exception if the user does not exist.
-        :param user: the User object for whom you want to get workouts
-        :return: a List of Workout objects or an empty list if the user has no workouts
+        The method retrieves the name of the user
+        :param user: User object
+        :return: name of user
         """
         pass
 
-    def get_user_info(self) -> str:
+    def get_user_meals(self, user: User) -> str:
         """
-        Get all nutrients for a given Meal. Raises an exception if the Food ID is invalid or API key(s) are invalid.
-        :param meal: Meal object
-        :return: dict containing all nutrients for the given Meal
+        The method retrieves the meals saved by the user
+        :param user: User object
+        :return: meals saved by user
+        """
+        pass
+
+    def get_user_goals(self, user: User) -> str:
+        """
+        The method retrieves the goals saved by the user
+        :param user: User object
+        :return: goals saved by user
+        """
+        pass
+
+    def get_user_diet_info(self, user: User) -> str:
+        """
+        The method retrieves the diet questionnaire answers by the user
+        :param user: User object
+        :return: list of answers
+        """
+        pass
+
+    def get_user_profile_info(self, user: User) -> str:
+        """
+        The method retrieves the profile preferences saved by the user
+        :param user: User object
+        :return: list of profile preferences
         """
         pass
