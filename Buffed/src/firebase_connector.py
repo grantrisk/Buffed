@@ -31,7 +31,6 @@ class FirebaseConnector:
         :param my_goals: list of goals including fat, carbs, and protein values' high and low ranges
         """
 
-
     def search_user_database(self, user_email) -> List[User]:
         """
         Queries Firebase for user information. Raises an exception if the email is invalid or not found.
