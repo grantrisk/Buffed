@@ -15,20 +15,11 @@ class FirebaseConnector:
         Creates an instance of a User object
         :param email: user's email
         :param password: user's password
-        :param name: user's display name
         :param birthdate: user's birthdate for age calculation
         :param gender: user's gender
         :param weight: user's weight in lbs
         :param height: user's height in meters
-        :param activity_level: user's activity level
         :param active_goal: user's active or current goal
-        :param keywords: list of the user's favorite ingredients/food keywords from Firestore
-        :param allergies: list of the user's allergies from Firestore
-        :param diet_preferences: list of the user's diet preferences from Firestore
-        :param likes: list of the user's likes from Firestore
-        :param dislikes: list of the user's dislikes from Firestore
-        :param my_meals: list of Meal objects that the user has saved from My Meals
-        :param my_goals: list of goals including fat, carbs, and protein values' high and low ranges
         """
 
     def search_user_database(self, user_email) -> List[User]:
@@ -39,42 +30,51 @@ class FirebaseConnector:
         """
         pass
 
-    def get_display_name(self, user: User) -> str:
+    def get_email(self) -> str:
         """
-        The method retrieves the name of the user
-        :param user: User object
-        :return: name of user
-        """
-        pass
-
-    def get_user_meals(self, user: User) -> str:
-        """
-        The method retrieves the meals saved by the user
-        :param user: User object
-        :return: meals saved by user
+        This method returns the email of a user if one exists.
+        :return: A string containing the email of a user.
         """
         pass
 
-    def get_user_goals(self, user: User) -> str:
+    def get_password(self) -> str:
         """
-        The method retrieves the goals saved by the user
-        :param user: User object
-        :return: goals saved by user
-        """
-        pass
-
-    def get_user_diet_info(self, user: User) -> str:
-        """
-        The method retrieves the diet questionnaire answers by the user
-        :param user: User object
-        :return: list of answers
+        This method returns the password of a user if one exists.
+        :return: A string containing the password of a user.
         """
         pass
 
-    def get_user_profile_info(self, user: User) -> str:
+    def get_birthdate(self) -> str:
         """
-        The method retrieves the profile preferences saved by the user
-        :param user: User object
-        :return: list of profile preferences
+        This method returns the workouts for a user. It raises an exception if the user does not exist.
+        :return: a List of Workout objects or an empty list if the user has no workouts
+        """
+        pass
+
+    def get_gender(self) -> str:
+        """
+        This method returns the gender of a user, if one exists.
+        :return: A string that is the gender of the user.
+        """
+        pass
+
+    def get_height(self) -> str:
+        """
+        This method returns the height of a user.
+        :return: A string that contains the height of a user.
+        """
+        pass
+
+    def get_weight(self) -> int:
+        """
+        This method returns the weight of a user.
+        :return: A int that contains the weight of a user.
+        """
+        pass
+
+    def get_active_goal(self) -> str:
+        """
+        This method returns active goal for a user. It raises an exception if the user does not exist.
+        :return: A string containing the active goal for the user.
         """
         pass
