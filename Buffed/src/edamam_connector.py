@@ -1,4 +1,7 @@
+from typing import List
+
 import models
+import requests
 
 
 class EdamamConnector:
@@ -25,18 +28,26 @@ class EdamamConnector:
         self.__na_app_id = na_app_id
         self.__na_app_key = na_app_key
 
-    def search_food_database(self, query):
+    def search_ingredients(self, query) -> List[models.Ingredient]:
         """
-        Queries Food Database API for foods and ingredients. Raises an exception if the API key(s) are invalid.
+        Queries Food Database API for ingredients. Raises an exception if the API key(s) are invalid.
         :param query: search term
-        :return: list of Meals containing search results
+        :return: list of Ingredients from search results
         """
         pass
 
-    def get_food_nutrients(self, meal: models.Meal):
+    def get_ingredient_nutrients(self, ingredient: models.Ingredient) -> dict:
         """
-        Get all nutrients for a given Meal. Raises an exception if the Food ID is invalid or API key(s) are invalid.
-        :param meal: Meal object
-        :return: dict containing all nutrients for the given Meal
+        Get all nutrients for a given Ingredient. Raises an exception if the Food ID is invalid or API key(s) are invalid.
+        :param ingredient: Meal object
+        :return: dict containing all nutrients for the given Ingredient
         """
         pass
+
+    def search_recipes(self, query) -> List[models.Meal]:
+        """
+        Queries Recipe Search API for recipes. Raises an exception if the API key(s) are invalid.
+        :param query: search term
+        :return: list of Meals from search results
+        """
+
