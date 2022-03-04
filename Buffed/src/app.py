@@ -1,5 +1,7 @@
 from flask import Flask, render_template
-
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 app = Flask(__name__)
 
 
@@ -106,4 +108,9 @@ def about():
 
 
 if __name__ == '__main__':
+
+    cred = credentials.Certificate("static/resources/buffed-9aca2-firebase-adminsdk-ugcpz-10ca260294.json")
+    firebase_admin.initialize_app(cred)
+    db = firestore.client()
+
     app.run(debug=True)
