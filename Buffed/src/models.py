@@ -1,21 +1,33 @@
 from typing import List
 
 
+class Measure:
+    """
+    Object representation of a measure, used internally for Ingredient nutrition lookup
+    """
+    def __init__(self, measure_label, measure_uri, weight):
+        self.measure_label = measure_label
+        self.measure_uri = measure_uri
+        self.weight = weight
+
+
 class Ingredient:
-    def __init__(self, food_name: str, food_id: str, img_url: str, nutrients: dict, health_labels: List[str]):
+    def __init__(self, ingredient_name: str, ingredient_id: str, ingredient_img_url: str, ingredient_nutrients: dict,
+                 ingredient_health_labels: List[str], ingredient_measures: List[Measure]):
         """
-        Creates an instance of a Food object
-        :param food_name: name of the food
-        :param food_id: unique identifier of the food from Edamam
-        :param img_url: URL to the image from Edamam
-        :param nutrients: dictionary containing the nutritional values
-        :param health_labels: list containing all health labels as defined by Edamam
+        Creates an instance of an Ingredient object
+        :param ingredient_name: name of the ingredient
+        :param ingredient_id: unique identifier of the ingredient from Edamam
+        :param ingredient_img_url: URL to the ingredient image from Edamam
+        :param ingredient_nutrients: dictionary containing the ingredient nutritional values (per 100 grams)
+        :param ingredient_health_labels: list containing all ingredient health labels as defined by Edamam
         """
-        self.food_name = food_name
-        self.food_id = food_id
-        self.img_url = img_url
-        self.nutrients = nutrients
-        self.health_labels = health_labels
+        self.ingredient_name = ingredient_name
+        self.ingredient_id = ingredient_id
+        self.ingredient_img_url = ingredient_img_url
+        self.ingredient_nutrients = ingredient_nutrients
+        self.ingredient_health_labels = ingredient_health_labels
+        self.ingredient_measures = ingredient_measures
 
 
 class Meal:
@@ -38,27 +50,14 @@ class Meal:
         self.meal_type = meal_type
 
 
-class MealPlan:
-    def __init__(self, meals: List[Meal], meal_plan_id: str, description=None):
-        """
-        Creates an instance of a MealPlan object (Today's Plan)
-        :param meals: list of meals for one day
-        :param meal_plan_id: unique identifier for MealPlan stored in Firebase
-        :param description: optional description for MealPlan
-        """
-        self.meals = meals
-        self.meal_plan_id = meal_plan_id
-        self.description = description
-
-
 class Goal:
-    def __init__(self, goal_id: str, goal_name: str, isActive: bool, calories: int, macro_nutrients: dict,
+    def __init__(self, goal_id: str, goal_name: str, is_active: bool, calories: int, macro_nutrients: dict,
                  number_of_meals: int, desired_weight: int):
         """
         Creates an instance of a Goal object
         :param goal_id: unique identifier for Goal stored in Firebase
         :param goal_name: name of the goal
-        :param isActive: determines active goal
+        :param is_active: determines active goal
         :param calories: daily calorie amount to achieve
         :param macro_nutrients: dictionary containing protein, fat, and carb amounts (g)
         :param number_of_meals: number of desired meals per day
@@ -66,11 +65,22 @@ class Goal:
         """
         self.goal_id = goal_id
         self.goal_name = goal_name
-        self.isActive = isActive
+        self.is_active = is_active
         self.calories = calories
         self.macro_nutrients = macro_nutrients
         self.number_of_meals = number_of_meals
         self.desired_weight = desired_weight
+
+
+class MealPlan:
+    def __init__(self, user_id: str, meals: List[Meal]):
+        """
+        Creates an instance of a MealPlan object.
+        :param user_id: the ID of the user who owns the MealPlan
+        :param meals: the list of Meal objects for the meal plan, associated with the user object
+        """
+        self.user_id = user_id
+        self.meals = meals
 
 
 class User:
@@ -114,32 +124,3 @@ class User:
         self.my_meals = my_meals
         self.meal_plan = meal_plan
         self.my_goals = my_goals
-
-
-class MealPlan:
-    def __init__(self, user: User, meals: List[Meal]):
-        """
-        Creates an instance of a MealPlan object.
-        :param user: the user's object
-        :param meals: the list of Meal objects for the meal plan, associated with the user object
-        """
-        self.user = user
-        self.meals = meals
-
-
-class Ingredient:
-    def __init__(self, ingredient_name: str, ingredient_id: str, ingredient_img_url: str, ingredient_nutrients: dict,
-                 ingredient_health_labels: List[str]):
-        """
-        Creates an instance of an Ingredient object
-        :param ingredient_name: name of the ingredient
-        :param ingredient_id: unique identifier of the ingredient from Edamam
-        :param ingredient_img_url: URL to the ingredient image from Edamam
-        :param ingredient_nutrients: dictionary containing the ingredient nutritional values
-        :param ingredient_health_labels: list containing all ingredient health labels as defined by Edamam
-        """
-        self.ingredient_name = ingredient_name
-        self.ingredient_id = ingredient_id
-        self.ingredient_img_url = ingredient_img_url
-        self.ingredient_nutrients = ingredient_nutrients
-        self.ingredient_health_labels = ingredient_health_labels
