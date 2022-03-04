@@ -1,43 +1,32 @@
-<!doctype html>
-<html lang="en">
-  <head>
-      {% extends "base.html" %}
+{% extends "base.html" %}
+<h1>{% block title %}About{% endblock %}</h1>
 
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
+{% block content %}
+    <div class="container">
 
-  </head>
-  <body>
-    <h1>{% block title %}About{% endblock %}</h1>
+        <p>Here is a blurb about our app and our mission behind it. There will be a contact form on this page if possible.</p>
+        <p>
+            BUFFED is a calorie tracking web app that breaks down desired calories into macronutrients
+            and allows users to pick and choose their daily meals to stay on track. We ask our users
+            to register an account with us and answer a few questions to help customize their experience.
+            BUFFED is the new way to track and balance food and fitness.
+        </p>
+    </div>
+    <form action="{{ url_for('about') }}" method=post>
+        {{ form.hidden_tag() }}
 
-    {% block content %}
-        <div class="container-sm">
+        {{ form.name.label }}
+        {{ form.name }}
 
-            <p>Here is a blurb about our app and our mission behind it. There will be a contact form on this page if possible.</p>
-            <p>
-                BUFFED is a calorie tracking web app that breaks down desired calories into macronutrients
-                and allows users to pick and choose their daily meals to stay on track. We ask our users
-                to register an account with us and answer a few questions to help customize their experience.
-                BUFFED is the new way to track and balance food and fitness.
-            </p>
-        </div>
-        <form action="{{ url_for('about') }}" method=post>
-            {{ form.hidden_tag() }}
+        {{ form.email.label }}
+        {{ form.email }}
 
-            {{ form.name.label }}
-            {{ form.name }}
+        {{ form.subject.label }}
+        {{ form.subject }}
 
-            {{ form.email.label }}
-            {{ form.email }}
+        {{ form.message.label }}
+        {{ form.message }}
 
-            {{ form.subject.label }}
-            {{ form.subject }}
-
-            {{ form.message.label }}
-            {{ form.message }}
-
-            {{ form.submit }}
-        </form>
-    {% endblock %}
-  </body>
-</html>
+        {{ form.submit }}
+    </form>
+{% endblock %}
