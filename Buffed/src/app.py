@@ -1,6 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from flask_bootstrap import Bootstrap
+from forms import ContactForm
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'Flask1WTF2needs3CSRF4'
+
+bootstrap = Bootstrap(app)
 
 
 @app.route('/')
@@ -91,13 +97,29 @@ def todays_plan():
     return render_template('todays_plan.html')
 
 
-@app.route('/about')
+
+def send_contact(result):
+    pass
+
+
+@app.route('/about', methods=["GET", "POST"])
 def about():
     """
         This method returns the about us page.
         :return: render_template('about.html')
         """
-    return render_template('about.html')
+    form = ContactForm()
+    if request.method == 'POST':
+        result = {'name': request.form["name"],
+                  'email': request.form["email"],
+                  'subject': request.form["subject"],
+                  'message': request.form["message"]}
+
+        send_contact(result)
+
+        return render_template('about.html', form=form)
+    else:
+        return render_template('about.html', form=form)
 
 
 if __name__ == '__main__':
