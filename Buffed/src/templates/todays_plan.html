@@ -1,5 +1,110 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <h1>{% block title %}Today's Plan{% endblock %}</h1>
+
+<hr>
+<h3>Breakfast:</h3>
+<h4>Total Calories: {{}}</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Calories</th>
+            <th scope="col">Protein</th>
+            <th scope="col">Carbs</th>
+            <th scope="col">Fat</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for meal in meals %}
+            <tr>
+                <td>{{ meal.name }}</td>
+                <td>{{ meal.calories }}</td>
+                <td>{{ meal.protein }}</td>
+                <td>{{ meal.carbs }}</td>
+                <td>{{ meal.fat }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr>
+<h3>Lunch:</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Calories</th>
+            <th scope="col">Protein</th>
+            <th scope="col">Carbs</th>
+            <th scope="col">Fat</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for meal in meals %}
+            <tr>
+                <td>{{ meal.name }}</td>
+                <td>{{ meal.calories }}</td>
+                <td>{{ meal.protein }}</td>
+                <td>{{ meal.carbs }}</td>
+                <td>{{ meal.fat }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr>
+<h3>Dinner:</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Calories</th>
+            <th scope="col">Protein</th>
+            <th scope="col">Carbs</th>
+            <th scope="col">Fat</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for meal in meals %}
+            <tr>
+                <td>{{ meal.name }}</td>
+                <td>{{ meal.calories }}</td>
+                <td>{{ meal.protein }}</td>
+                <td>{{ meal.carbs }}</td>
+                <td>{{ meal.fat }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr>
+<h3>Snacks:</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Calories</th>
+            <th scope="col">Protein</th>
+            <th scope="col">Carbs</th>
+            <th scope="col">Fat</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for meal in meals %}
+            <tr>
+                <td>{{ meal.name }}</td>
+                <td>{{ meal.calories }}</td>
+                <td>{{ meal.protein }}</td>
+                <td>{{ meal.carbs }}</td>
+                <td>{{ meal.fat }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
 {% endblock %}
