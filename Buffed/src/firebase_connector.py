@@ -1,10 +1,5 @@
 from typing import List
 from models import Meal, User
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-
-project_id = 'buffed-9aca2'
 
 
 class FirebaseConnector:

@@ -1,8 +1,9 @@
 {% extends "base.html" %}
-<h1>{% block title %}About{% endblock %}</h1>
+{% block title %}About{% endblock %}
 
 {% block content %}
     <div class="container">
+        <h1>About Us</h1>
 
         <p>Here is a blurb about our app and our mission behind it. There will be a contact form on this page if possible.</p>
         <p>
@@ -13,20 +14,20 @@
         </p>
     </div>
     <form action="{{ url_for('about') }}" method=post>
-        {{ form.hidden_tag() }}
-
+    <!-- Contact Form -->
+    <!-- Name -->
         {{ form.name.label }}
         {{ form.name }}
-
+    <!-- Email -->
         {{ form.email.label }}
         {{ form.email }}
-
+    <!-- Subject Line -->
         {{ form.subject.label }}
         {{ form.subject }}
-
+    <!-- Message Body -->
         {{ form.message.label }}
         {{ form.message }}
-
+    <!-- Submit -->
         {{ form.submit }}
     </form>
 {% endblock %}
