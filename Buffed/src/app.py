@@ -2,6 +2,8 @@ from flask import Flask, render_template
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+
+from firebase_connector import FirebaseConnector
 app = Flask(__name__)
 
 
@@ -69,7 +71,7 @@ def my_goals():
     goals = [
         {"id": 1, "name": "bulk", "calories": 4500, "desired_weight": 200, "number_of_meals": 4,
          "protein": [480, 700], "fat": [100, 200], "carbs": [280, 500]},
-        {"id": 2, "name": "cut", "calories": 2500, "desired_weight": 155, "number_of_meals": 3,
+        {"id": 2, "name": "cut", "calories": 25600, "desired_weight": 155, "number_of_meals": 3,
          "protein": [200, 300], "fat": [50, 100], "carbs": [150, 250]}
     ]
     return render_template('my_goals.html', goals=goals)
@@ -81,6 +83,7 @@ def my_profile():
         This method returns the page for my profile.
         :return: render_template('my_profile.html')
         """
+
     return render_template('my_profile.html')
 
 
@@ -99,13 +102,14 @@ def about():
         This method returns the about us page.
         :return: render_template('about.html')
         """
+
     return render_template('about.html')
 
 
 if __name__ == '__main__':
+    print(FirebaseConnector.get_name(FirebaseConnector, "no1"), FirebaseConnector.get_email(FirebaseConnector, "no1"), FirebaseConnector.get_height(FirebaseConnector, "no1"))
 
-    cred = credentials.Certificate("static/resources/buffed-9aca2-firebase-adminsdk-ugcpz-ace78772ae.json")
-    firebase_admin.initialize_app(cred)
-    db = firestore.client()
+
+
 
     app.run()
