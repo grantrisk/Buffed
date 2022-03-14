@@ -3,7 +3,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-from firebase_connector import FirebaseConnector
+from firebase_connector import User
+
 app = Flask(__name__)
 
 
@@ -107,9 +108,9 @@ def about():
 
 
 if __name__ == '__main__':
-    print(FirebaseConnector.get_name(FirebaseConnector, "no1"), FirebaseConnector.get_email(FirebaseConnector, "no1"), FirebaseConnector.get_height(FirebaseConnector, "no1"))
+    print(User.set_person(User, "Bobby Brown", "AppleAnnies123", "123AppleAnnies@gmail.com", 180, 180, "12/12/2012",
+                          "male", "lose weight"))
 
-
-
+    # person1 = User("Bobby Brown", "Apple123", "123@gmail.com", 180, 180, "12/12/2012", "male", "lose weight")
 
     app.run()
