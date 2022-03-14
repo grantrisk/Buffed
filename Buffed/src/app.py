@@ -109,7 +109,7 @@ def about():
 
 if __name__ == '__main__':
 
-    cred = credentials.Certificate("static/resources/buffed-9aca2-firebase-adminsdk-ugcpz-10ca260294.json")
+    cred = credentials.Certificate("static/resources/buffed-9aca2-firebase-adminsdk-ugcpz-ace78772ae.json")
     firebase_admin.initialize_app(cred)
     db = firestore.client()
 
