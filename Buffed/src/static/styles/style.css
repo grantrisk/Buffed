@@ -1,32 +1,119 @@
-#main-content {
-    text-align: center;
+@font-face {
+    font-family: LemonTuesday, Lemon Tuesday;
+    src: url('../resources/Lemon Tuesday.otf');
 }
 
-@media (min-width: 992px) {
-    .nav-link i, a {
-        font-size: 2rem;
-    }
+html, body {
+    margin: 0;
+    padding: 0
 }
 
-@media (max-width: 992px) {
-    .nav-link i, a {
-        font-size: 1.5rem;
-    }
+h1, h2, a {
+    font-family: sans-serif;
 }
 
-#navbar-items a, i{
-    text-align: center;
-    color: #818181;
-}
-
-#navbar-items .active {
-    color: #595cef;
-}
-
-#navbar-container {
+.sidebar-desktop {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
     background-color: #f1f1f1;
+    overflow-x: hidden;
+    padding-top: 20px;
 }
 
-.dropdown-item {
-    font-size: 1.2vw;
+.sidebar-desktop a {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 25px;
+    font-family: sans-serif;
+    color: #818181;
+    display: block;
+}
+
+.sidebar-desktop h1 {
+    font-family: "Lemon Tuesday", cursive;
+    text-align: center;
+}
+
+.sidebar-desktop a:hover {
+    color: #606060;
+}
+
+.sidebar-logo {
+    width: 75%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.top-bar {
+    margin-left: 200px;
+    background-color: #f1f1f1;
+    overflow-x: hidden;
+    text-align: center;
+    border-bottom: 2px solid black;
+    display: flex;
+}
+
+.top-bar h1 {
+    font-family: sans-serif;
+}
+
+.main {
+    margin-left: 200px; /* Same as the width of the sidebar */
+    text-align: center;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.top-bar-wrapper-left {
+    width: 33.33333%;
+}
+
+.top-bar-wrapper-center {
+    width: 33.33333%;
+    text-align: center;
+}
+
+.top-bar-wrapper-right {
+    width: 33.33333%;
+    text-align: right;
+}
+
+.food-box {
+    font-family: sans-serif;
+}
+
+.logout {
+    float: right;
+    text-decoration: none;
+    margin-right: 50px;
+}
+
+.home-page-header h1 {
+    font-family: LemonTuesday, sans-serif;
+    text-align: center;
+}
+
+.home-page-header h2 {
+    text-align: center;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
 }
