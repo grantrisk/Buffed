@@ -96,7 +96,12 @@ def todays_plan():
         This method returns the page for todays_plan.
         :return: render_template('todays_plan.html')
         """
-    return render_template('todays_plan.html')
+    meals = [
+        {"name": "burger", "calories": 400, "protein": 20, "carbs": 250, "fat": 50},
+        {"name": "yogurt", "calories": 100, "protein": 5, "carbs": 90, "fat": 40},
+        {"name": "pizza", "calories": 300, "protein": 25, "carbs": 200, "fat": 80}
+    ]
+    return render_template('todays_plan.html', meals=meals)
 
 
 
@@ -129,6 +134,9 @@ if __name__ == '__main__':
     print(User.set_person(User, "Bobby Brown", "AppleAnnies123", "123AppleAnnies@gmail.com", 180, 180, "12/12/2012",
                           "male", "lose weight"))
 
+    # cred = credentials.Certificate("static/resources/buffed-9aca2-firebase-adminsdk-ugcpz-3315b655ca.json")
+    # firebase_admin.initialize_app(cred)
+    # db = firestore.client()
     # person1 = User("Bobby Brown", "Apple123", "123@gmail.com", 180, 180, "12/12/2012", "male", "lose weight")
 
-    app.run()
+    app.run(debug=True)
