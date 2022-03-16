@@ -5,10 +5,11 @@
 {% endblock %}
 {% block content %}
     <h1>My Goals</h1>
-    <h2>Saved Goals:</h2>
-    <table class="table">
+    </br>
+    <table class="table table-hover">
         <thead>
             <tr>
+                <th scope="col">Action</th>
                 <th scope="col">ID</th>
                 <th scope="col">Goal Name</th>
                 <th scope="col">Calories</th>
@@ -18,6 +19,11 @@
         <tbody>
             {% for goal in goals %}
                 <tr>
+                    <td>
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editGoalModal">
+                            Edit Goal
+                        </button>
+                    </td>
                     <td> {{ goal.id }}</td>
                     <td>{{ goal.name }}</td>
                     <td>{{ goal.calories }}</td>
@@ -26,4 +32,25 @@
             {% endfor %}
         </tbody>
     </table>
+    <div class="modal fade" id="editGoalModal" tabindex="-1" aria-labelledby="editGoalModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editGoalModalLabel">Edit My Goal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+      <div class="modal-body">
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+            </div>
+        </div>
+    </div>
+   <a href="{{ url_for('about') }}" >
+      <button type="button" class="btn btn-dark">Create New Goal</button>
+   </a>
 {% endblock %}
