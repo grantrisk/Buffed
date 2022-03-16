@@ -3,3 +3,4 @@ requests
 google-cloud-firestore
 firebase_admin
 firestore
+flask_wtf
