@@ -2,6 +2,7 @@ from flask import Flask, render_template
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+
 app = Flask(__name__)
 
 
@@ -100,6 +101,15 @@ def about():
         :return: render_template('about.html')
         """
     return render_template('about.html')
+
+
+@app.route('/create_new_goal')
+def create_new_goal():
+    """
+        This method returns the create new goal page.
+        :return: render_template('create_new_goal.html')
+    """
+    return render_template('create_new_goal.html')
 
 
 if __name__ == '__main__':
