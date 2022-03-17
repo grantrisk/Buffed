@@ -2,32 +2,52 @@
 {% block title %}About{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>About Us</h1>
 
-        <p>Here is a blurb about our app and our mission behind it. There will be a contact form on this page if possible.</p>
+    <!-- About -->
+    <div class="container">
+        <h1>About</h1>
+
+        <p>Here is a blurb about our app and our mission behind it. (Work In Progress)</p>
         <p>
             BUFFED is a calorie tracking web app that breaks down desired calories into macronutrients
             and allows users to pick and choose their daily meals to stay on track. We ask our users
             to register an account with us and answer a few questions to help customize their experience.
-            BUFFED is the new way to track and balance food and fitness.
+            BUFFED is the new way to balance food and fitness.
         </p>
     </div>
-    <form action="{{ url_for('about') }}" method=post>
-    <!-- Contact Form -->
-    <!-- Name -->
-        {{ form.name.label }}
-        {{ form.name }}
-    <!-- Email -->
-        {{ form.email.label }}
-        {{ form.email }}
-    <!-- Subject Line -->
-        {{ form.subject.label }}
-        {{ form.subject }}
-    <!-- Message Body -->
-        {{ form.message.label }}
-        {{ form.message }}
-    <!-- Submit -->
-        {{ form.submit }}
-    </form>
+
+     <!-- Contact Us -->
+    <div class="container">
+        <h1>Contact Us</h1>
+
+        <!-- Contact Form -->
+        <form action="{{ url_for('about') }}" method=post>
+            <div class="row g-3">
+                <div class="col-12">
+                    <!-- Name -->
+                    {{ form.name.label }}<br>
+                    {{ form.name }}
+                </div>
+                <div class="col-12">
+                    <!-- Email -->
+                    {{ form.email.label }}<br>
+                    {{ form.email }}
+                </div>
+                <div class="col-12">
+                    <!-- Subject Line -->
+                    {{ form.subject.label }}<br>
+                    {{ form.subject }}
+                </div>
+                <div class="col-12">
+                    <!-- Message Body -->
+                    {{ form.message.label }}<br>
+                    {{ form.message }}
+                </div>
+                <div class="col-12">
+                    <!-- Submit -->
+                    {{ form.submit }}
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}
