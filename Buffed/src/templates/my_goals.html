@@ -35,44 +35,44 @@
     <div class="modal fade" id="editGoalModal" tabindex="-1" aria-labelledby="editGoalModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h5 class="modal-title w-100" id="editGoalModalLabel">Edit My Goal</h5>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editGoalModalLabel">Edit My Goal</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form>
-                        <div class="form-group">
+                        <div class="form-group w-50 p-3">
                             <label for="goalTitleInput" class="form-label">Title</label>
                             <input type="text" class="form-control" id="goalTitleInput" placeholder="Enter goal name:">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group w-50 p-3">
                             <label for="goalDescriptionInput">Description</label>
                             <input type="number" class="form-control" id="goalDescriptionInput" placeholder="Enter description:">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group w-50 p-3">
                             <label for="goalCalorieInput">Calories</label>
                             <input type="number" class="form-control" id="goalCalorieInput" placeholder="Enter calorie amount:">
                         </div>
-                        <div>
-                            <h3> Macronutrients:</h3>
-                        </div>
-                        <div class="form-group">
+                        <div class="form-group w-50 p-3">
                             <label for="goalCarbInput" class="form-label">Carbohydrates:</label>
                             <input type="range" class="form-range" min="0" max="800" id="goalCarbInput"
                             onChange="document.getElementById('rangeval').innerText = document.getElementById('goalCarbInput').value">
                             <span id="rangeval">150<!-- Default value --></span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group w-50 p-3">
                             <label for="goalFatInput" class="form-label">Fat:</label>
                             <input type="range" class="form-range" min="0" max="800" id="goalFatInput"
                             onChange="document.getElementById('rangeval').innerText = document.getElementById('goalFatInput').value">
                             <span id="rangeval">100<!-- Default value --></span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group w-50 p-3">
                             <label for="goalProteinInput" class="form-label">Protein:</label>
                             <input type="range" class="form-range" min="0" max="800" id="goalProteinInput"
                             onChange="document.getElementById('rangeval').innerText = document.getElementById('goalProteinInput').value">
                             <span id="rangeval">200<!-- Default value --></span>
+                        </div>
+                        <div class="w-50 p-3">
+                            <button type="submit" class="btn btn-dark">Save Goal</button>
                         </div>
                     </form>
                 </div>
