@@ -3,7 +3,7 @@ from forms import ContactForm
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from firebase_connector import User
+from firebase_connector import FBConnector
 
 app = Flask(__name__)
 
@@ -104,7 +104,6 @@ def todays_plan():
     return render_template('todays_plan.html', meals=meals)
 
 
-
 def send_contact(result):
     pass
 
@@ -129,14 +128,10 @@ def about():
         return render_template('about.html', form=form)
 
 
-
 if __name__ == '__main__':
-    print(User.set_person(User, "Bobby Brown", "AppleAnnies123", "123AppleAnnies@gmail.com", 180, 180, "12/12/2012",
-                          "male", "lose weight"))
+    # print(FBConnector.set_person(FBConnector, "Bobby Brown", "AppleAnnies123", "123AppleAnnies@gmail.com", 180,
+    # 180, "12/12/2012", "male", "lose weight"))
 
-    # cred = credentials.Certificate("static/resources/buffed-9aca2-firebase-adminsdk-ugcpz-3315b655ca.json")
-    # firebase_admin.initialize_app(cred)
-    # db = firestore.client()
-    # person1 = User("Bobby Brown", "Apple123", "123@gmail.com", 180, 180, "12/12/2012", "male", "lose weight")
+    # person1 = FBConnector("Bobby Brown", "Apple123", "123@gmail.com", 180, 180, "12/12/2012", "male", "lose weight")
 
     app.run(debug=True)

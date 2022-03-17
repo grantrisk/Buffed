@@ -2,13 +2,14 @@ from typing import List
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from firebase_admin import auth
 
 cred = credentials.Certificate("static/resources/buffed-9aca2-firebase-adminsdk-ugcpz-3315b655ca.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 
-class User(object):
+class FBConnector(object):
     """
     Provides an interface to fetch data stored from Firebase.
     """
@@ -19,7 +20,6 @@ class User(object):
         Creates an instance of a User object
         :param account_info: user's email
         """
-
         self.name = name
         self.password = password
         self.email = email
@@ -35,7 +35,6 @@ class User(object):
         :param document: the document of the user
         :return: the users information in string format
         """
-
         doc_ref = db.collection(u'users').document(document)
         doc = doc_ref.get()
         account_info = doc.to_dict()
@@ -138,6 +137,14 @@ class User(object):
         """
         pass
 
+    def get_goals(self, document):
+        """
+        This function pulls all the different goals down from the goal collection in a given user's document.
+        :param document: the document for a given user
+        :return: a list of every ingredient a user likes
+        """
+        pass
+
     def change_name(self, document, user_name):
         """
         The function updates the name key in the users document in the firebase.
@@ -226,7 +233,6 @@ class User(object):
         """
         pass
 
-    # Change this to add the User object
     def set_person(self, user_name, user_pw, user_email, user_weight, user_height, user_birth, user_gender, user_goal):
         """
         This function adds a User object to the Firebase firestore.
@@ -240,8 +246,8 @@ class User(object):
         :param user_birth:
         :return:
         """
-        user = User(name=user_name, password=user_pw, email=user_email, weight=user_weight,
-                    height=user_height, birth=user_birth, gender=user_gender, current_goal=user_goal)
+        user = FBConnector(name=user_name, password=user_pw, email=user_email, weight=user_weight,
+                           height=user_height, birth=user_birth, gender=user_gender, current_goal=user_goal)
 
         # Set a reference to the user document so we can get the id of the document and add the goal/ingredients
         # collections to it.  Firebase add and set are essentially the same.  See doc for explanation.
@@ -249,6 +255,17 @@ class User(object):
         doc_ref.set(user.to_dict())
 
         return user
+
+    def register(self, email, pw):
+        """
+        This function creates a user based on the given email and password (pw).
+        :param email:
+        :param pw:
+        :return:
+        """
+
+        # We still need to do error checking and provide errors based on incorrect credential information.
+        auth.create_user(email=email, password=pw)
 
     def __str__(self):
         """
