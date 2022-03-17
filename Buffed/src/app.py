@@ -1,9 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from forms import ContactForm
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'Flask1WTF2needs3CSRF4'
 
 
 @app.route('/')
@@ -91,7 +94,6 @@ def todays_plan():
         This method returns the page for todays_plan.
         :return: render_template('todays_plan.html')
         """
-
     meals = [
         {"name": "burger", "calories": 400, "protein": 20, "carbs": 250, "fat": 50},
         {"name": "yogurt", "calories": 100, "protein": 5, "carbs": 90, "fat": 40},
@@ -100,13 +102,29 @@ def todays_plan():
     return render_template('todays_plan.html', meals=meals)
 
 
-@app.route('/about')
+def send_contact(result):
+    pass
+
+
+@app.route('/about', methods=["GET", "POST"])
 def about():
     """
         This method returns the about us page.
         :return: render_template('about.html')
         """
-    return render_template('about.html')
+    form = ContactForm()
+    if request.method == 'POST':
+        result = {'name': request.form["name"],
+                  'email': request.form["email"],
+                  'subject': request.form["subject"],
+                  'message': request.form["message"]}
+
+        send_contact(result)
+
+        return render_template('about.html', form=form)
+    else:
+        return render_template('about.html', form=form)
+
 
 
 @app.route('/create_new_goal')
