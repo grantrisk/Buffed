@@ -24,7 +24,7 @@
                             Edit Goal
                         </button>
                     </td>
-                    <td> {{ goal.id }}</td>
+                    <td>{{ goal.id }}</td>
                     <td>{{ goal.name }}</td>
                     <td>{{ goal.calories }}</td>
                     <td>{{ goal.desired_weight }}</td>
@@ -70,9 +70,6 @@
                             <input type="range" class="form-range" min="0" max="800" id="goalProteinInput"
                             onChange="document.getElementById('rangeval').innerText = document.getElementById('goalProteinInput').value">
                             <span id="rangeval">200<!-- Default value --></span>
-                        </div>
-                        <div class="w-50 p-3">
-                            <button type="submit" class="btn btn-dark">Save Goal</button>
                         </div>
                     </form>
                 </div>

@@ -1,5 +1,44 @@
 {% extends "base.html" %}
 {% set active_page = "login" %}
 {% block content %}
-<h1>{% block title %}Login{% endblock %}</h1>
+    <h1>{% block title %}Login{% endblock %}</h1>
+
+    <div class = "body">
+
+        <!-- This will be the divider -->
+        <div class = "divider-short"></div>
+        <br>
+
+        <!-- Row for the Login and whatever else may be needed -->
+        form
+        <div class = "row">
+
+            <!-- A Column in row providing the Login fields needed.  -->
+            <div class = "column">
+
+                <div class = "element">
+                    <label for="email"><b>E-mail</b></label>
+                    <input type="text" id="email" required>
+                </div>
+
+                <div class = "element">
+                    <label for="password"><b>Password</b></label>
+                    <input type="text" id="password">
+                </div>
+
+                <div class="element">
+                    Remember me!<input type="checkbox" checked="checked" name="remember">
+                </div>
+
+                <div class = "element">
+                       <a href="{{ url_for('dashboard') }}" >
+                            <button type="button" class="btn btn-dark">Login</button>
+                        </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 {% endblock %}

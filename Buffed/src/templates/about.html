@@ -1,5 +1,39 @@
 {% extends "base.html" %}
 {% set active_page = "about" %}
 {% block content %}
-<h1>{% block title %}About{% endblock %}</h1>
+    <div class="container">
+        <h1>{% block title %}About{% endblock %}</h1>
+        <br>
+        <p style="text-align:left">
+            BUFFED is a calorie tracking web app that breaks down desired calories into macronutrients
+            and allows users to pick and choose their daily meals to stay on track. We ask our users
+            to register an account with us and answer a few questions to help customize their experience.
+            BUFFED is the new way to track and balance food and fitness.
+        </p>
+        <br>
+        <form action="{{ url_for('about')}}" method="post">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label for="inputName">Name</label>
+                    <input type="text" class="form-control" id="inputName" placeholder="Name">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputEmail">Email</label>
+                    <input type="text" class="form-control" id="inputEmail" placeholder="Last Name">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="inputSubject">Subject</label>
+                <input type="text" class="form-control" id="inputSubject" placeholder="Subject">
+            </div>
+            <div class="col-md-6">
+                <label for="inputMessage">Message</label>
+                <textarea class="form-control" id="inputMessage" rows="6"></textarea>
+            </div>
+            <div class="col-md-6">
+                <br>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

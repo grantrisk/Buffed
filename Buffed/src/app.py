@@ -91,7 +91,13 @@ def todays_plan():
         This method returns the page for todays_plan.
         :return: render_template('todays_plan.html')
         """
-    return render_template('todays_plan.html')
+
+    meals = [
+        {"name": "burger", "calories": 400, "protein": 20, "carbs": 250, "fat": 50},
+        {"name": "yogurt", "calories": 100, "protein": 5, "carbs": 90, "fat": 40},
+        {"name": "pizza", "calories": 300, "protein": 25, "carbs": 200, "fat": 80}
+    ]
+    return render_template('todays_plan.html', meals=meals)
 
 
 @app.route('/about')
@@ -113,9 +119,4 @@ def create_new_goal():
 
 
 if __name__ == '__main__':
-
-    cred = credentials.Certificate("static/resources/buffed-9aca2-firebase-adminsdk-ugcpz-ace78772ae.json")
-    firebase_admin.initialize_app(cred)
-    db = firestore.client()
-
     app.run()
