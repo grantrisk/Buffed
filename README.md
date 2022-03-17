@@ -12,7 +12,4 @@ Our application __**BUFFED**__ will use web technologies to allow the average pe
    git clone https://github.com/UNCW-CSC-450/team-project-team-1
    ```
 3. Open "Buffed" folder in your specific IDE
-4. Create or add Virtual Environment into your project folder inside IDE (Make sure python version 3.9 or less is being used for venv)
-5. Install all dependencies from requirements.txt into your virtual environment
-6. Run app.py through IDE
-7. Open website on http://127.0.0.1:5000 (local host)
+4. Create or add Virtual Environment into your project folder inside IDE
