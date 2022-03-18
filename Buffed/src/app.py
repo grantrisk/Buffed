@@ -3,6 +3,7 @@ from forms import ContactForm
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from firebase_connector import FBConnector
 
 app = Flask(__name__)
 
@@ -126,7 +127,6 @@ def about():
         return render_template('about.html', form=form)
 
 
-
 @app.route('/create_new_goal')
 def create_new_goal():
     """
@@ -134,6 +134,7 @@ def create_new_goal():
         :return: render_template('create_new_goal.html')
     """
     return render_template('create_new_goal.html')
+
 
 
 if __name__ == '__main__':
