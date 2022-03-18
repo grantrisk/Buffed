@@ -1,4 +1,3 @@
-from typing import List
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -29,9 +28,18 @@ class FBConnector(object):
         self.gender = gender
         self.current_goal = current_goal
 
+    def register(self, email, pw):
+        """
+
+        :param email:
+        :param pw:
+        :return:
+        """
+        auth.create_user(email=email, password=pw)
+
     def get_account_info(self, document) -> str:
         """
-        This function returns a string of the users information with every values individual keys.
+        This method returns a string of the users information with every values individual keys.
         :param document: the document of the user
         :return: the users information in string format
         """
@@ -42,7 +50,7 @@ class FBConnector(object):
 
     def get_name(self, document):
         """
-        This function returns the name for a given user.
+        This method returns the name for a given user.
         :param document: the document of the user
         :return: the name for the user in string format
         """
@@ -54,7 +62,7 @@ class FBConnector(object):
 
     def get_email(self, document):
         """
-        This function returns the email for a given user.
+        This method returns the email for a given user.
         :param document: the document of the user
         :return: the email for the user in string format
         """
@@ -65,7 +73,7 @@ class FBConnector(object):
 
     def get_weight(self, document):
         """
-        This function returns the weight for a given user.
+        This method returns the weight for a given user.
         :param document: the document of the user
         :return: the weight for the user in int format
         """
@@ -76,7 +84,7 @@ class FBConnector(object):
 
     def get_height(self, document):
         """
-        This function returns the height for a given user.
+        This method returns the height for a given user.
         :param document: the document for a given user
         :return: the height for the user in int format
         """
@@ -87,7 +95,7 @@ class FBConnector(object):
 
     def get_activity(self, document):
         """
-        This function returns the activity level for a given user.
+        This method returns the activity level for a given user.
         :param document: the document for a given user
         :return: the activity level for the user in string format
         """
@@ -98,7 +106,7 @@ class FBConnector(object):
 
     def get_current_goal(self, document):
         """
-        This function returns the current goal for a given user.
+        This method returns the current goal for a given user.
         :param document: the document for a given user
         :return: the current goal for the user in string format
         """
@@ -109,7 +117,7 @@ class FBConnector(object):
 
     def get_birthdate(self, document):
         """
-        This function returns the birthdate for a given user.
+        This method returns the birthdate for a given user.
         :param document: the document for a given user
         :return: the birthdate for the user in string format
         """
@@ -120,7 +128,7 @@ class FBConnector(object):
 
     def get_gender(self, document):
         """
-        This function returns the gender for a given user.
+        This method returns the gender for a given user.
         :param document: the document for a given user
         :return: the gender for the user in string format
         """
@@ -131,7 +139,7 @@ class FBConnector(object):
 
     def get_ingredients(self, document):
         """
-        This function pulls all the ingredients down from the ingredient collection in a given user's document.
+        This method pulls all the ingredients down from the ingredient collection in a given user's document.
         :param document: the document for a given user
         :return: a list of every ingredient a user likes
         """
@@ -147,7 +155,7 @@ class FBConnector(object):
 
     def change_name(self, document, user_name):
         """
-        The function updates the name key in the users document in the firebase.
+        The method updates the name key in the users document in the firebase.
         :param document:
         :param user_name:
         :return: nothing
@@ -157,7 +165,7 @@ class FBConnector(object):
 
     def change_email(self, document, user_email):
         """
-        This function updates the email key in the users document in the firebase.
+        This method updates the email key in the users document in the firebase.
         :param document:
         :param user_email:
         :return: nothing
@@ -167,7 +175,7 @@ class FBConnector(object):
 
     def change_weight(self, document, user_weight):
         """
-        This function updates the users weight key in the users document in firebase.
+        This method updates the users weight key in the users document in firebase.
         :param document:
         :param user_weight:
         :return: nothing
@@ -177,7 +185,7 @@ class FBConnector(object):
 
     def change_height(self, document, user_height):
         """
-        This function updates the users height key in the users document in firebase.
+        This method updates the users height key in the users document in firebase.
         :param document:
         :param user_height:
         :return: nothing
@@ -187,7 +195,7 @@ class FBConnector(object):
 
     def change_activity(self, document, user_activity):
         """
-        This function updates the users activity key in the users document in firebase.
+        This method updates the users activity key in the users document in firebase.
         :param document:
         :param user_activity:
         :return: nothing
@@ -197,7 +205,7 @@ class FBConnector(object):
 
     def change_gender(self, document, user_gender):
         """
-        This function updates the users gender key in the users document in firebase.
+        This method updates the users gender key in the users document in firebase.
         :param document:
         :param user_gender:
         :return: nothing
@@ -207,7 +215,7 @@ class FBConnector(object):
 
     def change_current_goal(self, document, user_goal):
         """
-        This function updates the users current goal in the users document in firebase.
+        This method updates the users current goal in the users document in firebase.
         :param document:
         :param user_goal:
         :return: nothing
@@ -217,7 +225,7 @@ class FBConnector(object):
 
     def add_ingredient(self, document):
         """
-        This function adds an ingredient into a users ingredient collection.
+        This method adds an ingredient into a users ingredient collection.
         :param document:
         :return:
         """
@@ -226,7 +234,7 @@ class FBConnector(object):
 
     def add_goal(self, document, user_goals):
         """
-        This function adds a goal into a users goal collection.
+        This method adds a goal into a users goal collection.
         :param document:
         :param user_goals:
         :return:
@@ -235,7 +243,7 @@ class FBConnector(object):
 
     def set_person(self, user_name, user_pw, user_email, user_weight, user_height, user_birth, user_gender, user_goal):
         """
-        This function adds a User object to the Firebase firestore.
+        This method adds a User object to the Firebase firestore.
         :param user_goal:
         :param user_gender:
         :param user_name:
@@ -246,8 +254,10 @@ class FBConnector(object):
         :param user_birth:
         :return:
         """
+
         user = FBConnector(name=user_name, password=user_pw, email=user_email, weight=user_weight,
                            height=user_height, birth=user_birth, gender=user_gender, current_goal=user_goal)
+
 
         # Set a reference to the user document so we can get the id of the document and add the goal/ingredients
         # collections to it.  Firebase add and set are essentially the same.  See doc for explanation.
@@ -269,7 +279,7 @@ class FBConnector(object):
 
     def __str__(self):
         """
-        This function returns the user object back in string format.
+        This method returns the user object back in string format.
         :return:
         """
         return "name: %s password: %s email: %s weight: %s height %s birthdate: %s gender: %s current_goal: %s" % \
@@ -278,7 +288,7 @@ class FBConnector(object):
 
     def to_dict(self):
         """
-        This function maps out the user object to add into the users collection.
+        This method maps out the user object to add into the users collection.
         :return: person
         """
         person = {

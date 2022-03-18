@@ -15,4 +15,4 @@ Our application __**BUFFED**__ will use web technologies to allow the average pe
 4. Create or add Virtual Environment into your project folder inside IDE (Make sure python version 3.9 or less is being used for venv)
 5. Install all dependencies from requirements.txt into your virtual environment
 6. Run app.py through IDE
-8. Open website on http://127.0.0.1:5000 (local host)
+7. Open website on http://127.0.0.1:5000 (local host)
