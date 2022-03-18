@@ -26,43 +26,43 @@
                 </a>
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">
-                        <a href="{{ url_for('dashboard') }}" class="nav-link align-middle px-0">
+                        <a href="/dashboard" class="nav-link align-middle px-0">
                             <i class="fa fa-gauge fa-fw {{ 'active' if active_page == 'dashboard' else '' }}"></i> <span
                                 class="fs-4 ms-2 d-none d-sm-inline {{ 'active' if active_page == 'dashboard' else '' }}">Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url_for('my_goals') }}" class="nav-link align-middle px-0">
+                        <a href="/my_goals" class="nav-link align-middle px-0">
                             <i class="fa fa-bullseye fa-fw {{ 'active' if active_page == 'my_goals' else '' }}"></i>
                             <span class="fs-4 ms-2 d-none d-sm-inline {{ 'active' if active_page == 'my_goals' else '' }}">My Goals</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url_for('my_meals') }}" class="nav-link align-middle px-0">
+                        <a href="/my_meals" class="nav-link align-middle px-0">
                             <i class="fa fa-utensils fa-fw {{ 'active' if active_page == 'my_meals' else '' }}"></i>
                             <span class="fs-4 ms-2 d-none d-sm-inline {{ 'active' if active_page == 'my_meals' else '' }}">My Meals</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url_for('find_meals') }}" class="nav-link align-middle px-0">
+                        <a href="/find_meals" class="nav-link align-middle px-0">
                             <i class="fa fa-magnifying-glass fa-fw {{ 'active' if active_page == 'find_meals' else '' }}"></i>
                             <span class="fs-4 ms-2 d-none d-sm-inline {{ 'active' if active_page == 'find_meals' else '' }}">Find Meals</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url_for('todays_plan') }}" class="nav-link align-middle px-0">
+                        <a href="/todays_plan" class="nav-link align-middle px-0">
                             <i class="fa fa-clipboard-list fa-fw {{ 'active' if active_page == 'todays_plan' else '' }}"></i>
                             <span class="fs-4 ms-2 d-none d-sm-inline {{ 'active' if active_page == 'todays_plan' else '' }}">Today's Plan</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url_for('my_profile') }}" class="nav-link align-middle px-0">
+                        <a href="/my_profile" class="nav-link align-middle px-0">
                             <i class="fa fa-user fa-fw {{ 'active' if active_page == 'my_profile' else '' }}"></i> <span
                                 class="fs-4 ms-2 d-none d-sm-inline {{ 'active' if active_page == 'my_profile' else '' }}">My Profile</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url_for('about') }}" class="nav-link align-middle px-0">
+                        <a href="/about" class="nav-link align-middle px-0">
                             <i class="fa fa-circle-question fa-fw {{ 'active' if active_page == 'about' else '' }}"></i>
                             <span class="fs-4 ms-2 d-none d-sm-inline {{ 'active' if active_page == 'about' else '' }}">About</span>
                         </a>
