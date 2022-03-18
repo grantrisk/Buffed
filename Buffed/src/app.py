@@ -5,7 +5,10 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from firebase_connector import FBConnector
 
+from todays_plan import todays_plan
+
 app = Flask(__name__)
+app.register_blueprint(todays_plan, url_prefix='/todays_plan')
 
 app.config['SECRET_KEY'] = 'Flask1WTF2needs3CSRF4'
 
@@ -91,16 +94,7 @@ def my_profile():
 
 @app.route('/todays_plan')
 def todays_plan():
-    """
-        This method returns the page for todays_plan.
-        :return: render_template('todays_plan.html')
-        """
-    meals = [
-        {"name": "burger", "calories": 400, "protein": 20, "carbs": 250, "fat": 50},
-        {"name": "yogurt", "calories": 100, "protein": 5, "carbs": 90, "fat": 40},
-        {"name": "pizza", "calories": 300, "protein": 25, "carbs": 200, "fat": 80}
-    ]
-    return render_template('todays_plan.html', meals=meals)
+    return "<h1>Failed to use blueprint<h1>"
 
 
 def send_contact(result):
