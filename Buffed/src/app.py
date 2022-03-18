@@ -3,6 +3,7 @@ from forms import ContactForm
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from firebase_connector import FBConnector
 
 app = Flask(__name__)
 
@@ -94,8 +95,12 @@ def todays_plan():
         This method returns the page for todays_plan.
         :return: render_template('todays_plan.html')
         """
-    return render_template('todays_plan.html')
-
+    meals = [
+        {"name": "burger", "calories": 400, "protein": 20, "carbs": 250, "fat": 50},
+        {"name": "yogurt", "calories": 100, "protein": 5, "carbs": 90, "fat": 40},
+        {"name": "pizza", "calories": 300, "protein": 25, "carbs": 200, "fat": 80}
+    ]
+    return render_template('todays_plan.html', meals=meals)
 
 
 def send_contact(result):
@@ -122,10 +127,15 @@ def about():
         return render_template('about.html', form=form)
 
 
+@app.route('/create_new_goal')
+def create_new_goal():
+    """
+        This method returns the create new goal page.
+        :return: render_template('create_new_goal.html')
+    """
+    return render_template('create_new_goal.html')
+
+
+
 if __name__ == '__main__':
-
-    cred = credentials.Certificate("static/resources/buffed-9aca2-firebase-adminsdk-ugcpz-ace78772ae.json")
-    firebase_admin.initialize_app(cred)
-    db = firestore.client()
-
     app.run()

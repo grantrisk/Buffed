@@ -1,5 +1,48 @@
 {% extends "base.html" %}
 {% set active_page = "my_profile" %}
 {% block content %}
-<h1>{% block title %}My Profile{% endblock %}</h1>
+    <h1>{% block title %}My Profile{% endblock %}</h1>
+
+    <div class ="body">
+
+        <!-- This will be the divider -->
+        <div class ="divider-short"></div>
+        <br>
+
+        <!-- Row for the Login and whatever else may be needed -->
+        <div class ="row">
+
+            <!-- A Column in row providing the fields needed.  -->
+            <div class ="column">
+
+            <div class = "element">
+                Name
+            </div>
+
+            <div class = "element">
+                Weight
+            </div>
+
+            <div class = "element">
+                Height
+            </div>
+
+
+                <div class ="element">
+                    Birthdate
+                </div>
+
+                <div class ="element">
+                     Activity Level
+                </div>
+
+                <div class ="element">
+                    Goal
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 {% endblock %}
