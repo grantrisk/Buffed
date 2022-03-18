@@ -3,7 +3,6 @@ from forms import ContactForm
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from firebase_connector import User
 
 app = Flask(__name__)
 
@@ -74,7 +73,7 @@ def my_goals():
     goals = [
         {"id": 1, "name": "bulk", "calories": 4500, "desired_weight": 200, "number_of_meals": 4,
          "protein": [480, 700], "fat": [100, 200], "carbs": [280, 500]},
-        {"id": 2, "name": "cut", "calories": 25600, "desired_weight": 155, "number_of_meals": 3,
+        {"id": 2, "name": "cut", "calories": 2500, "desired_weight": 155, "number_of_meals": 3,
          "protein": [200, 300], "fat": [50, 100], "carbs": [150, 250]}
     ]
     return render_template('my_goals.html', goals=goals)
@@ -86,7 +85,6 @@ def my_profile():
         This method returns the page for my profile.
         :return: render_template('my_profile.html')
         """
-
     return render_template('my_profile.html')
 
 
@@ -102,7 +100,6 @@ def todays_plan():
         {"name": "pizza", "calories": 300, "protein": 25, "carbs": 200, "fat": 80}
     ]
     return render_template('todays_plan.html', meals=meals)
-
 
 
 def send_contact(result):
@@ -130,13 +127,14 @@ def about():
 
 
 
+@app.route('/create_new_goal')
+def create_new_goal():
+    """
+        This method returns the create new goal page.
+        :return: render_template('create_new_goal.html')
+    """
+    return render_template('create_new_goal.html')
+
+
 if __name__ == '__main__':
-    print(User.set_person(User, "Bobby Brown", "AppleAnnies123", "123AppleAnnies@gmail.com", 180, 180, "12/12/2012",
-                          "male", "lose weight"))
-
-    # cred = credentials.Certificate("static/resources/buffed-9aca2-firebase-adminsdk-ugcpz-3315b655ca.json")
-    # firebase_admin.initialize_app(cred)
-    # db = firestore.client()
-    # person1 = User("Bobby Brown", "Apple123", "123@gmail.com", 180, 180, "12/12/2012", "male", "lose weight")
-
-    app.run(debug=True)
+    app.run()

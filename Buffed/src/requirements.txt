@@ -1,6 +1,5 @@
-flask==2.0.3
+flask
 requests
-google-cloud-firestore
 firebase_admin
 firestore
 flask_wtf
