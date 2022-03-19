@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 
-
 todays_plan_page = Blueprint("todays_plan", __name__, static_folder="static", template_folder="templates")
+
 
 @todays_plan_page.route('/')
 def todays_plan():
