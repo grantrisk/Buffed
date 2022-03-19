@@ -4,8 +4,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from firebase_connector import FBConnector
-
-from todays_plan import todays_plan_page
+from blueprints.todays_plan import todays_plan_page
 
 app = Flask(__name__)
 app.register_blueprint(todays_plan_page, url_prefix='/todays_plan')
@@ -90,11 +89,6 @@ def my_profile():
         :return: render_template('my_profile.html')
         """
     return render_template('my_profile.html')
-
-
-@app.route('/todays_plan')
-def todays_plan():
-    return "<h1>Failed to use blueprint<h1>"
 
 
 def send_contact(result):
