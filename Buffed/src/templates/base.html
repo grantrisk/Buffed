@@ -26,7 +26,7 @@
                 </a>
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">
-                        <a href="/dashboard" class="nav-link align-middle px-0">
+                        <a href="{{ url_for('dashboard.dashboard') }}" class="nav-link align-middle px-0">
                             <i class="fa fa-gauge fa-fw {{ 'active' if active_page == 'dashboard' else '' }}"></i> <span
                                 class="fs-4 ms-2 d-none d-sm-inline {{ 'active' if active_page == 'dashboard' else '' }}">Dashboard</span>
                         </a>
