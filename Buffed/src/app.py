@@ -18,7 +18,6 @@ from src.blueprints.register import register_page
 
 app = Flask(__name__)
 app.register_blueprint(index_page, url_prefix='/')
-app.register_blueprint(index_page, url_prefix='/index')
 app.register_blueprint(login_page, url_prefix='/login')
 app.register_blueprint(register_page, url_prefix='/register')
 app.register_blueprint(dashboard_page, url_prefix='/dashboard')
