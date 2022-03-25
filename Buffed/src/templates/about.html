@@ -24,8 +24,9 @@
         <!-- This form uses Flask-WTF forms for input and labels with bootstrap grid layout  -->
         <form action="/about" method=post>
             <div class="row g-3">
+                <!-- Fields are disabled until we hook up contact form functionality -->
                 <div class="col-12">
-                    <!-- Name -->
+                     <!-- Name -->
                     {{ form.name.label }}<br>
                     {{ form.name }}
                 </div>
