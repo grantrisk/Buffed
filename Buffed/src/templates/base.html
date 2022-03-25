@@ -83,12 +83,6 @@
             </div>
         </div>
         <div id="main-content" class="col py-3">
-            <!-- Flash error messages -->
-            <!-- https://overiq.com/flask-101/form-handling-in-flask/ ; https://blog.teclado.com/flashing-messages-with-flask/  -->
-            {% for message in get_flashed_messages() %}
-                <!-- add with_categores=True to get_flashed_messages() to get category for alerts -->
-                <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
             {% block content %}{% endblock %}
         </div>
     </div>

@@ -30,22 +30,3 @@
 .dropdown-item {
     font-size: 1.2vw;
 }
-
-
-.alert {
-    padding: 8px;
-    background-color: #FFCCCC;
-    color: black;
-}
-
-.alert-error {
-    padding: 8px;
-    background-color: #AF0606;
-    color: #818181;
-}
-
-.alert-info {
-    padding: 8px;
-    background-color: #7676a7;
-    color: white;
-}

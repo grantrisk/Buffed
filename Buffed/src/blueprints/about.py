@@ -22,13 +22,7 @@ def about():
         This method returns the about us page and handles any posted contact form info.
         :return: renders template for about.html with contact form
     """
-    # flag if the contact form is available
-    available = False
     form = ContactForm()
-
-    if not available:
-        # flash message to user about unavailable contact form
-        flash("Sorry, our contact form is not ready to use yet!", "error")
 
     # validate_on_submit checks for submission with POST method,
     # then calls validate() to trigger form validation
