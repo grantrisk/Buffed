@@ -1,4 +1,9 @@
+import json
+
 import firebase_admin
+import os
+
+import requests
 from firebase_admin import credentials
 from firebase_admin import firestore
 from firebase_admin import auth
@@ -6,6 +11,9 @@ from firebase_admin import auth
 cred = credentials.Certificate("static/resources/buffed-9aca2-firebase-adminsdk-ugcpz-0d366e7b2c.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
+
+FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
+rest_api_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
 
 
 class FBConnector(object):
@@ -27,15 +35,6 @@ class FBConnector(object):
         self.birth = birth
         self.gender = gender
         self.current_goal = current_goal
-
-    def register(self, email, pw):
-        """
-
-        :param email:
-        :param pw:
-        :return:
-        """
-        auth.create_user(email=email, password=pw)
 
     def get_account_info(self, document) -> str:
         """
@@ -137,17 +136,19 @@ class FBConnector(object):
         current_goal = user_doc.to_dict().get('gender')
         return current_goal
 
-    def get_ingredients(self, document):
+    def get_ingredients(self, document, goal):
         """
         This method pulls all the ingredients down from the ingredient collection in a given user's document.
         :param document: the document for a given user
         :return: a list of every ingredient a user likes
         """
-        pass
+        user_doc_ref = db.collection(u'users').document().collection('goalsList').document().set({
+            'goal': goal
+        })
 
     def get_goals(self, document):
         """
-        This function pulls all the different goals down from the goal collection in a given user's document.
+        This method pulls all the different goals down from the goal collection in a given user's document.
         :param document: the document for a given user
         :return: a list of every ingredient a user likes
         """
@@ -223,14 +224,14 @@ class FBConnector(object):
         user_doc_ref = db.collection(u'users').document(document)
         user_doc_ref.update({u'name': user_goal})
 
-    def add_ingredient(self, document):
+    def add_ingredient(self, document, goal):
         """
         This method adds an ingredient into a users ingredient collection.
         :param document:
         :return:
         """
         # user_doc_ref = db.collection(u'users').document(document)
-        pass
+        user_doc_ref = db.collection(u'users').document(document).collection('goalsList').document('goals').set({'goal': goal})
 
     def add_goal(self, document, user_goals):
         """
@@ -258,24 +259,65 @@ class FBConnector(object):
         user = FBConnector(name=user_name, password=user_pw, email=user_email, weight=user_weight,
                            height=user_height, birth=user_birth, gender=user_gender, current_goal=user_goal)
 
-
         # Set a reference to the user document so we can get the id of the document and add the goal/ingredients
         # collections to it.  Firebase add and set are essentially the same.  See doc for explanation.
         doc_ref = db.collection(u'users').document()
         doc_ref.set(user.to_dict())
-
+        doc_ref.collection('goalsList').document().set({'goal': user_goal})
+        doc_ref.collection('ingredients').document().set({'ingredient': "bread"})
         return user
 
-    def register(self, email, pw):
+    def register(self, email, password):
+
         """
-        This function creates a user based on the given email and password (pw).
+        This method creates a user based on the given email and password (pw).
         :param email:
-        :param pw:
+        :param password:
         :return:
         """
 
         # We still need to do error checking and provide errors based on incorrect credential information.
-        auth.create_user(email=email, password=pw)
+        auth.create_user(email=email, password=password)
+
+    def sign_in_with_email_and_password(self, email: str, password: str, return_secure_token: bool = True):
+        """
+        This method takes a user's email and password and tries to authenticate the user
+        :param email:
+        :param password:
+        :param return_secure_token:
+        :return:
+        """
+        payload = json.dumps({
+            "email": email,
+            "password": password,
+            "returnSecureToken": return_secure_token
+        })
+
+        r = requests.post(rest_api_url,
+                          params={"key": FIREBASE_WEB_API_KEY},
+                          data=payload)
+
+        return r.json()
+
+    def send_email_verification_link(self, id_token: str):
+        """
+        This method takes an id_token and tries to verify the email
+        :param id_token:
+        :return:
+        """
+        payload = json.dumps({
+            "requestType": "VERIFY_EMAIL",
+            "idToken": id_token
+        })
+
+        r = requests.post(rest_api_url,
+                          params={"key": FIREBASE_WEB_API_KEY},
+                          data=payload)
+
+        return r.json()
+
+    def get_id(self):
+        pass
 
     def __str__(self):
         """

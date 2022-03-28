@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request
-
-from src.forms import ContactForm
+from Buffed.src.forms import ContactForm
 
 about_page = Blueprint("about", __name__, static_folder="static", template_folder="templates")
 
@@ -14,6 +13,7 @@ def send_contact(result):
     # TODO: Implement Contact form functionality that sends email to server?
     # This is for a User Story that's in the icebox currently (noted 3/17/2022)
     pass
+
 
 @about_page.route('/', methods=["GET", "POST"])
 def about():

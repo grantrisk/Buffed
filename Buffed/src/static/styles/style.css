@@ -30,3 +30,13 @@
 .dropdown-item {
     font-size: 1.2vw;
 }
+
+.action-buttons {
+    width: 400px;
+    margin: 0 auto;
+    display: inline;
+}
+
+.modal-header {
+    background: #000000;
+}
