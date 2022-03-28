@@ -33,4 +33,4 @@ app.config['SECRET_KEY'] = 'Flask1WTF2needs3CSRF4'
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="127.0.0.1",debug=True)

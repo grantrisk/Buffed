@@ -48,6 +48,10 @@ class Meal:
         self.health_labels = health_labels
         self.ingredients = ingredients
         self.meal_type = meal_type
+    def getName(self):
+        return self.meal_name
+    def getNutrients(self):
+        return self.nutrients
 
 
 class Goal:
