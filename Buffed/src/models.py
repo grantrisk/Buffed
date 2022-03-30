@@ -5,6 +5,7 @@ class Measure:
     """
     Object representation of a measure, used internally for Ingredient nutrition lookup
     """
+
     def __init__(self, measure_label, measure_uri, weight):
         self.measure_label = measure_label
         self.measure_uri = measure_uri
@@ -48,9 +49,11 @@ class Meal:
         self.health_labels = health_labels
         self.ingredients = ingredients
         self.meal_type = meal_type
-    def getName(self):
+
+    def get_name(self):
         return self.meal_name
-    def getNutrients(self):
+
+    def get_nutrients(self):
         return self.nutrients
 
 

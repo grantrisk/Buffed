@@ -1,20 +1,16 @@
-from flask import Flask, render_template, request
-from forms import ContactForm
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-from firebase_connector import FBConnector
-from src.blueprints.todays_plan import todays_plan_page
-from src.blueprints.index import index_page
+from flask import Flask
+
 from src.blueprints.about import about_page
 from src.blueprints.create_new_goal import create_new_goal_page
 from src.blueprints.dashboard import dashboard_page
 from src.blueprints.find_meals import find_meals_page
+from src.blueprints.index import index_page
 from src.blueprints.login import login_page
 from src.blueprints.my_goals import my_goals_page
 from src.blueprints.my_meals import my_meals_page
 from src.blueprints.my_profile import my_profile_page
 from src.blueprints.register import register_page
+from src.blueprints.todays_plan import todays_plan_page
 
 app = Flask(__name__)
 app.register_blueprint(index_page, url_prefix='/')
@@ -33,4 +29,4 @@ app.config['SECRET_KEY'] = 'Flask1WTF2needs3CSRF4'
 
 
 if __name__ == '__main__':
-    app.run(host="127.0.0.1",debug=True)
+    app.run(debug=True)

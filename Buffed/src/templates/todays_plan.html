@@ -5,7 +5,8 @@
     <h1>{% block title %}Today's Plan{% endblock %}</h1>
 
     <h3 class="text-start">Breakfast:</h3>
-    <input type="submit" value="DELETE" name="action1"/>
+<!--TODO: Implement delete button-->
+<!--    <input type="submit" value="DELETE" name="action1"/>-->
     <table class="table">
         <thead>
             <tr>
@@ -19,11 +20,11 @@
         <tbody>
             {% for meal in meals %}
                 <tr>
-                    <td>{{ meal.getName() }}</td>
-                    <td>{{ meal.getNutrients().calories }}</td>
-                    <td>{{ meal.getNutrients().protein }}</td>
-                    <td>{{ meal.getNutrients().carbs }}</td>
-                    <td>{{ meal.getNutrients().fat }}</td>
+                    <td>{{ meal.get_name() }}</td>
+                    <td>{{ meal.get_nutrients().calories }}</td>
+                    <td>{{ meal.get_nutrients().protein }}</td>
+                    <td>{{ meal.get_nutrients().carbs }}</td>
+                    <td>{{ meal.get_nutrients().fat }}</td>
                 </tr>
             {% endfor %}
         </tbody>
