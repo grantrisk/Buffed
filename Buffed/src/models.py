@@ -87,12 +87,106 @@ class MealPlan:
         self.meals = meals
 
 
-class User(DatastoreEntity, UserMixin):
-    name = EntityValue(None)
-    email = EntityValue(None)
-    password = EntityValue(None)
-    weight = EntityValue(None)
-    height = EntityValue(None)
-    birth = EntityValue(None)
-    gender = EntityValue(None)
-    current_goal = EntityValue(None)
+class User:
+    def __init__(self, name: str, email: str, weight: int, height: int, birth: str, gender: str,
+                 current_goal: str):
+        self.name = name
+        self.email = email
+        self.weight = weight
+        self.height = weight
+        self.birth = birth
+        self.gender = gender
+        self.current_goal = current_goal
+
+    def get_id(self):
+        """
+        This method returns the ID (email) of the user.
+        """
+        return self.email
+
+    def get_name(self):
+        """
+        This method gets the name of a user from the User object.
+        """
+        return self.name
+
+    def set_name(self, name):
+        """
+        This method sets a name for a User object.
+        """
+        self.name = name
+
+    def get_email(self):
+        """
+        This method gets the email of a user from the User object.
+        """
+        return self.email
+
+    def set_email(self, email):
+        """
+        This method sets the email of a user to a User object.
+        """
+        self.email = email
+
+    def get_weight(self):
+        """
+        This method gets the weight of a user from the User object.
+        """
+        return self.weight
+
+    def set_weight(self, weight):
+        """
+        This method sets the weight of a user to a User object.
+        """
+        self.weight = weight
+
+    def get_height(self):
+        """
+        This method gets the height of a user from the User object.
+        """
+        return self.height
+
+    def set_height(self, height):
+        """
+        This method sets the height of a user to a User object.
+        """
+        self.height = height
+
+    def get_birth(self):
+        """
+        This method gets the birthdate of a user from a User object.
+        """
+        return self.birth
+
+    def set_birth(self, birth):
+        """
+        This method sets the birthdate of a user to a User object.
+        """
+        self.birth = birth
+
+    def get_gender(self):
+        """
+        This method gets the gender of a user from a User object.
+        """
+        return self.gender
+
+    def set_gender(self, gender):
+        """
+        This method sets the gender of a user to a User object.
+        """
+        self.gender = gender
+
+    def get_current_goal(self):
+        """
+        This method gets the current_goal of a user from a User object.
+        """
+        return self.current_goal
+
+    def set_current_goal(self, current_goal):
+        """
+        This method sets the current_goal of a user to a User object.
+        """
+        self.current_goal = current_goal
+
+    def is_authenticated(self):
+        return False

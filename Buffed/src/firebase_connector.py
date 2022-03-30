@@ -36,16 +36,17 @@ class FBConnector(object):
         self.gender = gender
         self.current_goal = current_goal
 
-    def get_account_info(self, document) -> str:
+    def get_account_info(self, document) -> dict:
         """
         This method returns a string of the users information with every values individual keys.
         :param document: the document of the user
         :return: the users information in string format
         """
-        doc_ref = db.collection(u'users').document(document)
-        doc = doc_ref.get()
-        account_info = doc.to_dict()
-        return account_info
+        user_doc = {}
+        user_doc_ref = db.collection(u'users').where('email', '==', document).stream()
+        for doc in user_doc_ref:
+            user_doc.update(doc.to_dict())
+        return user_doc
 
     def get_name(self, document):
         """
@@ -54,10 +55,11 @@ class FBConnector(object):
         :return: the name for the user in string format
         """
 
-        user_doc_ref = db.collection(u'users').document(document)
-        user_doc = user_doc_ref.get()
-        user_name = user_doc.to_dict().get('name')
-        return user_name
+        user_doc = {}
+        user_doc_ref = db.collection(u'users').where('email', '==', document).stream()
+        for doc in user_doc_ref:
+            user_doc.update(doc.to_dict())
+        return user_doc['name']
 
     def get_email(self, document):
         """
@@ -65,10 +67,11 @@ class FBConnector(object):
         :param document: the document of the user
         :return: the email for the user in string format
         """
-        user_doc_ref = db.collection(u'users').document(document)
-        user_doc = user_doc_ref.get()
-        email = user_doc.to_dict().get('email')
-        return email
+        user_doc = {}
+        user_doc_ref = db.collection(u'users').where('email', '==', document).stream()
+        for doc in user_doc_ref:
+            user_doc.update(doc.to_dict())
+        return user_doc['email']
 
     def get_weight(self, document):
         """
@@ -298,6 +301,7 @@ class FBConnector(object):
                           data=payload)
 
         return r.json()
+
 
     def send_email_verification_link(self, id_token: str):
         """

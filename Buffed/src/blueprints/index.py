@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 from Buffed.src.firebase_connector import FBConnector
+from flask_login import LoginManager
+from Buffed.src.models import User
 
 index_page = Blueprint("index", __name__, static_folder="static", template_folder="templates")
 
@@ -10,6 +12,22 @@ def index():
     This method returns the index page.
     :return: render_template('index.html')
     """
+
+
+    # user_dict = FBConnector.get_account_info(FBConnector, "234@gmail.com")
+
+    # name = user_dict['name']
+    # email = user_dict['email']
+    # weight = user_dict['weight']
+    # height = user_dict['height']
+    # birth = user_dict['birth']
+    # gender = user_dict['gender']
+    # current_goal = user_dict['current_goal']
+    # print(user_dict)
+    # print(user_dict['name'], user_dict['email'])
+
+    # user = User(name, email, weight, height, birth, gender, current_goal)
+
 
     if request.method == "POST":
 
