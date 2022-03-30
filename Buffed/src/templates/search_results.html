@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% set active_page = "find_meals" %}
+{% block content %}
+    <h1>{% block title %}Find Meals{% endblock %}</h1>
+    <div class="grid">
+        {% if results|length > 0 %}
+            {% for meal in results|batch(3) %}
+                <div class="row">
+                    {% for card in meal %}
+                        <div class="card g-col-4 w-25">
+                            <div class="card-body">
+                                <a href="{{ url_for('nutrition', meal_id=card.meal_id) }}">
+                                    <img class="card-img-top" src="{{ card.meal_img_url }}">
+                                </a>
+                                <h1 class="card-title">{{ card.meal_name }}</h1>
+                                <h2 class="card-text">Calories: {{ round(card.nutrients["ENERC_KCAL"]["quantity"], 2) }} per serving</h2>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <h1>No results found.</h1>
+        {% endif %}
+    </div>
+{% endblock %}

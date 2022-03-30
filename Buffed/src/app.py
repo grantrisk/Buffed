@@ -1,14 +1,25 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from forms import ContactForm
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from firebase_connector import FBConnector
+from edamam_connector import EdamamConnector
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'Flask1WTF2needs3CSRF4'
+config = {}
+with open('static/resources/keys.cfg') as file:
+    lines = file.readlines()
+    for line in lines:
+        key_val = line.split('=')
+        config[key_val[0].strip()] = key_val[1].strip()
 
+app.config['SECRET_KEY'] = config['flask_wtf']
+
+edamam_connector = EdamamConnector(config['fd_app_id'], config['fd_app_key'],
+                                   config['recipe_app_id'], config['recipe_app_key'],
+                                   config['na_app_id'], config['na_app_key'])
 
 @app.route('/')
 def index():
@@ -46,6 +57,33 @@ def find_meals():
         """
     return render_template('find_meals.html')
 
+
+@app.route('/search_results')
+def search_results():
+    """
+    Renders the search results page for Find Meals searches
+    :return: search results page template
+    """
+    if not 'search_query' in request.args:
+        redirect('find_meals')
+
+    meals = edamam_connector.search_recipes(request.args["search_query"])
+
+    return render_template('search_results.html', results=meals, round=round)
+
+
+@app.route('/nutrition')
+def nutrition():
+    """
+    Returns the Nutrition page, which shows an individual meal's nutrition details
+    :return: nutrition page template
+    """
+    if 'meal_id' in request.args:
+        meal_id = request.args['meal_id']
+        meal = edamam_connector.get_recipe_by_id(meal_id)
+        return render_template('nutrition.html', meal=meal, round=round)
+    else:
+        return redirect('/find_meals')
 
 @app.route('/my_meals')
 def my_meals():

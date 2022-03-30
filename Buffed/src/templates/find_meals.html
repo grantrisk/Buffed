@@ -2,4 +2,8 @@
 {% set active_page = "find_meals" %}
 {% block content %}
 <h1>{% block title %}Find Meals{% endblock %}</h1>
+<form action="{{ url_for('search_results') }}">
+    <input type="text" name="search_query" placeholder="Search">
+    <input type="submit">
+</form>
 {% endblock %}
