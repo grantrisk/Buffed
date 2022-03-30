@@ -18,6 +18,17 @@
 
     <!-- Contact Us -->
     <div class="container">
+
+        <!-- Alert user if form's not working -->
+        {% macro is_available() %}
+            {% if not form.available %}
+                <div class="alert alert-{{ form.alert }}" role="alert">
+                  {{ form.alert_msg }}
+                </div>
+            {% endif %}
+        {% endmacro %}
+        {{ is_available() }}
+
         <h1>Contact Us</h1>
 
         <!-- Contact Form -->
@@ -25,7 +36,7 @@
         <form action="/about" method=post>
             <div class="row g-3">
                 <div class="col-12">
-                    <!-- Name -->
+                     <!-- Name -->
                     {{ form.name.label }}<br>
                     {{ form.name }}
                 </div>
@@ -47,6 +58,9 @@
                 <div class="col-12">
                     <!-- Submit -->
                     {{ form.submit }}
+                    {% if form.submit.data %}
+                        {{ is_available() }}
+                    {% endif %}
                 </div>
             </div>
         </form>
