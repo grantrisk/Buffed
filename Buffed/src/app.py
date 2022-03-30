@@ -1,10 +1,4 @@
-from flask import Flask, render_template, request, redirect
-from forms import ContactForm
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-from firebase_connector import FBConnector
-from edamam_connector import EdamamConnector
+from flask import Flask
 from blueprints.todays_plan import todays_plan_page
 from blueprints.index import index_page
 from blueprints.about import about_page
@@ -16,6 +10,7 @@ from blueprints.my_goals import my_goals_page
 from blueprints.my_meals import my_meals_page
 from blueprints.my_profile import my_profile_page
 from blueprints.register import register_page
+from edamam_connector import EdamamConnector
 
 app = Flask(__name__)
 app.register_blueprint(index_page, url_prefix='/')
