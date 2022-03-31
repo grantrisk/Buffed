@@ -4,3 +4,4 @@ firebase_admin
 firestore
 flask_wtf
 email-validator
+pytest
