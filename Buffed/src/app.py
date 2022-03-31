@@ -34,9 +34,5 @@ with open('static/resources/keys.cfg') as file:
 
 app.config['SECRET_KEY'] = config['flask_wtf']
 
-edamam_connector = EdamamConnector(config['fd_app_id'], config['fd_app_key'],
-                                   config['recipe_app_id'], config['recipe_app_key'],
-                                   config['na_app_id'], config['na_app_key'])
-
 if __name__ == '__main__':
     app.run()
