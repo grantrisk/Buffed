@@ -4,7 +4,9 @@
 
     <h1>{% block title %}Today's Plan{% endblock %}</h1>
 
-    <h3>Breakfast:</h3>
+    <h3 class="text-start">Breakfast:</h3>
+<!--TODO: Implement delete button-->
+<!--    <input type="submit" value="DELETE" name="action1"/>-->
     <table class="table">
         <thead>
             <tr>
@@ -18,85 +20,85 @@
         <tbody>
             {% for meal in meals %}
                 <tr>
-                    <td>{{ meal.name }}</td>
-                    <td>{{ meal.calories }}</td>
-                    <td>{{ meal.protein }}</td>
-                    <td>{{ meal.carbs }}</td>
-                    <td>{{ meal.fat }}</td>
+                    <td>{{ meal.get_name() }}</td>
+                    <td>{{ meal.get_nutrients().calories }}</td>
+                    <td>{{ meal.get_nutrients().protein }}</td>
+                    <td>{{ meal.get_nutrients().carbs }}</td>
+                    <td>{{ meal.get_nutrients().fat }}</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <h3>Lunch:</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Meal</th>
-                <th scope="col">Calories</th>
-                <th scope="col">Protein</th>
-                <th scope="col">Carbs</th>
-                <th scope="col">Fat</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for meal in meals %}
-                <tr>
-                    <td>{{ meal.name }}</td>
-                    <td>{{ meal.calories }}</td>
-                    <td>{{ meal.protein }}</td>
-                    <td>{{ meal.carbs }}</td>
-                    <td>{{ meal.fat }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<!--    <h3>Lunch:</h3>-->
+<!--    <table class="table">-->
+<!--        <thead>-->
+<!--            <tr>-->
+<!--                <th scope="col">Meal</th>-->
+<!--                <th scope="col">Calories</th>-->
+<!--                <th scope="col">Protein</th>-->
+<!--                <th scope="col">Carbs</th>-->
+<!--                <th scope="col">Fat</th>-->
+<!--            </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--            {% for meal in meals %}-->
+<!--                <tr>-->
+<!--                    <td>{{ meal.name }}</td>-->
+<!--                    <td>{{ meal.calories }}</td>-->
+<!--                    <td>{{ meal.protein }}</td>-->
+<!--                    <td>{{ meal.carbs }}</td>-->
+<!--                    <td>{{ meal.fat }}</td>-->
+<!--                </tr>-->
+<!--            {% endfor %}-->
+<!--        </tbody>-->
+<!--    </table>-->
 
-    <h3>Dinner:</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Meal</th>
-                <th scope="col">Calories</th>
-                <th scope="col">Protein</th>
-                <th scope="col">Carbs</th>
-                <th scope="col">Fat</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for meal in meals %}
-                <tr>
-                    <td>{{ meal.name }}</td>
-                    <td>{{ meal.calories }}</td>
-                    <td>{{ meal.protein }}</td>
-                    <td>{{ meal.carbs }}</td>
-                    <td>{{ meal.fat }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<!--    <h3>Dinner:</h3>-->
+<!--    <table class="table">-->
+<!--        <thead>-->
+<!--            <tr>-->
+<!--                <th scope="col">Meal</th>-->
+<!--                <th scope="col">Calories</th>-->
+<!--                <th scope="col">Protein</th>-->
+<!--                <th scope="col">Carbs</th>-->
+<!--                <th scope="col">Fat</th>-->
+<!--            </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--            {% for meal in meals %}-->
+<!--                <tr>-->
+<!--                    <td>{{ meal.name }}</td>-->
+<!--                    <td>{{ meal.calories }}</td>-->
+<!--                    <td>{{ meal.protein }}</td>-->
+<!--                    <td>{{ meal.carbs }}</td>-->
+<!--                    <td>{{ meal.fat }}</td>-->
+<!--                </tr>-->
+<!--            {% endfor %}-->
+<!--        </tbody>-->
+<!--    </table>-->
 
-    <h3>Snacks:</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Meal</th>
-                <th scope="col">Calories</th>
-                <th scope="col">Protein</th>
-                <th scope="col">Carbs</th>
-                <th scope="col">Fat</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for meal in meals %}
-                <tr>
-                    <td>{{ meal.name }}</td>
-                    <td>{{ meal.calories }}</td>
-                    <td>{{ meal.protein }}</td>
-                    <td>{{ meal.carbs }}</td>
-                    <td>{{ meal.fat }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<!--    <h3>Snacks:</h3>-->
+<!--    <table class="table">-->
+<!--        <thead>-->
+<!--            <tr>-->
+<!--                <th scope="col">Meal</th>-->
+<!--                <th scope="col">Calories</th>-->
+<!--                <th scope="col">Protein</th>-->
+<!--                <th scope="col">Carbs</th>-->
+<!--                <th scope="col">Fat</th>-->
+<!--            </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--            {% for meal in meals %}-->
+<!--                <tr>-->
+<!--                    <td>{{ meal.name }}</td>-->
+<!--                    <td>{{ meal.calories }}</td>-->
+<!--                    <td>{{ meal.protein }}</td>-->
+<!--                    <td>{{ meal.carbs }}</td>-->
+<!--                    <td>{{ meal.fat }}</td>-->
+<!--                </tr>-->
+<!--            {% endfor %}-->
+<!--        </tbody>-->
+<!--    </table>-->
 {% endblock %}

@@ -1,4 +1,5 @@
 from flask import Flask
+
 from blueprints.todays_plan import todays_plan_page
 from blueprints.index import index_page
 from blueprints.about import about_page
@@ -11,6 +12,7 @@ from blueprints.my_meals import my_meals_page
 from blueprints.my_profile import my_profile_page
 from blueprints.register import register_page
 from edamam_connector import EdamamConnector
+
 
 app = Flask(__name__)
 app.register_blueprint(index_page, url_prefix='/')
@@ -35,4 +37,4 @@ with open('static/resources/keys.cfg') as file:
 app.config['SECRET_KEY'] = config['flask_wtf']
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
