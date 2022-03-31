@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% set active_page = "find_meals" %}
+{% block content %}
+<h1>{% block title %}Nutrition{% endblock %}</h1>
+<h2>{{ meal.meal_name }}</h2>
+<img src="{{ meal.meal_img_url }}">
+<br><br>
+<h2>Nutrients per Serving</h2>
+{% for nutrient in meal.nutrients %}
+    <h3><b>{{ meal.nutrients[nutrient]['label'] }}</b>: {{ round(meal.nutrients[nutrient]['quantity'], 2) }}{{ meal.nutrients[nutrient]['unit'] }}</h3>
+{% endfor %}
+
+{% endblock %}

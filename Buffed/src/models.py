@@ -32,23 +32,25 @@ class Ingredient:
 
 
 class Meal:
-    def __init__(self, meal_name: str, meal_id: str, nutrients: dict, health_labels: List[str],
-                 ingredients: List[Ingredient], meal_type: str):
+    def __init__(self, meal_name: str, meal_id: str, meal_img_url, nutrients: dict, health_labels: List[str],
+                 ingredients: List[str], meal_types: List[str]):
         """
         Creates an instance of a Meal object
         :param meal_name: name of the meal
         :param meal_id: unique identifier for the Meal
+        :param meal_img_url: URL to image of meal
         :param nutrients: dictionary containing all nutrients
         :param health_labels: list containing all health labels as defined by Edamam
         :param ingredients: list containing all ingredients in the meal
-        :param meal_type: type of meal (i.e. Breakfast, Lunch, Dinner, etc.)
+        :param meal_types: type of meal (i.e. Breakfast, Lunch, Dinner, etc.)
         """
         self.meal_name = meal_name
         self.meal_id = meal_id
+        self.meal_img_url = meal_img_url
         self.nutrients = nutrients
         self.health_labels = health_labels
         self.ingredients = ingredients
-        self.meal_type = meal_type
+        self.meal_type = meal_types
 
     def get_name(self):
         return self.meal_name
