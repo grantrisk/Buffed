@@ -1,12 +1,13 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
-from Buffed.src.firebase_connector import FBConnector
+from src.firebase_connector import FBConnector
 from flask_login import LoginManager
-from Buffed.src.models import User
+from src.models import User
 
 index_page = Blueprint("index", __name__, static_folder="static", template_folder="templates")
 
 
 @index_page.route('/', methods=["GET", "POST"])
+@index_page.route('/index', methods=["GET", "POST"])
 def index():
     """
     This method returns the index page.

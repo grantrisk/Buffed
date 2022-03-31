@@ -5,3 +5,5 @@ firestore
 flask_wtf
 email-validator
 pytest
+flask_login
+datastore_entity
