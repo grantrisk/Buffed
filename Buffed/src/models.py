@@ -1,4 +1,7 @@
 from typing import List
+from flask_login import UserMixin
+from datastore_entity import DatastoreEntity, EntityValue
+import datetime
 
 
 class Measure:
@@ -93,43 +96,105 @@ class MealPlan:
 
 
 class User:
-    def __init__(self, email: str, password: str, name: str, birthdate: str, gender: str,
-                 weight: float, height: float, activity_level: str, active_goal: Goal, keywords: List[str],
-                 allergies: List[str], diet_preferences: List[str], likes: List[str], dislikes: List[str],
-                 my_meals: List[Meal], meal_plan: MealPlan, my_goals: List[Goal]):
+    def __init__(self, name: str, email: str, weight: int, height: int, birth: str, gender: str,
+                 current_goal: str):
+        self.name = name
+        self.email = email
+        self.weight = weight
+        self.height = weight
+        self.birth = birth
+        self.gender = gender
+        self.current_goal = current_goal
+
+    def get_id(self):
         """
-        Creates an instance of a User object
-        :param email: user's email
-        :param password: user's password
-        :param name: user's display name
-        :param birthdate: user's birthdate for age calculation
-        :param gender: user's gender
-        :param weight: user's weight in lbs
-        :param height: user's height in meters
-        :param activity_level: user's activity level
-        :param active_goal: user's active or current goal
-        :param keywords: list of the user's favorite ingredients/food keywords from Firestore
-        :param allergies: list of the user's allergies from Firestore
-        :param diet_preferences: list of the user's diet preferences from Firestore
-        :param likes: list of the user's likes from Firestore
-        :param dislikes: list of the user's dislikes from Firestore
-        :param my_meals: list of Meal objects that the user has saved from My Meals
-        :param my_goals: list of goals including fat, carbs, and protein values' high and low ranges
+        This method returns the ID (email) of the user.
+        """
+        return self.email
+
+    def get_name(self):
+        """
+        This method gets the name of a user from the User object.
+        """
+        return self.name
+
+    def set_name(self, name):
+        """
+        This method sets a name for a User object.
+        """
+        self.name = name
+
+    def get_email(self):
+        """
+        This method gets the email of a user from the User object.
+        """
+        return self.email
+
+    def set_email(self, email):
+        """
+        This method sets the email of a user to a User object.
         """
         self.email = email
-        self.password = password
-        self.name = name
-        self.birthdate = birthdate
-        self.gender = gender
+
+    def get_weight(self):
+        """
+        This method gets the weight of a user from the User object.
+        """
+        return self.weight
+
+    def set_weight(self, weight):
+        """
+        This method sets the weight of a user to a User object.
+        """
         self.weight = weight
+
+    def get_height(self):
+        """
+        This method gets the height of a user from the User object.
+        """
+        return self.height
+
+    def set_height(self, height):
+        """
+        This method sets the height of a user to a User object.
+        """
         self.height = height
-        self.activity_level = activity_level
-        self.active_goal = active_goal
-        self.keywords = keywords
-        self.allergies = allergies
-        self.diet_preferences = diet_preferences
-        self.likes = likes
-        self.dislikes = dislikes
-        self.my_meals = my_meals
-        self.meal_plan = meal_plan
-        self.my_goals = my_goals
+
+    def get_birth(self):
+        """
+        This method gets the birthdate of a user from a User object.
+        """
+        return self.birth
+
+    def set_birth(self, birth):
+        """
+        This method sets the birthdate of a user to a User object.
+        """
+        self.birth = birth
+
+    def get_gender(self):
+        """
+        This method gets the gender of a user from a User object.
+        """
+        return self.gender
+
+    def set_gender(self, gender):
+        """
+        This method sets the gender of a user to a User object.
+        """
+        self.gender = gender
+
+    def get_current_goal(self):
+        """
+        This method gets the current_goal of a user from a User object.
+        """
+        return self.current_goal
+
+    def set_current_goal(self, current_goal):
+        """
+        This method sets the current_goal of a user to a User object.
+        """
+        self.current_goal = current_goal
+
+    def is_authenticated(self):
+        return False

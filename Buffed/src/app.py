@@ -11,10 +11,15 @@ from blueprints.my_goals import my_goals_page
 from blueprints.my_meals import my_meals_page
 from blueprints.my_profile import my_profile_page
 from blueprints.register import register_page
+
+from flask_login import LoginManager
+
 from edamam_connector import EdamamConnector
 
 
-app = Flask(__name__)
+# app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
+# login = LoginManager(app)
 app.register_blueprint(index_page, url_prefix='/')
 app.register_blueprint(login_page, url_prefix='/login')
 app.register_blueprint(register_page, url_prefix='/register')
