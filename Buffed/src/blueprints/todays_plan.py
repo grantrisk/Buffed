@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from src.models import Meal
+from Buffed.src.models import Meal
 
 todays_plan_page = Blueprint("todays_plan", __name__, static_folder="static", template_folder="templates")
 
