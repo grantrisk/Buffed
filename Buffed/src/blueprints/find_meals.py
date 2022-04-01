@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect
 
-from Buffed.src.edamam_connector import EdamamConnector
+from edamam_connector import EdamamConnector
 
 
 find_meals_page = Blueprint("find_meals", __name__, static_folder="static", template_folder="templates")

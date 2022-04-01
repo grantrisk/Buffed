@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash
 
-from Buffed.src.forms import ContactForm
+from forms import ContactForm
 
 about_page = Blueprint("about", __name__, static_folder="static", template_folder="templates")
 

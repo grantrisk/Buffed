@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
-from Buffed.src.firebase_connector import FBConnector
+from firebase_connector import FBConnector
 from flask_login import LoginManager
-from Buffed.src.models import User
+from models import User
 
 index_page = Blueprint("index", __name__, static_folder="static", template_folder="templates")
 
