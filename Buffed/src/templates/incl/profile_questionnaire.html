@@ -1,0 +1,23 @@
+{% block profile_body %}
+    <h2>Profile Questionnaire</h2>
+
+    {{ profile_form.hidden_tag() }}
+    <form action="{{ url_for('register.profile_questions') }}" method="post">
+
+        {{ profile_form.hidden_tag() }}
+        {% for p_field in profile_form if p_field.widget.input_type != 'hidden' %}
+            <div class="form-group">
+                {{ p_field.label() }}
+                {{ p_field }}
+{#                    {% for error in p_field.errors %}#}
+{#                        {{ error }}#}
+{#                    {% endfor %}#}
+            </div>
+        {% endfor %}
+        {{ profile_form.csrf_token }}
+{##}
+{#            {% if profile_form.submit.data %}#}
+{#                {{ is_available() }}#}
+{#            {% endif %}#}
+    </form>
+{% endblock profile_body %}

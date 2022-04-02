@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 {% set active_page = "register" %}
 {% block content %}
-<h1>{% block title %}Register{% endblock %}</h1>
+    <h1>{% block title %}Account Registration{% endblock %}</h1>
+    <br>
+    <!-- Profile Questionnaire -->
+    {% include 'incl/profile_questionnaire.html' %}
+    <br>
+    <!-- Diet Questionnaire -->
+    {% include 'incl/diet_questionnaire.html' %}
+    <br>
+    <!-- "Submit" button -->
+    <!-- Not an actual submit button, just a pass to get through this screen
+         to be used later as a final submission button for both forms -->
+    <div class="action-buttons">
+        <a href="/dashboard" class="btn btn-primary btn-lg">Admin "Submit"</a>
+    </div>
 {% endblock %}

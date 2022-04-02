@@ -14,7 +14,6 @@ def index():
     :return: render_template('index.html')
     """
 
-
     # user_dict = FBConnector.get_account_info(FBConnector, "234@gmail.com")
 
     # name = user_dict['name']
@@ -28,7 +27,6 @@ def index():
     # print(user_dict['name'], user_dict['email'])
 
     # user = User(name, email, weight, height, birth, gender, current_goal)
-
 
     if request.method == "POST":
 
@@ -45,12 +43,15 @@ def index():
 
                 try:
                     FBConnector.register(FBConnector, email, password)
-                    # change redirect to profile questionnaire
-                    return redirect(url_for("index.index"))
+                    # Tabs: changed redirect to profile questionnaire 4/1/2022
+                    # return redirect(url_for("index.index"))  # old redirect
+                    return redirect(url_for("register.register"))
 
                 except:
                     print("Error")
-                    return redirect(url_for("index.index"))
+                    # Tabs: changed to register page for development purposes 4/1/2022
+                    print("Bypassing registration")
+                    return redirect(url_for("register.register"))
 
             else:
                 print("Emails / Password do not match")
