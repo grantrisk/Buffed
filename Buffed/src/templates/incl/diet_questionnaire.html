@@ -1,18 +1,27 @@
 {% block diet_body %}
-    <h2>Diet Questionnaire</h2>
+{#    <h2>Diet Questionnaire</h2>#}
 
     {{ diet_form.hidden_tag() }}
     <form action="{{ url_for('register.diet_questions') }}" method="post">
-            {% for d_field in diet_form if d_field.widget.input_type != 'hidden' %}
+            {% for d in diet_form if d.widget.input_type != 'hidden' and d.widget.input_type != 'submit' %}
                 <div class="form-group">
-                    {{ d_field.label() }}
-                    {{ d_field }}
-{#                    {% for error in d_field.errors %}#}
+                    {{ d.label() }}
+                    {{ d }}
+{#                    {% for error in d.errors %}#}
 {#                        {{ error }}#}
 {#                    {% endfor %}#}
                 </div>
 
             {% endfor %}
+        <div class="form-group">
+            <!-- Submit -->
+
+            {# show submit button only if not False #}
+            {# if nothing passed for showSubmit, will show #}
+            {% if showSubmit %}
+                {{ diet_form.submit }}
+            {% endif %}
+        </div>
         {{ diet_form.csrf_token }}
 {##}
 {#            {% if diet_form.submit.data %}#}

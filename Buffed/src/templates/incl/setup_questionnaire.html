@@ -1,0 +1,28 @@
+{# setup questionnaire takes both profile and diet questionnaire forms and shows all fields with one submit #}
+{% block setup_body %}
+    {{ setup_form.hidden_tag() }}
+    <form action="{{ url_for('register.setup_questions') }}" method="post">
+        <label for="profile_q"><h2>Profile Questions</h2></label>
+        {% for field in setup_form.profile_q if field.widget.input_type != 'hidden' and field.widget.input_type != 'submit' %}
+            <div class="form-group">
+                {{ field.label() }}
+                {{ field }}
+            </div>
+        {% endfor %}
+
+        <label for="diet_q"><h2>Diet Questions</h2></label>
+        {% for field in setup_form.diet_q if field.widget.input_type != 'hidden' and field.widget.input_type != 'submit' %}
+            <div class="form-group">
+                {{ field.label() }}
+                {{ field }}
+            </div>
+        {% endfor %}
+        <div class="action-buttons">
+            <!-- Submit -->
+            <br>
+            <input type="submit" class="btn btn-primary btn-lg" name="submit" value="Submit">
+        </div>
+
+        {{ setup_form.csrf_token }}
+    </form>
+{% endblock setup_body %}

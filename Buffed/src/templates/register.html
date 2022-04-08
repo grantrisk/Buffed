@@ -3,16 +3,24 @@
 {% block content %}
     <h1>{% block title %}Account Registration{% endblock %}</h1>
     <br>
-    <!-- Profile Questionnaire -->
-    {% include 'incl/profile_questionnaire.html' %}
+    {# include profile and diet questionnaire #}
+    <!-- Setup Questionnaire -->
+    {% include 'incl/setup_questionnaire.html' %}
     <br>
-    <!-- Diet Questionnaire -->
-    {% include 'incl/diet_questionnaire.html' %}
-    <br>
-    <!-- "Submit" button -->
-    <!-- Not an actual submit button, just a pass to get through this screen
-         to be used later as a final submission button for both forms -->
+
+{# For using individual forms #}
+{#    {% with showSubmit=False %}#}
+{#        <!-- Profile Questionnaire -->#}
+{#        {% include 'incl/profile_questionnaire.html' %}#}
+{#        <br>#}
+{#        <!-- Diet Questionnaire -->#}
+{#        {% include 'incl/diet_questionnaire.html' %}#}
+{#        <br>#}
+{#    {% endwith %}#}
+
+    <!-- To Dashboard button -->
+    <!-- Not a submit button, just a pass to get through this screen -->
     <div class="action-buttons">
-        <a href="/dashboard" class="btn btn-primary btn-lg">Admin "Submit"</a>
+        <a href="/dashboard" class="btn btn-secondary btn-lg">To Dashboard</a>
     </div>
 {% endblock %}

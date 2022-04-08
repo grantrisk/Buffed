@@ -1,19 +1,28 @@
+{##}
 {% block profile_body %}
-    <h2>Profile Questionnaire</h2>
+{#    <h2>Profile Questionnaire</h2>#}
 
     {{ profile_form.hidden_tag() }}
     <form action="{{ url_for('register.profile_questions') }}" method="post">
 
-        {{ profile_form.hidden_tag() }}
-        {% for p_field in profile_form if p_field.widget.input_type != 'hidden' %}
+        {% for p in profile_form if p.widget.input_type != 'hidden' and p.widget.input_type != 'submit' %}
             <div class="form-group">
-                {{ p_field.label() }}
-                {{ p_field }}
-{#                    {% for error in p_field.errors %}#}
+                {{ p.label() }}
+                {{ p }}
+{#                    {% for error in p.errors %}#}
 {#                        {{ error }}#}
 {#                    {% endfor %}#}
             </div>
         {% endfor %}
+        <div class="form-group">
+            <!-- Submit -->
+
+            {# show submit button only if not False #}
+            {# if nothing passed for showSubmit, will show #}
+            {% if showSubmit %}
+                {{ profile_form.submit }}
+            {% endif %}
+        </div>
         {{ profile_form.csrf_token }}
 {##}
 {#            {% if profile_form.submit.data %}#}

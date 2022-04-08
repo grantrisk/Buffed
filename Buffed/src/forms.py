@@ -1,3 +1,4 @@
+import wtforms
 from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, TextAreaField, SubmitField, SelectField, DateField, DecimalField, \
     RadioField, SelectMultipleField
@@ -32,7 +33,7 @@ class ProfileQuestionnaire(FlaskForm):
     weight = DecimalField("Weight in", [DataRequired()])
     height = DecimalField("Height", [DataRequired()])
     activity_lvl = RadioField("Activity Level", [DataRequired()], choices=["Athletic", "Moderate", "Sedentary"])
-    # TODO: ensure I'm using Goal object correctly; how to best update goal in user db?
+    # TODO: are we still using goal objects or..?
     goal = Goal("0", "Default Goal", True, 1300, {'protein': 100, 'carbs': 140, 'fat': 100}, 3, 110)
 
     submit = SubmitField("Save")
@@ -46,7 +47,7 @@ class DietQuestionnaire(FlaskForm):
     diet_type = SelectMultipleField("Diet Type", [DataRequired()],
                                     choices=["Vegan", "Vegetarian", "Mediterranean",
                                              "Pescatarian", "Kosher", "Gluten-free",
-                                             "Ketogenic", "Diabetic", "Other", "None"])
+                                             "Ketogenic", "Other", "None"])
 
     allergies = SelectMultipleField("Allergies", [DataRequired()],
                                     choices=["Peanuts", "Nut oils", "Tree nuts", "Wheat",
@@ -55,3 +56,14 @@ class DietQuestionnaire(FlaskForm):
                                              "Chocolate / Cacao", "Other", "None"])
 
     submit = SubmitField("Save")
+
+
+class AccountSetupForm(FlaskForm):
+    """
+    Form that combines the profile and diet forms
+    """
+    # we can combine both forms into one for the account set up,
+    # while preserving their individual forms for future use
+    profile_q = wtforms.FormField(ProfileQuestionnaire)
+    diet_q = wtforms.FormField(DietQuestionnaire)
+
