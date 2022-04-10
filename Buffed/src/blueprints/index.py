@@ -1,8 +1,7 @@
-import flask
 import flask_login
-from flask import Blueprint, render_template, request, url_for, redirect, flash
+from flask import Blueprint, render_template, request, url_for, redirect
 from firebase_connector import FirebaseConnector
-from flask_login import LoginManager, login_user
+from flask_login import login_user
 
 from forms import LoginForm
 from models import User, Alert, AlertType
@@ -25,12 +24,9 @@ def index():
             flask_login.logout_user()
         return render_template('index.html')
     elif request.method == 'POST':
-        print("POST INCOMING")
-        print(request.form)
         email = request.form['email']
         password = request.form['password']
         response = fb_connector.sign_in_with_email_and_password(email, password)
-        print(response)
         if isinstance(response, dict):
             if "error" in response:
                 if response["error"]["message"] in invalid_credentials_messages:
@@ -41,7 +37,6 @@ def index():
                 expires_in = response["expiresIn"]
                 user = User(user_id, token, expires_in)
                 login_user(user)
-                print(login_user)
                 return redirect(url_for('dashboard.dashboard'))
         return redirect(url_for('index.index'))
 
