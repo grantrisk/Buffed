@@ -1,10 +1,8 @@
 {% extends "base.html" %}
-{% set active_page = "edit_profile" %}
+{% set active_page = "settings" %}
 {% block content %}
-<h1>{% block title %}Edit Profile{% endblock %}</h1>
-
-<div class ="body">
-
+<h1>{% block title %}Settings{% endblock %}</h1>
+<body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
@@ -24,13 +22,12 @@
                     <a class="nav-link" href="{{ url_for('settings.settings') }}">Settings</a>
                 </li>
             </ul>
-      </div>
+        </div>
     </nav>
 
-    <br>
-    <p><i>You will be able to edit your information in this page.</i></p>
+    <p><i>You will be able to change your account settings in this tab. Such as changing your password, email or deleting your account.</i></p>
 
-    <hr/>
+</body>
 
-</div>
+
 {% endblock %}
