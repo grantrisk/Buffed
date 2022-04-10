@@ -22,6 +22,7 @@ class FirebaseEnum(Enum):
     HEIGHT = "height"
     NAME = "name"
     WEIGHT = "weight"
+    MEALS = "meals"
 
 
 class FirebaseConnector:
@@ -42,6 +43,7 @@ class FirebaseConnector:
             u'height': "",
             u'name': "",
             u'weight': "",
+            u'meals': [],
         }
         db.collection(u'users').document(userUID).set(data)
 
@@ -87,7 +89,7 @@ class FirebaseConnector:
 # # ------------------- Create Account -------------------
 # user_email = "riskgrant@gmail.com"
 # user_password = "123456"
-# # create_firebase_account(user_email, user_password)
+# # FirebaseConnector.create_firebase_account(user_email, user_password)
 #
 # # ------------------- Signing in -------------------
 # firebase_user = FirebaseConnector.sign_in_with_email_and_password(user_email, user_password)
@@ -106,5 +108,17 @@ class FirebaseConnector:
 # new_name = "Grant"
 # FirebaseConnector.set_user_info(userUID, FirebaseEnum.NAME, new_name)
 #
+# from models import Meal
+# meal1 = Meal("burger", "1", "", {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [], [])
+# meal2 = Meal("yogurt", "2", "", {"calories":100, "protein":5, "carbs":90, "fat":40}, [], [], [])
+# meal1 = vars(meal1)
+# meal2 = vars(meal2)
+# new_meals = [meal1, meal2]
+# FirebaseConnector.set_user_info(userUID, FirebaseEnum.MEALS, new_meals)
+#
 # user_document = FirebaseConnector.get_user_info(userUID)
 # print(f"Retrieving modified user document: {user_document}")
+#
+# first_meal = user_document['meals'][0]
+# print(f"Retrieving meal 1: {first_meal}")
+# print(f"Retrieving meal 1 calories: {first_meal['nutrients']['calories']}")
