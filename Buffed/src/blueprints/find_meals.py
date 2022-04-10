@@ -1,31 +1,22 @@
 from flask import Blueprint, render_template, request, redirect
+from flask_login import login_required, current_user
 
 from edamam_connector import EdamamConnector
 
 
 find_meals_page = Blueprint("find_meals", __name__, static_folder="static", template_folder="templates")
 
-# Temporary - re-parsing config due to problem with circular import trying to access Edamam instance from app.py
-# TODO: Make EdamamConnector a Singleton
-config = {}
-with open('static/resources/keys.cfg') as file:
-    lines = file.readlines()
-    for line in lines:
-        key_val = line.split('=')
-        config[key_val[0].strip()] = key_val[1].strip()
-
-edamam_instance = EdamamConnector(config['fd_app_id'], config['fd_app_key'],
-                                  config['recipe_app_id'], config['recipe_app_key'],
-                                  config['na_app_id'], config['na_app_key'])
-
+edamam_instance = EdamamConnector()
 
 
 @find_meals_page.route('/')
+@login_required
 def find_meals():
     """
         This method returns the find meals page.
         :return: render_template('find_meals.html')
         """
+    print(current_user)
     return render_template('find_meals.html')
 
 

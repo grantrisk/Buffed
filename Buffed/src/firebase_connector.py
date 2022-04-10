@@ -16,25 +16,16 @@ FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
 rest_api_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
 
 
-class FBConnector(object):
+class FirebaseConnector(object):
     """
     Provides an interface to fetch data stored from Firebase.
     """
 
-    def __init__(self, name: str, password: str, email: str, weight: int, height: int, birth: str, gender: str,
-                 current_goal: str):
+    def __init__(self):
         """
-        Creates an instance of a User object
-        :param account_info: user's email
+        Creates an instance of a FirebaseConnector object
         """
-        self.name = name
-        self.password = password
-        self.email = email
-        self.weight = weight
-        self.height = height
-        self.birth = birth
-        self.gender = gender
-        self.current_goal = current_goal
+
 
     def get_account_info(self, document) -> dict:
         """
@@ -293,7 +284,7 @@ class FBConnector(object):
         payload = json.dumps({
             "email": email,
             "password": password,
-            "returnSecureToken": return_secure_token
+            "returnSecureToken": "true" if return_secure_token else "false"
         })
 
         r = requests.post(rest_api_url,

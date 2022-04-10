@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template
+from flask_login import login_required
+
 from models import Meal
 
 todays_plan_page = Blueprint("todays_plan", __name__, static_folder="static", template_folder="templates")
@@ -18,6 +20,7 @@ def delete_meal(meal: Meal):
     del meals[meal]
 
 
+@login_required
 @todays_plan_page.route('/')
 def todays_plan():
     """

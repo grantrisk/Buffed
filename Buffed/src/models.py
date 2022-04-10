@@ -1,7 +1,58 @@
+import time
+from enum import Enum
 from typing import List
+
 from flask_login import UserMixin
-from datastore_entity import DatastoreEntity, EntityValue
-import datetime
+
+
+class User(UserMixin):
+    """
+    Object used for flask-login authentication. Stores a user's ID, session token, and token expiration time.
+    """
+    # Dictionary to store active user sessions. Elements stored in {"user_id": User} format.
+    active_users = {}
+
+    @classmethod
+    def get(cls, user_id):
+        """
+        Fetches a User object from the active_users variable
+        :param user_id:
+        :return:
+        """
+        if user_id in cls.active_users:
+            return cls.active_users[user_id]
+
+    def __init__(self, user_id, session_token, exp_time):
+        """
+        Creates an instance of a User object.
+        :param user_id: user's unique ID
+        :param session_token: user's session token
+        :param exp_time: user's session token expiration time in seconds
+        """
+        self.__user_id = user_id
+        self.__session_token = session_token
+        try:
+            self.__exp_time = time.time() + int(exp_time)
+        except ValueError:
+            print("Expire time is invalid. Value: " + exp_time + ". Aborting login.")
+            self.__exp_time = 0
+
+        User.active_users[user_id] = self
+
+    def is_authenticated(self):
+        if time.time() < self.__exp_time:
+            User.active_users.pop(self.__user_id)
+            return False
+        return True
+
+    def is_active(self):
+        return self.is_authenticated()
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.__user_id
 
 
 class Measure:
@@ -95,106 +146,24 @@ class MealPlan:
         self.meals = meals
 
 
-class User:
-    def __init__(self, name: str, email: str, weight: int, height: int, birth: str, gender: str,
-                 current_goal: str):
-        self.name = name
-        self.email = email
-        self.weight = weight
-        self.height = weight
-        self.birth = birth
-        self.gender = gender
-        self.current_goal = current_goal
+class AlertType(Enum):
+    PRIMARY = 'alert-primary'
+    SECONDARY = 'alert-secondary'
+    SUCCESS = 'alert-success'
+    DANGER = 'alert-danger'
+    WARNING = 'alert-warning'
+    INFO = 'alert-info'
+    LIGHT = 'alert-light'
+    DARK = 'alert-dark'
 
-    def get_id(self):
-        """
-        This method returns the ID (email) of the user.
-        """
-        return self.email
 
-    def get_name(self):
+class Alert:
+    def __init__(self, alert_type: AlertType, message: str):
         """
-        This method gets the name of a user from the User object.
+        Creates an instance of an Alert
+        :param alert_type: AlertType, alert style
+        :param message: message to be displayed in the alert
         """
-        return self.name
+        self.alert_type = alert_type
+        self.message = message
 
-    def set_name(self, name):
-        """
-        This method sets a name for a User object.
-        """
-        self.name = name
-
-    def get_email(self):
-        """
-        This method gets the email of a user from the User object.
-        """
-        return self.email
-
-    def set_email(self, email):
-        """
-        This method sets the email of a user to a User object.
-        """
-        self.email = email
-
-    def get_weight(self):
-        """
-        This method gets the weight of a user from the User object.
-        """
-        return self.weight
-
-    def set_weight(self, weight):
-        """
-        This method sets the weight of a user to a User object.
-        """
-        self.weight = weight
-
-    def get_height(self):
-        """
-        This method gets the height of a user from the User object.
-        """
-        return self.height
-
-    def set_height(self, height):
-        """
-        This method sets the height of a user to a User object.
-        """
-        self.height = height
-
-    def get_birth(self):
-        """
-        This method gets the birthdate of a user from a User object.
-        """
-        return self.birth
-
-    def set_birth(self, birth):
-        """
-        This method sets the birthdate of a user to a User object.
-        """
-        self.birth = birth
-
-    def get_gender(self):
-        """
-        This method gets the gender of a user from a User object.
-        """
-        return self.gender
-
-    def set_gender(self, gender):
-        """
-        This method sets the gender of a user to a User object.
-        """
-        self.gender = gender
-
-    def get_current_goal(self):
-        """
-        This method gets the current_goal of a user from a User object.
-        """
-        return self.current_goal
-
-    def set_current_goal(self, current_goal):
-        """
-        This method sets the current_goal of a user to a User object.
-        """
-        self.current_goal = current_goal
-
-    def is_authenticated(self):
-        return False
