@@ -11,6 +11,7 @@ from blueprints.my_goals import my_goals_page
 from blueprints.my_meals import my_meals_page
 from blueprints.my_profile import my_profile_page
 from blueprints.register import register_page
+from blueprints.edit_profile import edit_profile_page
 
 from flask_login import LoginManager
 
@@ -31,6 +32,7 @@ app.register_blueprint(my_meals_page, url_prefix='/my_meals')
 app.register_blueprint(todays_plan_page, url_prefix='/todays_plan')
 app.register_blueprint(my_profile_page, url_prefix='/my_profile')
 app.register_blueprint(about_page, url_prefix='/about')
+app.register_blueprint(edit_profile_page, url_prefix='/edit_profile')
 
 config = {}
 with open('static/resources/keys.cfg') as file:
