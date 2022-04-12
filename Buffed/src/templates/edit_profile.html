@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% set active_page = "edit_profile" %}
 {% block content %}
-<h1>{% block title %}Edit Profile{% endblock %}</h1>
 
+<h1>{% block title %}Edit Profile{% endblock %}</h1>
 <div class ="body">
 
 
@@ -31,6 +31,115 @@
     <p><i>You will be able to edit your information in this page.</i></p>
 
     <hr/>
+
+
+
+    <!-- Form-entries below need to be put into a form. -->
+    <!-- Datepicker is deprecated in bootstrap, so trying to figure out how to implement it. -->
+
+    <!-- Allow the user to change their name. -->
+    <h6 style="text-align: left;">Name</h6>
+    <input type="text" name="name" class="form-control" placeholder="Name">
+
+
+
+
+
+    <!-- Need to use a Date-picker for the birthday. So we can get the age. -->
+    <h6 style="text-align: left;">Birthdate</h6>
+    <div class="input-group date" id="datepicker">
+        <input type="text" class="form-control">
+        <span class="input-group-append">
+            <span class="input-group-text bg-white d-block">
+                <i class="fa fa-calendar"></i>
+            </span>
+        </span>
+    </div>
+
+    <script type="text/javascript">
+        $(function() {
+            $('datepicker').datepicker();
+        });
+    </script>
+
+    <!-- Gender Form-Select -->
+    <h6 style="text-align: left;">Gender</h6>
+    <select class="form-select">
+        <option>Male</option>
+        <option>Female</option>
+    </select>
+
+
+    <!-- The titles for the dropdowns below them. -->
+    <div style="display: flex;">
+        <div style="width: 160px;">
+            <h6 style="text-align: left;">Height</h6>
+        </div>
+        <h6 style="text-align: left;">Weight</h6>
+    </div>
+    <div style="display: flex;">
+
+
+        <!-- Height Selector Feet then Inches. -->
+        <div style="display: flex; width: 160px">
+            <select class="form-select" style="width: 80px;">
+                <option>3'</option>
+                <option>4'</option>
+                <option>5'</option>
+                <option>6'</option>
+                <option>7'</option>
+            </select>
+
+            <select class="form-select" style="width: 80px;">
+                <option>0</option>
+                <option>1"</option>
+                <option>2"</option>
+                <option>3"</option>
+                <option>4"</option>
+                <option>5"</option>
+                <option>6"</option>
+                <option>7"</option>
+                <option>8"</option>
+                <option>9"</option>
+                <option>10"</option>
+                <option>11"</option>
+            </select>
+        </div>
+
+        <!-- Weight Selector.  Probably something similar to a drop-down. -->
+        <input type="text" name="weight" class="form-control" placeholder="Weight (lbs.)" style="width: 100px;">
+    </div>
+
+
+    <!-- Activity level of the user -->
+    <h6 style="text-align: left;">Activity Level</h6>
+    <select class="form-select" style="width: 500px;">
+        <option>No Activity</option>
+        <option>Light</option>
+        <option>Moderate</option>
+        <option>Active</option>
+        <option>Very Active</option>
+        <option>Extra Active</option>
+    </select>
+
+
+        <!-- Activity level of the user -->
+    <h6 style="text-align: left;">Goal</h6>
+    <select class="form-select" style="width: 500px;">
+        <option>Lose Weight</option>
+        <option>Maintain Weight</option>
+        <option>Gain Weight</option>
+    </select>
+    <br>
+    <!-- Goal of the user below. -->
+
+
+     <!-- Button -->
+    <div class="col text-center">
+        <input type="submit" name="edit-button" class="btn btn-primary" value="Submit Changes" style="width: 100%;">
+    </div>
+
+
 
 </div>
 {% endblock %}
