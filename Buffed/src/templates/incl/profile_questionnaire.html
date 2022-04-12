@@ -3,25 +3,71 @@
 {#    <h2>Profile Questionnaire</h2>#}
 
     {{ profile_form.hidden_tag() }}
-    <form action="{{ url_for('register.profile_questions') }}" method="post">
+    <form action="{{ url_for('register.register') }}" method="post">
+{#!= 'hidden' and p.widget.input_type != 'submit' #}
+{#        {% for p in profile_form if p not in ['sex','diet_type'] and p.widget.input_type not in ['hidden','submit']  %}#}
+{#            <div class="form-group">#}
+{#                {{ p.label() }}#}
+{#                {{ p }}#}
+{#            </div>#}
+{#        {% endfor %}#}
 
-        {% for p in profile_form if p.widget.input_type != 'hidden' and p.widget.input_type != 'submit' %}
-            <div class="form-group">
-                {{ p.label() }}
-                {{ p }}
-{#                    {% for error in p.errors %}#}
-{#                        {{ error }}#}
-{#                    {% endfor %}#}
-            </div>
-        {% endfor %}
+        <!----- Sex ----->
+        <div class="form-group">
+            Sex<br>
+            {% for subfield in profile_form.sex %}
+                <tr>
+                    <td>{{ subfield }}</td>
+                    <td>{{ subfield.label }}</td>
+                </tr>
+            {% endfor %}
+        </div>
+
+        <!----- Bday ----->
+        <div class="form-group">
+            {{ profile_form.bday.label }}
+            {{ profile_form.bday }}
+        </div>
+
+        <!----- Weight ----->
+        <div class="form-group">
+            {{ profile_form.weight.label }}
+            {{ profile_form.weight }}
+        </div>
+
+        <!----- Height ----->
+        <div class="form-group">
+            {{ profile_form.height.label }}
+            {{ profile_form.height }}
+        </div>
+
+        <!----- Activity Level ----->
+        <div class="form-check">
+            Activity Level<br>
+            {% for subfield in profile_form.activity_lvl %}
+                <tr>
+                    <td>{{ subfield }}</td>
+                    <td>{{ subfield.label }}</td>
+                </tr>
+            {% endfor %}
+        </div>
+
+        <!----- Health Labels ----->
+        <div class="form-check">
+            Diet Health Labels<br>
+            {% for subfield in profile_form.diet_type %}
+                <tr>
+                    <td>{{ subfield }}</td>
+                    <td>{{ subfield.label }}</td>
+                </tr>
+            {% endfor %}
+        </div>
+
         <div class="form-group">
             <!-- Submit -->
-
-            {# show submit button only if not False #}
-            {# if nothing passed for showSubmit, will show #}
-            {% if showSubmit %}
-                {{ profile_form.submit }}
-            {% endif %}
+            <br>
+{#            {{ profile_form.submit }}#}
+            <input type="submit" class="btn btn-primary btn-lg" name="submit" value="Submit">
         </div>
         {{ profile_form.csrf_token }}
 {##}
