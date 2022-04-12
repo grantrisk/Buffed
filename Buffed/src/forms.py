@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, EmailField, TextAreaField, SubmitField, SelectField, DateField, DecimalField, \
+from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, DecimalField, \
     RadioField, SelectMultipleField, widgets
 from wtforms.validators import DataRequired, Email, Regexp
 
@@ -32,6 +32,12 @@ class ContactForm(FlaskForm):
     subject = StringField("Subject", validators=[DataRequired()])
     message = TextAreaField("Message", validators=[DataRequired()])
     submit = SubmitField("Send")
+
+
+class LoginForm(FlaskForm):
+    email = EmailField("Email", validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Login")
 
 
 class ProfileQuestionnaire(FlaskForm):

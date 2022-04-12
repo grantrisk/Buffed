@@ -6,12 +6,13 @@ import firebase_admin
 import requests
 from firebase_admin import credentials, firestore, auth
 
-FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
-rest_api_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
 
 cred = credentials.Certificate("static/resources/buffed-9aca2-firebase-adminsdk-ugcpz-0d366e7b2c.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
+
+FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
+rest_api_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
 
 
 class FirebaseEnum(Enum):
@@ -26,6 +27,15 @@ class FirebaseEnum(Enum):
 
 
 class FirebaseConnector:
+    """
+    Provides an interface to fetch data stored from Firebase.
+    """
+
+    def __init__(self):
+        """
+        Creates an instance of a FirebaseConnector object
+        """
+
     def create_firebase_account(email: str, password: str):
         """
         Creates a user account with the given email and password
