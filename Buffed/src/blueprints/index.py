@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
-from firebase_connector import FBConnector
+from firebase_connector import *
 from flask_login import LoginManager
 from models import User
 
