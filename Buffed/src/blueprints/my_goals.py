@@ -1,8 +1,10 @@
 from flask import Blueprint, render_template
+from flask_login import login_required
 
 my_goals_page = Blueprint("my_goals", __name__, static_folder="static", template_folder="templates")
 
 
+@login_required
 @my_goals_page.route('/')
 def my_goals():
     """
