@@ -1,7 +1,9 @@
+import datetime
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, DecimalField, \
-    RadioField, SelectMultipleField, widgets
-from wtforms.validators import DataRequired, Email, Regexp
+    RadioField, SelectMultipleField, widgets, IntegerField
+from wtforms.validators import DataRequired, Email, Regexp, ValidationError, NumberRange, Length
 
 from Buffed.src.models import Goal
 
@@ -40,21 +42,36 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 
+#
+# def validate_birth(form,field):
+#     if (datetime.date.today().year - int(field.data[:4])) < (13 * 365):
+#         raise ValidationError("You must be 13 years or older!")
+
+
 class ProfileQuestionnaire(FlaskForm):
     """
     Form for profile questionnaire
     """
     # Personal Questionnaire
-    # TODO: need to fix validation for bday, weight, and height ; need to show error messages
+    # TODO: need to fix validation/error messages for for bday and height
+    name = StringField("Display Name", [DataRequired(),
+                                        Length(min=1, max=16, message='Must be between 1-16 characters long')])
     sex = RadioField("Sex", [DataRequired()], choices=["Male", "Female"])
-    bday = DateField("Birthdate", [DataRequired()])
-    weight = DecimalField("Weight (lb)", [DataRequired()])
-    height = StringField('Height (ft)',
-                         [DataRequired(), Regexp('[3-7]\'\d{1,2}', message='Wrong height format. Example: 5\'7')])
+    birth = DateField("Birthdate", [DataRequired()])
+    weight = DecimalField("Weight (lb)", [DataRequired(),
+                                          NumberRange(min=0, max=5000, message='Must be a number between 0-5000.')])
+    height = StringField('Height (Feet-Inch)', [DataRequired(),
+                                                Regexp('[2-9]\'[0-9]', message='Wrong height format. Example: 6\'0')])
     activity_lvl = RadioField("Activity Level", [DataRequired()], choices=["Athletic", "Moderate", "Sedentary"])
-
-    # Goal Information: Based on Goal model
-    # goal = Goal("0", "Default Goal", True, 1300, {'protein': 100, 'carbs': 140, 'fat': 100}, 3, 110)
+    current_goal = RadioField("Current Goal", [DataRequired()], choices=["Lose Weight", "Maintain", "Bulk Up"])
+    # TODO: implement Goal object
+    # # Goal Information: Based on Goal model
+    # if current_goal == "Lose Weight":
+    #     current_goal = Goal("0", "Lose Weight", True, 1300, {'protein': 100, 'carbs': 140, 'fat': 100}, 3, 110)
+    # elif current_goal == "Maintain":
+    #     current_goal = Goal("0", "Maintain", True, 1500, {'protein': 100, 'carbs': 140, 'fat': 100}, 3, 110)
+    # else:
+    #     current_goal = Goal("0", "Bulk Up", True, 2000, {'protein': 100, 'carbs': 140, 'fat': 100}, 3, 110)
 
     # Diet Information: Based on Health Labels
     diet_type = MultiCheckboxField("Diet Type",
@@ -66,35 +83,3 @@ class ProfileQuestionnaire(FlaskForm):
                                             'Alcohol-Free', 'No oil added', 'FODMAP-Free', 'Kosher'])
 
     submit = SubmitField("Save")
-
-#
-# class DietQuestionnaire(FlaskForm):
-#     """
-#     Form for diet questionnaire
-#     """
-#     # TODO: This is a draft; need to check Edamam what categories return; add food keyword search?
-#     diet_type = MultiCheckboxField("Diet Type", [DataRequired()],
-#                                    choices=['Vegan', 'Vegetarian', 'Pescatarian', 'Dairy-Free',
-#                                             'Gluten-Free', 'Wheat-Free', 'Egg-Free', 'Peanut-Free',
-#                                             'Tree-Nut-Free', 'Soy-Free', 'Fish-Free', 'Shellfish-Free',
-#                                             'Pork-Free', 'Red-Meat-Free', 'Crustacean-Free', 'Celery-Free',
-#                                             'Mustard-Free', 'Sesame-Free', 'Lupine-Free', 'Mollusk-Free',
-#                                             'Alcohol-Free', 'No oil added', 'FODMAP-Free', 'Kosher'])
-#
-#     allergies = MultiCheckboxField("Allergies", [DataRequired()],
-#                                    choices=["Peanuts", "Nut oils", "Tree nuts", "Wheat",
-#                                             "Soybean/Soy", "Milk/Dairy", "Egg",
-#                                             "Fish", "Shellfish", "Sesame", "Potato",
-#                                             "Chocolate / Cacao", "Other", "None"])
-#
-#     submit = SubmitField("Save")
-#
-#
-# class AccountSetupForm(FlaskForm):
-#     """
-#     Form that combines the profile and diet forms
-#     """
-#     # we can combine both forms into one for the account set up,
-#     # while preserving their individual forms for future use
-#     profile_q = wtforms.FormField(ProfileQuestionnaire)
-#     diet_q = wtforms.FormField(DietQuestionnaire)

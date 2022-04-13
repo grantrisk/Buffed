@@ -12,9 +12,15 @@
 {#            </div>#}
 {#        {% endfor %}#}
 
+        <!----- Display Name ----->
+        <div class="form-group">
+            {{ profile_form.name.label }}
+            {{ profile_form.name }}
+        </div>
+
         <!----- Sex ----->
         <div class="form-group">
-            Sex<br>
+            Sex
             {% for subfield in profile_form.sex %}
                 <tr>
                     <td>{{ subfield }}</td>
@@ -23,28 +29,50 @@
             {% endfor %}
         </div>
 
-        <!----- Bday ----->
+        <!----- Birthday ----->
         <div class="form-group">
-            {{ profile_form.bday.label }}
-            {{ profile_form.bday }}
+            {{ profile_form.birth.label }}
+            {{ profile_form.birth }}
         </div>
+        {% if profile_form.birth.errors %}
+            <ul class="errors">{% for error in profile_form.birth.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        {% endif %}
 
         <!----- Weight ----->
         <div class="form-group">
             {{ profile_form.weight.label }}
             {{ profile_form.weight }}
         </div>
+        {% if profile_form.weight.errors %}
+            <ul class="errors">{% for error in profile_form.weight.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        {% endif %}
 
         <!----- Height ----->
         <div class="form-group">
             {{ profile_form.height.label }}
-            {{ profile_form.height }}
+            {{ profile_form.height(placeholder="5'5") }}
         </div>
+        {% if profile_form.height.errors %}
+            <span class="errors" style="color:red">{% for error in profile_form.height.errors %}
+                {{ error }}
+            {% endfor %}</span>
+        {% endif %}
 
         <!----- Activity Level ----->
         <div class="form-check">
             Activity Level<br>
             {% for subfield in profile_form.activity_lvl %}
+                <tr>
+                    <td>{{ subfield }}</td>
+                    <td>{{ subfield.label }}</td>
+                </tr>
+            {% endfor %}
+        </div>
+
+        <!----- Starting Goal ----->
+        <div class="form-check">
+            Starting Goal<br>
+            {% for subfield in profile_form.current_goal %}
                 <tr>
                     <td>{{ subfield }}</td>
                     <td>{{ subfield.label }}</td>

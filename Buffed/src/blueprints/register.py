@@ -1,8 +1,13 @@
+import flask_login
 from flask import Blueprint, render_template, request
+from flask_login import current_user
 
+from firebase_connector import FirebaseConnector, FirebaseEnum
 from forms import ProfileQuestionnaire
 
 # TODO: need to disable navbar use in setup screen, or move this to index's register module
+from models import User
+
 register_page = Blueprint("register", __name__, static_folder="static", template_folder="templates")
 
 
@@ -11,7 +16,22 @@ def send_info(result):
     Save info to the user object, then send to Firebase connector
     """
     # TODO: Send info to User object to send to Firebase connector
-    print(result)
+    print("Sending to FB: ", result)
+
+    # how do I get a current user's id?
+    # UID = User.get_id()
+    UID = "Wuz4BOnSgAZrfjRgmXFwz1WuT663"  # email: fake.email@email.com // pass: 123456
+
+    FirebaseConnector.set_user_info(UID, FirebaseEnum.NAME, result.get('name'))
+    FirebaseConnector.set_user_info(UID, FirebaseEnum.GENDER, result.get('sex'))
+    FirebaseConnector.set_user_info(UID, FirebaseEnum.BIRTH, result.get('birth'))
+    FirebaseConnector.set_user_info(UID, FirebaseEnum.WEIGHT, result.get('weight'))
+    FirebaseConnector.set_user_info(UID, FirebaseEnum.HEIGHT, result.get('height'))
+    FirebaseConnector.set_user_info(UID, FirebaseEnum.ACTIVITY, result.get('activity_lvl'))
+    FirebaseConnector.set_user_info(UID, FirebaseEnum.CURRENT_GOAL, result.get('current_goal'))
+    FirebaseConnector.set_user_info(UID, FirebaseEnum.DIET, result.get('diet_type'))
+
+
 
 
 @register_page.route('/register', methods=['GET', 'POST'])
@@ -21,25 +41,25 @@ def register():
     """
 
     profile_form = ProfileQuestionnaire()
-
     # validate_on_submit checks for submission with POST method,
     # then calls validate() to trigger form validation
     if profile_form.validate_on_submit():
-        # if form is posted, store information as result
-        setup_result = {'sex': request.form["sex"],
-                        'bday': request.form["bday"],
+        setup_result = {'name': request.form["name"],
+                        'sex': request.form["sex"],
+                        'birth': request.form["birth"],
                         'weight': request.form["weight"],
                         'height': request.form["height"],
                         'activity_lvl': request.form["activity_lvl"],
+                        'current_goal': request.form["current_goal"],
                         'diet_type': profile_form.diet_type.data}
         # Send this result so it can be stored
+        print("Passing on: ", setup_result)
         send_info(setup_result)
         # resume as normal (re-render page with forms after sending)
         return render_template('dashboard.html')
     else:
-        # render template with questionnaire forms
+        # render template with questionnaire form
         return render_template('register.html', profile_form=profile_form)
-
 
 
 
