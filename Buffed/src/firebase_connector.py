@@ -23,8 +23,6 @@ class FirebaseEnum(Enum):
     NAME = "name"
     WEIGHT = "weight"
     MEALS = "meals"
-    ACTIVITY = "activity"
-    DIET = "diet"
 
 
 class FirebaseConnector:
@@ -46,8 +44,6 @@ class FirebaseConnector:
             u'name': "",
             u'weight': "",
             u'meals': [],
-            u'activity': "",
-            u'diet': []
         }
         db.collection(u'users').document(userUID).set(data)
 
@@ -78,8 +74,7 @@ class FirebaseConnector:
         user_doc = user_doc_ref.get()
         return user_doc.to_dict()
 
-
-    def set_user_info(UID: str, element: Enum, new_value: str):
+    def set_user_info(self, UID: str, element: Enum, new_value: str):
         """
         Updates a user's information given a specific point in user document
         :param UID: user UID
