@@ -23,6 +23,8 @@ class FirebaseEnum(Enum):
     NAME = "name"
     WEIGHT = "weight"
     MEALS = "meals"
+    ACTIVITY = "activity_lvl"
+    DIET = "diet"
 
 
 class FirebaseConnector:
@@ -74,7 +76,8 @@ class FirebaseConnector:
         user_doc = user_doc_ref.get()
         return user_doc.to_dict()
 
-    def set_user_info(self, UID: str, element: Enum, new_value: str):
+    # removed self so Profile could post to FB
+    def set_user_info(UID: str, element: Enum, new_value: str):
         """
         Updates a user's information given a specific point in user document
         :param UID: user UID

@@ -23,6 +23,31 @@ def index():
         if "sign_out" in request.args:
             flask_login.logout_user()
         return render_template('index.html')
+    # TODO: change this registration handling
+    elif 'register-button' in request.form:
+        email = request.form["email"]
+        confirm_email = request.form["confirm-email"]
+
+        password = request.form["password"]
+        confirm_password = request.form["confirm-password"]
+
+        print(email, confirm_email, password, confirm_password)
+
+        if email == confirm_email and password == confirm_password:
+            try:
+                fb_connector.create_firebase_account(email, password)
+                # Tabs: changed redirect to profile questionnaire 4/1/2022
+                # return redirect(url_for("index.index"))  # old redirect
+                return redirect(url_for("register.register"))
+            except:
+                print("Error")
+                # Tabs: changed to register page for development purposes 4/1/2022
+                # TODO: change this to give better user feedback
+                print("Bypassing registration")
+                return redirect(url_for("register.register"))
+        else:
+            print("Emails / Password do not match")
+            # Stay on this page. Flash toast information user credentials emails/password don't match.
     elif request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
