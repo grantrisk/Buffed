@@ -20,7 +20,7 @@ def send_info(result):
 
     # how do I get a current user's id?
     # UID = User.get_id()
-    UID = "Wuz4BOnSgAZrfjRgmXFwz1WuT663"  # email: fake.email@email.com // pass: 123456
+    UID = "aTgX2eI0XLN6CGPiGRacjTOM8g32"  # email: fake.email@email.com // pass: 123456
 
     FirebaseConnector.set_user_info(UID, FirebaseEnum.NAME, result.get('name'))
     FirebaseConnector.set_user_info(UID, FirebaseEnum.GENDER, result.get('sex'))
