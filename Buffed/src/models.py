@@ -85,6 +85,13 @@ class Ingredient:
         self.ingredient_measures = ingredient_measures
 
 
+class MealType(Enum):
+    BREAKFAST = "breakfast"
+    LUNCH = "lunch"
+    DINNER = "dinner"
+    SNACK = "snack"
+
+
 class Meal:
     def __init__(self, meal_name: str, meal_id: str, meal_img_url, nutrients: dict, health_labels: List[str],
                  ingredients: List[str], meal_types: List[str]):
@@ -166,4 +173,3 @@ class Alert:
         """
         self.alert_type = alert_type
         self.message = message
-

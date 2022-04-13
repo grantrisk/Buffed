@@ -86,37 +86,44 @@ class FirebaseConnector:
         field_updates = {element.value: new_value}
         doc_ref.update(field_updates)
 
+
+# fb_connector = FirebaseConnector()
 # # ------------------- Create Account -------------------
-# user_email = "riskgrant@gmail.com"
+# user_email = "riskgranttt@gmail.com"
 # user_password = "123456"
-# # FirebaseConnector.create_firebase_account(user_email, user_password)
+# # fb_connector.create_firebase_account(user_email, user_password)
 #
 # # ------------------- Signing in -------------------
-# firebase_user = FirebaseConnector.sign_in_with_email_and_password(user_email, user_password)
+# firebase_user = fb_connector.sign_in_with_email_and_password(user_email, user_password)
 # # If there is no user this is returned: User sign in response: {'error': {'code': 400, 'message': 'EMAIL_NOT_FOUND',
 # # 'errors': [{'message': 'EMAIL_NOT_FOUND', 'domain': 'global', 'reason': 'invalid'}]}}
 # print(f"User sign in response: {firebase_user}")
 # userUID = firebase_user['localId']
 # print(f"User UID in database: {userUID}")
-# user_document = FirebaseConnector.get_user_info(userUID)
+# user_document = fb_connector.get_user_info(userUID)
 # print(f"Retrieving initial user document: {user_document}")
 #
 # # ------------------- Making Changes -------------------
 # new_email = "risk@gmail.com"
-# FirebaseConnector.set_user_info(userUID, FirebaseEnum.EMAIL, new_email)
+# fb_connector.set_user_info(userUID, FirebaseEnum.EMAIL, new_email)
 #
 # new_name = "Grant"
-# FirebaseConnector.set_user_info(userUID, FirebaseEnum.NAME, new_name)
+# fb_connector.set_user_info(userUID, FirebaseEnum.NAME, new_name)
 #
-# from models import Meal
-# meal1 = Meal("burger", "1", "", {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [], [])
-# meal2 = Meal("yogurt", "2", "", {"calories":100, "protein":5, "carbs":90, "fat":40}, [], [], [])
+# from models import *
+#
+# meal1 = Meal("burger", MealType.DINNER.value, "", {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [], [])
+# meal2 = Meal("pizza", MealType.DINNER.value, "", {"calories": 500, "protein": 50, "carbs": 300, "fat": 90}, [], [], [])
+# meal3 = Meal("sandwich", MealType.LUNCH.value, "", {"calories": 200, "protein": 20, "carbs": 250, "fat": 50}, [], [], [])
+# meal4 = Meal("yogurt", MealType.BREAKFAST.value, "", {"calories": 100, "protein": 5, "carbs": 90, "fat": 40}, [], [], [])
 # meal1 = vars(meal1)
 # meal2 = vars(meal2)
-# new_meals = [meal1, meal2]
-# FirebaseConnector.set_user_info(userUID, FirebaseEnum.MEALS, new_meals)
+# meal3 = vars(meal3)
+# meal4 = vars(meal4)
+# new_meals = [meal1, meal2, meal3, meal4]
+# fb_connector.set_user_info(userUID, FirebaseEnum.MEALS, new_meals)
 #
-# user_document = FirebaseConnector.get_user_info(userUID)
+# user_document = fb_connector.get_user_info(userUID)
 # print(f"Retrieving modified user document: {user_document}")
 #
 # first_meal = user_document['meals'][0]
