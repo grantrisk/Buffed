@@ -19,7 +19,7 @@
     <!-- Contact Us -->
     <div class="container">
 
-        <!-- Alert user if form's not working -->
+        {# Alert user if form's not working #}
         {% macro is_available() %}
             {% if not form.available %}
                 <div class="alert alert-{{ form.alert }}" role="alert">
@@ -34,34 +34,33 @@
         <!-- Contact Form -->
         <!-- This form uses Flask-WTF forms for input and labels with bootstrap grid layout  -->
         <form action="/about" method=post>
-            <div class="row g-3">
-                <div class="col-12">
-                     <!-- Name -->
-                    {{ form.name.label }}<br>
-                    {{ form.name }}
-                </div>
-                <div class="col-12">
-                    <!-- Email -->
-                    {{ form.email.label }}<br>
-                    {{ form.email }}
-                </div>
-                <div class="col-12">
-                    <!-- Subject Line -->
-                    {{ form.subject.label }}<br>
-                    {{ form.subject }}
-                </div>
-                <div class="col-12">
-                    <!-- Message Body -->
-                    {{ form.message.label }}<br>
-                    {{ form.message }}
-                </div>
-                <div class="col-12">
-                    <!-- Submit -->
-                    {{ form.submit }}
-                    {% if form.submit.data %}
-                        {{ is_available() }}
-                    {% endif %}
-                </div>
+            <div class="form-group">
+                 <!-- Name -->
+                {{ form.name.label }}<br>
+                {{ form.name }}
+            </div>
+            <div class="form-group">
+                <!-- Email -->
+                {{ form.email.label }}<br>
+                {{ form.email }}
+            </div>
+            <div class="form-group">
+                <!-- Subject Line -->
+                {{ form.subject.label }}<br>
+                {{ form.subject }}
+            </div>
+            <div class="form-group">
+                <!-- Message Body -->
+                {{ form.message.label }}<br>
+                {{ form.message }}
+            </div>
+            <div class="form-group">
+                <!-- Submit -->
+                {# use macro to show error if submission isn't available #}
+                {{ form.submit }}
+                {% if form.submit.data %}
+                    {{ is_available() }}
+                {% endif %}
             </div>
         </form>
     </div>
