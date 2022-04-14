@@ -5,7 +5,7 @@ from wtforms import StringField, EmailField, TextAreaField, SubmitField, Passwor
     RadioField, SelectMultipleField, widgets, IntegerField
 from wtforms.validators import DataRequired, Email, Regexp, ValidationError, NumberRange, Length
 
-from Buffed.src.models import Goal
+from models import Goal
 
 
 class MultiCheckboxField(SelectMultipleField):
