@@ -47,12 +47,11 @@ def create_standard_goal():
     macro_nutrients = {"carbs": [.35 * (calories * grams)], "fat": [.25 * (calories * grams)],
                        "protein": [.40 * (calories * grams)]}
 
-@login_required
-@my_goals_page.route('/')
     standard_goal = Goal(goal_id, goal_name, is_active, round(calories), macro_nutrients, 3, weight)
     FirebaseConnector.create_user_new_goal(UID, standard_goal)
 
 
+@login_required
 @my_goals_page.route('/', methods=["GET", "POST"])
 def my_goals():
     """
