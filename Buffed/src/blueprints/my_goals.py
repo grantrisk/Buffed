@@ -70,6 +70,7 @@ def my_goals():
         number_of_meals = request.form.get("number_of_meals")
         desired_weight = request.form.get("desired_weight")
         new_goal = Goal(goal_id, goal_name, is_active, calories, macro_nutrients, number_of_meals, desired_weight)
+        # Testing standard goal creation for sign up
         # create_standard_goal()
         FirebaseConnector.create_user_new_goal(UID, new_goal)
 
@@ -80,6 +81,6 @@ def my_goals():
     goalList = []
     for item in goal_doc:
         goalList.append(item.to_dict())
-    print(goalList)
-    FirebaseConnector.delete_user_goal(UID, u'5e3615dd-2b37-443d-a637-04d8fb8010ee')
+    # Temporarily deleting old goals
+    # FirebaseConnector.delete_user_goal(UID, u'ac686286-5ada-4c3b-96a1-4865d82cc75f')
     return render_template('my_goals.html', goals=goalList)
