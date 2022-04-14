@@ -2,7 +2,7 @@ import os
 import uuid
 from flask import Blueprint, render_template, request
 from models import Goal
-from firebase_connector import FirebaseConnector
+import firebase_connector as fb_connector
 from firebase_admin import firestore
 from datetime import date
 from flask import Blueprint, render_template

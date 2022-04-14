@@ -1,14 +1,12 @@
 import flask_login
 from flask import Blueprint, render_template, request, url_for, redirect
-from firebase_connector import FirebaseConnector
+import firebase_connector as fb_connector
 from flask_login import login_user
 
 from forms import LoginForm
 from models import User, Alert, AlertType
 
 index_page = Blueprint("index", __name__, static_folder="static", template_folder="templates")
-
-fb_connector = FirebaseConnector()
 
 invalid_credentials_messages = ['EMAIL_NOT_FOUND', 'INVALID_PASSWORD', 'INVALID_EMAIL']
 

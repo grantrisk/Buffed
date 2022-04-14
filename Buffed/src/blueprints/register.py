@@ -2,7 +2,8 @@ import flask_login
 from flask import Blueprint, render_template, request
 from flask_login import current_user
 
-from firebase_connector import FirebaseConnector, FirebaseEnum
+from firebase_connector import FirebaseEnum
+import firebase_connector as FirebaseConnector
 from forms import ProfileQuestionnaire
 
 # TODO: need to disable navbar use in setup screen, or move this to index's register module
