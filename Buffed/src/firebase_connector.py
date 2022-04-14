@@ -24,11 +24,12 @@ class FirebaseEnum(Enum):
     NAME = "name"
     WEIGHT = "weight"
     MEALS = "meals"
-    ACTIVITY = 'activity'
+    ACTIVITY = "activity_lvl"
+    DIET = "diet"
 
 
 class FirebaseConnector:
-    def create_firebase_account(email: str, password: str):
+    def create_firebase_account(self, email: str, password: str):
         """
         Creates a user account with the given email and password
         :param email: user email
@@ -49,7 +50,7 @@ class FirebaseConnector:
         }
         db.collection(u'users').document(userUID).set(data)
 
-    def sign_in_with_email_and_password(email: str, password: str):
+    def sign_in_with_email_and_password(self, email: str, password: str):
         """
         Signs in a user account with the given email and password
         :param email: user email
@@ -66,7 +67,7 @@ class FirebaseConnector:
                           data=payload)
         return r.json()
 
-    def get_user_info(UID: str):
+    def get_user_info(self, UID: str):
         """
         Retrieves a user's document given a specific UID
         :param UID: users UID
@@ -76,6 +77,7 @@ class FirebaseConnector:
         user_doc = user_doc_ref.get()
         return user_doc.to_dict()
 
+    # removed self so Profile could post to FB
     def set_user_info(UID: str, element: Enum, new_value: str):
         """
         Updates a user's information given a specific point in user document

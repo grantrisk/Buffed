@@ -8,25 +8,23 @@ class EdamamConnector:
     """
     Provides an interface to fetch Edamam API data
     """
-    def __init__(self, fd_app_id: str, fd_app_key: str,
-                 recipe_app_id: str, recipe_app_key: str,
-                 na_app_id: str, na_app_key: str):
-        """
-        Creates an instance of NutritionCollector.
+    config = {}
+    with open('static/resources/keys.cfg') as file:
+        lines = file.readlines()
+        for line in lines:
+            key_val = line.split('=')
+            config[key_val[0].strip()] = key_val[1].strip()
 
-        :param fd_app_id: App ID for Food Database API
-        :param fd_app_key: App key for Food Database API
-        :param recipe_app_id: App ID for Recipe Search API
-        :param recipe_app_key: App key for Recipe Search API
-        :param na_app_id: App ID for Nutritional Analysis API
-        :param na_app_key: App Key for Nutritional Analysis API
+    def __init__(self):
         """
-        self.__fd_app_id = fd_app_id
-        self.__fd_app_key = fd_app_key
-        self.__recipe_app_id = recipe_app_id
-        self.__recipe_app_key = recipe_app_key
-        self.__na_app_id = na_app_id
-        self.__na_app_key = na_app_key
+        Creates an instance of EdamamConnector.
+        """
+        self.__fd_app_id = EdamamConnector.config['fd_app_id']
+        self.__fd_app_key = EdamamConnector.config['fd_app_key']
+        self.__recipe_app_id = EdamamConnector.config['recipe_app_id']
+        self.__recipe_app_key = EdamamConnector.config['recipe_app_key']
+        self.__na_app_id = EdamamConnector.config['na_app_id']
+        self.__na_app_key = EdamamConnector.config['na_app_key']
 
     def search_ingredients(self, query) -> List[Ingredient]:
         """

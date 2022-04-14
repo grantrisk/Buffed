@@ -5,6 +5,8 @@ from models import Goal
 from firebase_connector import FirebaseConnector
 from firebase_admin import firestore
 from datetime import date
+from flask import Blueprint, render_template
+from flask_login import login_required
 
 my_goals_page = Blueprint("my_goals", __name__, static_folder="static", template_folder="templates")
 # Temporary Direct Access to Firestore
@@ -45,6 +47,8 @@ def create_standard_goal():
     macro_nutrients = {"carbs": [.35 * (calories * grams)], "fat": [.25 * (calories * grams)],
                        "protein": [.40 * (calories * grams)]}
 
+@login_required
+@my_goals_page.route('/')
     standard_goal = Goal(goal_id, goal_name, is_active, round(calories), macro_nutrients, 3, weight)
     FirebaseConnector.create_user_new_goal(UID, standard_goal)
 
