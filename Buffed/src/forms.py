@@ -11,7 +11,6 @@ from Buffed.src.models import Goal
 class MultiCheckboxField(SelectMultipleField):
     """
     Checkbox version of multiselect field
-
     Iterating the field will produce subfields, allowing custom rendering of
     the enclosed checkbox fields.
     More on this: https://wtforms.readthedocs.io/en/3.0.x/specific_problems/#specialty-field-tricks
@@ -72,7 +71,7 @@ class ProfileQuestionnaire(FlaskForm):
     #     current_goal = Goal("0", "Maintain", True, 1500, {'protein': 100, 'carbs': 140, 'fat': 100}, 3, 110)
     # else:
     #     current_goal = Goal("0", "Bulk Up", True, 2000, {'protein': 100, 'carbs': 140, 'fat': 100}, 3, 110)
-
+   # random change
     # Diet Information: Based on Health Labels
     diet_type = MultiCheckboxField("Diet Type",
                                    choices=['Vegan', 'Vegetarian', 'Pescatarian', 'Dairy-Free',

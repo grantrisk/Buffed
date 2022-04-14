@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% set active_page = "settings" %}
+{% block content %}
+<h1>{% block title %}Settings{% endblock %}</h1>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('my_profile.my_profile') }}">Profile</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('edit_profile.edit_profile') }}">Edit<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('settings.settings') }}">Settings</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <p><i>You will be able to change your account settings in this tab. Such as changing your password, email or deleting your account.</i></p>
+
+</body>
+
+
+{% endblock %}
