@@ -10,9 +10,10 @@
         <thead>
             <tr>
                 <th scope="col">Action</th>
-                <th scope="col">ID</th>
                 <th scope="col">Goal Name</th>
+                <th scope="col">Current Goal</th>
                 <th scope="col">Calories</th>
+                <th scope="col">Number of Meals</th>
                 <th scope="col">Desired Weight</th>
             </tr>
         </thead>
@@ -24,9 +25,14 @@
                             Edit Goal
                         </button>
                     </td>
-                    <td>{{ goal.id }}</td>
-                    <td>{{ goal.name }}</td>
+                    <td>{{ goal.goal_name }}</td>
+                    {% if goal.is_active %}
+                        <td>{{ "Yes" }}</td>
+                    {% else %}
+                        <td>{{ "No" }}</td>
+                    {% endif %}
                     <td>{{ goal.calories }}</td>
+                    <td>{{ goal.number_of_meals }}</td>
                     <td>{{ goal.desired_weight }}</td>
                 </tr>
             {% endfor %}
@@ -76,6 +82,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
                 </div>
             </div>
         </div>

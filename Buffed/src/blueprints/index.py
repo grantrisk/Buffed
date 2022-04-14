@@ -44,7 +44,7 @@ def index():
             if email == confirm_email and password == confirm_password:
 
                 try:
-                    FBConnector.register(FBConnector, email, password)
+                    FirebaseConnector.create_firebase_account(email, password)
                     # change redirect to profile questionnaire
                     return redirect(url_for("index.index"))
 
@@ -62,7 +62,7 @@ def index():
 
             print(email, password)
 
-            token = FBConnector.sign_in_with_email_and_password(FBConnector, email, password)
+            token = FirebaseConnector.sign_in_with_email_and_password(email, password)
 
             try:
                 if token["error"]:
