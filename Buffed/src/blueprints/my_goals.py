@@ -1,6 +1,6 @@
 import os
 import uuid
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from models import Goal
 from firebase_connector import FirebaseConnector
 from firebase_admin import firestore
@@ -44,8 +44,8 @@ def create_standard_goal():
     else:
         calories = BMR * 1.2
 
-    macro_nutrients = {"carbs": [.35 * (calories * grams)], "fat": [.25 * (calories * grams)],
-                       "protein": [.40 * (calories * grams)]}
+    macro_nutrients = {"carbs": [int(.35 * (calories * grams))], "fat": [int(.25 * (calories * grams))],
+                       "protein": [int(.40 * (calories * grams))]}
 
     standard_goal = Goal(goal_id, goal_name, is_active, round(calories), macro_nutrients, 3, weight)
     FirebaseConnector.create_user_new_goal(UID, standard_goal)
@@ -67,11 +67,11 @@ def my_goals():
         goal_id = str(generate_goal_id())
         goal_name = request.form.get("goal_name")
         is_active = True
-        calories = request.form.get("calories")
-        macro_nutrients = {"carbs": [request.form.get("carbs")], "fat": [request.form.get("fat")],
-                           "protein": [request.form.get("protein")]}
-        number_of_meals = request.form.get("number_of_meals")
-        desired_weight = request.form.get("desired_weight")
+        calories = int(request.form.get("calories"))
+        macro_nutrients = {"carbs": [int(request.form.get("carbs"))], "fat": [int(request.form.get("fat"))],
+                           "protein": [int(request.form.get("protein"))]}
+        number_of_meals = int(request.form.get("number_of_meals"))
+        desired_weight = int(request.form.get("desired_weight"))
         new_goal = Goal(goal_id, goal_name, is_active, calories, macro_nutrients, number_of_meals, desired_weight)
         # Testing standard goal creation for sign up
         # create_standard_goal()
@@ -85,5 +85,24 @@ def my_goals():
     for item in goal_doc:
         goalList.append(item.to_dict())
     # Temporarily deleting old goals
-    # FirebaseConnector.delete_user_goal(UID, u'ac686286-5ada-4c3b-96a1-4865d82cc75f')
+    # FirebaseConnector.delete_user_goal(UID, u'06270fac-be35-44d6-a2bc-c6e5646aba88')
     return render_template('my_goals.html', goals=goalList)
+
+
+@my_goals_page.route('/update_goals/', methods=["GET", "POST"])
+def update_my_goals():
+
+    if request.method == "POST":
+        goal_id = request.form.get("goal_id")
+        goal_name = request.form.get("goal_name")
+        is_active = True
+        calories = int(request.form.get("calories"))
+        macro_nutrients = {"carbs": [int(request.form.get("carbs"))], "fat": [int(request.form.get("fat"))],
+                           "protein": [int(request.form.get("protein"))]}
+        number_of_meals = int(request.form.get("number_of_meals"))
+        desired_weight = int(request.form.get("desired_weight"))
+        updated_goal = Goal(goal_id, goal_name, is_active, calories, macro_nutrients, number_of_meals, desired_weight)
+        # Testing standard goal creation for sign up
+        # create_standard_goal()
+        FirebaseConnector.update_user_goal(UID, updated_goal)
+        return redirect(url_for('my_goals.my_goals'))

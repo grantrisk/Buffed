@@ -67,7 +67,7 @@ class FirebaseConnector:
                           data=payload)
         return r.json()
 
-    def get_user_info(self, UID: str):
+    def get_user_info(UID: str):
         """
         Retrieves a user's document given a specific UID
         :param UID: users UID
@@ -98,14 +98,19 @@ class FirebaseConnector:
         goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
         goal_doc_ref.document(goal_id).delete()
 
+    def update_user_goal(UID: str, goal: Goal):
+        goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+        goal_doc_ref.document(goal.goal_id).set(vars(goal), merge=True)
+
 
 # # ------------------- Create Account -------------------
-# user_email = "riskgrant@gmail.com"
-# user_password = "123456"
+# user_email = "wolfpackkid22@yahoo.com"
+# user_password = "Wolfpackfan!@#$1234"
 # # FirebaseConnector.create_firebase_account(user_email, user_password)
 #
 # # ------------------- Signing in -------------------
-# firebase_user = FirebaseConnector.sign_in_with_email_and_password(user_email, user_password)
+# fb_connector = FirebaseConnector()
+# firebase_user = fb_connector.sign_in_with_email_and_password(user_email, user_password)
 # # If there is no user this is returned: User sign in response: {'error': {'code': 400, 'message': 'EMAIL_NOT_FOUND',
 # # 'errors': [{'message': 'EMAIL_NOT_FOUND', 'domain': 'global', 'reason': 'invalid'}]}}
 # print(f"User sign in response: {firebase_user}")
