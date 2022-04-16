@@ -2,7 +2,7 @@ import flask_login
 from flask import Blueprint, render_template, request
 from flask_login import current_user
 
-from firebase_connector import FirebaseConnector, FirebaseEnum
+import firebase_connector as FirebaseConnector
 from forms import ProfileQuestionnaire
 
 # TODO: need to disable navbar use in setup screen, or move this to index's register module
@@ -20,7 +20,7 @@ def send_info(result):
 
     # how do I get a current user's id?
     # UID = User.get_id()
-    UID = "aTgX2eI0XLN6CGPiGRacjTOM8g32"  # email: fake.email@email.com // pass: 123456
+    UID = current_user.get_id() # email: fake.email@email.com // pass: 123456
 
     FirebaseConnector.set_user_info(UID, FirebaseEnum.NAME, result.get('name'))
     FirebaseConnector.set_user_info(UID, FirebaseEnum.GENDER, result.get('sex'))
