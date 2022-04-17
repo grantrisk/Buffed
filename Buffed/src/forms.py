@@ -4,8 +4,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, DecimalField, \
     RadioField, SelectMultipleField, widgets, IntegerField
 from wtforms.validators import DataRequired, Email, Regexp, ValidationError, NumberRange, Length
+from blueprints.my_goals import create_standard_goal
 
-from Buffed.src.models import Goal
+from models import Goal
 
 
 class MultiCheckboxField(SelectMultipleField):
@@ -63,6 +64,11 @@ class ProfileQuestionnaire(FlaskForm):
                                                 Regexp('[2-9]\'[0-9]', message='Wrong height format. Example: 6\'0')])
     activity_lvl = RadioField("Activity Level", [DataRequired()], choices=["Athletic", "Moderate", "Sedentary"])
     current_goal = RadioField("Current Goal", [DataRequired()], choices=["Lose Weight", "Maintain", "Bulk Up"])
+
+    # height calculation
+    # height = height.data.split("'")
+    # feet = float(height[0]) + float(height[1]) / 12
+
     # TODO: implement Goal object
     # # Goal Information: Based on Goal model
     # if current_goal == "Lose Weight":

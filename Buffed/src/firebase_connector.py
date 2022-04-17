@@ -1,6 +1,7 @@
 import json
 import os
 from enum import Enum
+from models import *
 
 import firebase_admin
 import requests
@@ -45,6 +46,8 @@ def create_firebase_account(email: str, password: str):
         u'name': "",
         u'weight': "",
         u'meals': [],
+        u'activity': "",
+        u'diet': []
     }
     db.collection(u'users').document(userUID).set(data)
 
@@ -90,6 +93,17 @@ def set_user_info(UID: str, element: Enum, new_value: str):
     doc_ref = db.collection(u'users').document(UID)
     field_updates = {element.value: new_value}
     doc_ref.update(field_updates)
+
+
+def create_user_new_goal(UID: str, goal: Goal):
+    goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+    goal_doc_ref.document(goal.goal_id).set(vars(goal))
+
+
+def delete_user_goal(UID: str, goal_id: str):
+    goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+    goal_doc_ref.document(goal_id).delete()
+
 
 
 # # ------------------- Create Account -------------------
