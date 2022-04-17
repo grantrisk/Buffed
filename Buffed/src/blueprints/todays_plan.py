@@ -1,13 +1,27 @@
 from flask import Blueprint, render_template
-from flask_login import login_required
+from flask_login import login_required, current_user
+from models import User
 
-from models import Meal
-from firebase_connector import FirebaseConnector
+import firebase_connector as fb
 
 todays_plan_page = Blueprint("todays_plan", __name__, static_folder="static", template_folder="templates")
 
-UID = "GiUFl94xwEaQ8VdvIs5QdF0dKy42"
-meals = FirebaseConnector.get_user_info(UID)['meals']
+
+def calculate_totals(meals):
+    """
+    This method caluclates the total of all the macros from the meal list in the database
+    :return: dictionary of the macros
+    """
+    total_calories = 0
+    total_protein = 0
+    total_carbs = 0
+    total_fat = 0
+    for meal in meals:
+        total_calories += meal["nutrients"]["calories"]
+        total_protein += meal["nutrients"]["protein"]
+        total_carbs += meal["nutrients"]["carbs"]
+        total_fat += meal["nutrients"]["fat"]
+    return {"calories": total_calories, "protein": total_protein, "carbs": total_carbs, "fat": total_fat, }
 
 
 @login_required
@@ -17,4 +31,8 @@ def todays_plan():
     This method returns the page for todays_plan.
     :return: render_template('todays_plan.html')
     """
-    return render_template('todays_plan.html', meals=meals)
+    UID = current_user.get_id()
+    # UID = "hUhfVXJfBxfl2qM0T1trDcs1wdh2"
+    meals = fb.get_user_info(UID)['meals']
+    calories = calculate_totals(meals)
+    return render_template('todays_plan.html', meals=meals, calories=calories)

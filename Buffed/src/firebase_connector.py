@@ -1,11 +1,11 @@
 import json
 import os
-from enum import Enum
-from models import *
 
 import firebase_admin
 import requests
 from firebase_admin import credentials, firestore, auth
+
+from models import *
 
 FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
 rest_api_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
@@ -28,84 +28,98 @@ class FirebaseEnum(Enum):
     DIET = "diet"
 
 
-class FirebaseConnector:
-    def create_firebase_account(self, email: str, password: str):
-        """
-        Creates a user account with the given email and password
-        :param email: user email
-        :param password: user password
-        :return: none
-        """
-        user = firebase_admin.auth.create_user(email=email, password=password)
-        userUID = user.uid
-        data = {
-            u'birth': "",
-            u'current_goal': "",
-            u'email': email,
-            u'gender': "",
-            u'height': "",
-            u'name': "",
-            u'weight': "",
-            u'meals': [],
-        }
-        db.collection(u'users').document(userUID).set(data)
+def create_firebase_account(email: str, password: str):
+    """
+    Creates a user account with the given email and password
+    :param email: user email
+    :param password: user password
+    :return: none
+    """
+    user = firebase_admin.auth.create_user(email=email, password=password)
+    userUID = user.uid
+    data = {
+        u'birth': "",
+        u'current_goal': "",
+        u'email': email,
+        u'gender': "",
+        u'height': "",
+        u'name': "",
+        u'weight': "",
+        u'meals': [],
+        u'activity_level': ""
+    }
+    db.collection(u'users').document(userUID).set(data)
 
-    def sign_in_with_email_and_password(self, email: str, password: str):
-        """
-        Signs in a user account with the given email and password
-        :param email: user email
-        :param password: user password
-        :return: dictionary response of user object from firebase
-        """
-        payload = json.dumps({
-            "email": email,
-            "password": password,
-            "returnSecureToken": "true"
-        })
-        r = requests.post(rest_api_url,
-                          params={"key": FIREBASE_WEB_API_KEY},
-                          data=payload)
-        return r.json()
 
-    def get_user_info(UID: str):
-        """
-        Retrieves a user's document given a specific UID
-        :param UID: users UID
-        :return: dictionary response of user's document from firebase
-        """
-        user_doc_ref = db.collection(u'users').document(UID)
-        user_doc = user_doc_ref.get()
-        return user_doc.to_dict()
+def sign_in_with_email_and_password(email: str, password: str):
+    """
+    Signs in a user account with the given email and password
+    :param email: user email
+    :param password: user password
+    :return: dictionary response of user object from firebase
+    """
+    payload = json.dumps({
+        "email": email,
+        "password": password,
+        "returnSecureToken": "true"
+    })
+    r = requests.post(rest_api_url,
+                      params={"key": FIREBASE_WEB_API_KEY},
+                      data=payload)
+    return r.json()
 
-    # removed self so Profile could post to FB
-    def set_user_info(UID: str, element: Enum, new_value: str):
-        """
-        Updates a user's information given a specific point in user document
-        :param UID: user UID
-        :param element: FirebaseEnum enum
-        :param new_value: new value being stored in user document
-        :return: None
-        """
-        doc_ref = db.collection(u'users').document(UID)
-        field_updates = {element.value: new_value}
-        doc_ref.update(field_updates)
 
-    def create_user_new_goal(UID: str, goal: Goal):
-        goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
-        goal_doc_ref.document(goal.goal_id).set(vars(goal))
+def get_user_info(UID: str):
+    """
+    Retrieves a user's document given a specific UID
+    :param UID: users UID
+    :return: dictionary response of user's document from firebase
+    """
+    user_doc_ref = db.collection(u'users').document(UID)
+    user_doc = user_doc_ref.get()
+    return user_doc.to_dict()
 
-    def delete_user_goal(UID: str, goal_id: str):
-        goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
-        goal_doc_ref.document(goal_id).delete()
 
-    def update_user_goal(UID: str, goal: Goal):
-        goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
-        goal_doc_ref.document(goal.goal_id).set(vars(goal), merge=True)
+def set_user_info(UID: str, element: Enum, new_value: str):
+    """
+    Updates a user's information given a specific point in user document
+    :param UID: user UID
+    :param element: FirebaseEnum enum
+    :param new_value: new value being stored in user document
+    :return: None
+    """
+    doc_ref = db.collection(u'users').document(UID)
+    field_updates = {element.value: new_value}
+    doc_ref.update(field_updates)
+
+
+def get_user_goals(UID: str):
+    goal_doc = db.collection(u'users').document(UID).collection(u'savedGoals').get()
+    goalList = []
+    for item in goal_doc:
+        goalList.append(item.to_dict())
+    return goalList
+
+
+def create_user_new_goal(UID: str, goal: Goal):
+    goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+    goal_doc_ref.document(goal.goal_id).set(vars(goal))
+
+
+def delete_user_goal(UID: str, goal_id: str):
+    goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+    goal_doc_ref.document(goal_id).delete()
+
+
+def update_user_goal(UID: str, goal: Goal):
+    goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+    goal_doc_ref.document(goal.goal_id).set(vars(goal), merge=True)
+
 
 
 # # ------------------- Create Account -------------------
 # user_email = "wolfpackkid22@yahoo.com"
-# user_password = "Wolfpackfan!@#$1234"
+# user_password = "12345"
 # # FirebaseConnector.create_firebase_account(user_email, user_password)
 #
 # # ------------------- Signing in -------------------

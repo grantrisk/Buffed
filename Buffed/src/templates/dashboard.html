@@ -1,5 +1,91 @@
 {% extends "base.html" %}
 {% set active_page = "dashboard" %}
+{% block title %}
+    Dashboard
+{% endblock %}
 {% block content %}
-<h1>{% block title %}Dashboard{% endblock %}</h1>
+    <h1>Dashboard</h1>
+
+    <div class="chart-container" style="position: relative;">
+        <div id="protein-chart"></div>
+    </div>
+    <div class="chart-container" style="position: relative;">
+        <div id="carbs-chart"></div>
+    </div>
+    <div class="chart-container" style="position: relative;">
+        <div id="fats-chart"></div>
+    </div>
+{#    <div id="protein-chart"></div>#}
+{#    <div id="fat-chart"></div>#}
+{#    <div id="carbs-chart"></div>#}
+    {% block javascript %}
+        <script>
+            var carbChart = bb.generate({
+                data: {
+                columns: [
+                    ["Carbs consumed", 7],
+                    ["Carbs Goal", 3],
+                ],
+                type: "donut",
+                onclick: function (d, i) {
+                    console.log("onclick", d, i);
+                },
+                onover: function (d, i) {
+                    console.log("onover", d, i);
+                },
+                onout: function (d, i) {
+                    console.log("onout", d, i);
+                },
+                },
+                donut: {
+                title: "Carbohydrates",
+                },
+                bindto: "#carbs-chart",
+            });
+            var fatChart = bb.generate({
+                data: {
+                columns: [
+                    ["Fats Consumed", 8],
+                    ["Fats Goal", 1],
+                ],
+                type: "donut",
+                onclick: function (d, i) {
+                    console.log("onclick", d, i);
+                },
+                onover: function (d, i) {
+                    console.log("onover", d, i);
+                },
+                onout: function (d, i) {
+                    console.log("onout", d, i);
+                },
+                },
+                donut: {
+                title: "Fats",
+                },
+                bindto: "#fats-chart",
+            });
+            var proteinChart = bb.generate({
+                data: {
+                columns: [
+                    ["Protein consumed", 5],
+                    ["Protein Goal", 5],
+                ],
+                type: "donut",
+                onclick: function (d, i) {
+                    console.log("onclick", d, i);
+                },
+                onover: function (d, i) {
+                    console.log("onover", d, i);
+                },
+                onout: function (d, i) {
+                    console.log("onout", d, i);
+                },
+                },
+                donut: {
+                title: "Protein",
+                },
+                bindto: "#protein-chart",
+            });
+        </script>
+    {% endblock %}
 {% endblock %}

@@ -1,14 +1,12 @@
 import flask_login
 from flask import Blueprint, render_template, request, url_for, redirect
-from firebase_connector import FirebaseConnector
+import firebase_connector as fb
 from flask_login import login_user
 
 from forms import LoginForm
 from models import User, Alert, AlertType
 
 index_page = Blueprint("index", __name__, static_folder="static", template_folder="templates")
-
-fb_connector = FirebaseConnector()
 
 invalid_credentials_messages = ['EMAIL_NOT_FOUND', 'INVALID_PASSWORD', 'INVALID_EMAIL']
 
@@ -35,7 +33,7 @@ def index():
 
         if email == confirm_email and password == confirm_password:
             try:
-                fb_connector.create_firebase_account(email, password)
+                fb.create_firebase_account(email, password)
                 # Tabs: changed redirect to profile questionnaire 4/1/2022
                 # return redirect(url_for("index.index"))  # old redirect
                 return redirect(url_for("register.register"))
@@ -51,7 +49,7 @@ def index():
     elif request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        response = fb_connector.sign_in_with_email_and_password(email, password)
+        response = fb.sign_in_with_email_and_password(email, password)
         if isinstance(response, dict):
             if "error" in response:
                 if response["error"]["message"] in invalid_credentials_messages:
