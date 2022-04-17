@@ -3,6 +3,7 @@ import uuid
 from flask import Blueprint, render_template, request, redirect, url_for
 from models import Goal
 import firebase_connector as fb_connector
+from firebase_connector import FirebaseEnum
 from firebase_admin import firestore
 from datetime import date
 from flask import Blueprint, render_template
@@ -20,7 +21,11 @@ def generate_goal_id():
     return goal_id
 
 
-def create_standard_goal():
+def set_new_current_goal(UID: str, goal_id):
+    fb_connector.set_user_info(UID, FirebaseEnum.CURRENT_GOAL, goal_id)
+
+
+def create_standard_goal(UID: str):
     goal_id = str(generate_goal_id())
     goal_name = "Standard Goal"
     is_active = True
@@ -49,7 +54,7 @@ def create_standard_goal():
 
     standard_goal = Goal(goal_id, goal_name, is_active, round(calories), macro_nutrients, 3, weight)
     fb_connector.create_user_new_goal(UID, standard_goal)
-
+    set_new_current_goal(UID, goal_id)
 
 @login_required
 @my_goals_page.route('/', methods=["GET", "POST"])

@@ -36,13 +36,24 @@ def index():
         if email == confirm_email and password == confirm_password:
             try:
                 fb_connector.create_firebase_account(email, password)
+                response = fb_connector.sign_in_with_email_and_password(email, password)
+                if isinstance(response, dict):
+                    if "error" in response:
+                        if response["error"]["message"] in invalid_credentials_messages:
+                            return redirect(url_for('index.index'))
+                    elif "kind" in response and response["kind"] == 'identitytoolkit#VerifyPasswordResponse':
+                        user_id = response["localId"]
+                        token = response["idToken"]
+                        expires_in = response["expiresIn"]
+                        user = User(user_id, token, expires_in)
+                        login_user(user)
                 return redirect(url_for("register.register"))
             except:
                 print("Error")
                 # Tabs: changed to register page for development purposes 4/1/2022
                 # TODO: change this to give better user feedback?
                 # print("Bypassing registration")
-                return redirect(url_for("register.register"))
+                return redirect(url_for("index.index"))
         else:
             print("Emails / Password do not match")
             # Stay on this page. Flash toast information user credentials emails/password don't match.

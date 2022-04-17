@@ -24,7 +24,7 @@ class FirebaseEnum(Enum):
     NAME = "name"
     WEIGHT = "weight"
     MEALS = "meals"
-    ACTIVITY = "activity_lvl"
+    ACTIVITY = "activity"
     DIET = "diet"
 
 
