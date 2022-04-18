@@ -10,7 +10,7 @@ $(document).ready(function() {
             let success_val = json.success;
             console.log(success_val);
             if (success_val === "true") {
-                //window.location.replace("/dashboard");
+                window.location.replace("/dashboard");
             } else if (success_val === "false") {
                 let alert = document.createElement("div")
                 alert.className = "alert alert-danger"
