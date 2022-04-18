@@ -6,13 +6,14 @@
 {% block content %}
     <h1>My Goals</h1>
     <br>
-    <table class="table table-hover">
+    <table class="table table-hover" id="goals">
         <thead>
             <tr>
                 <th scope="col">Action</th>
-                <th scope="col">ID</th>
                 <th scope="col">Goal Name</th>
+                <th scope="col">Current Goal</th>
                 <th scope="col">Calories</th>
+                <th scope="col">Number of Meals</th>
                 <th scope="col">Desired Weight</th>
             </tr>
         </thead>
@@ -20,67 +21,91 @@
             {% for goal in goals %}
                 <tr>
                     <td>
-                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editGoalModal">
-                            Edit Goal
-                        </button>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#edit{{ goal.goal_id }}" class="btn btn-dark"><i class="fa fa-edit"></i></a>
                     </td>
-                    <td>{{ goal.id }}</td>
-                    <td>{{ goal.name }}</td>
+                    <td>{{ goal.goal_name }}</td>
+                    {% if goal.is_active %}
+                        <td>{{ "Yes" }}</td>
+                    {% else %}
+                        <td>{{ "No" }}</td>
+                    {% endif %}
                     <td>{{ goal.calories }}</td>
+                    <td>{{ goal.number_of_meals }}</td>
                     <td>{{ goal.desired_weight }}</td>
                 </tr>
+                <div class="modal fade" id="edit{{ goal.goal_id }}" tabindex="-1" aria-labelledby="editGoalModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header text-center">
+                                <h5 class="modal-title w-100" id="editGoalModalLabel">Edit My Goal</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="/my_goals/update_goals/" method="POST">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="goalGoalId" class="form-label">Goal ID</label>
+                                        <input type="text" class="form-control" id="goalGoalId" value="{{ goal.goal_id }}"
+                                               name="goal_id" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="goalTitleInput" class="form-label">Title</label>
+                                        <input type="text" class="form-control" id="goalTitleInput" value="{{ goal.goal_name }}"
+                                               name="goal_name" placeholder="Enter goal name:">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="goalCalorieInput">Calories</label>
+                                        <input type="number" class="form-control" id="goalCalorieInput" value="{{ goal.calories }}"
+                                               name="calories" placeholder="Enter calorie amount:">
+                                    </div>
+                                    <div id="slider-range" class="form-group"></div>
+                                    <div class="form-group">
+                                        <label for="goalCarbInput" class="form-label">Carbohydrates:</label>
+                                        <input type="range" class="form-range" min="0" max="800" id="goalCarbInput" name="carbs"
+                                        oninput="document.getElementById('new_carbs').innerHTML = document.getElementById('goalCarbInput').value">
+                                        <p id="new_carbs">{{goal.macro_nutrients['carbs'][0]}}</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="goalFatInput" class="form-label">Fat:</label>
+                                        <input type="range" class="form-range" min="0" max="800" id="goalFatInput" name="fat"
+                                        oninput="document.getElementById('new_fat').innerHTML = document.getElementById('goalFatInput').value">
+                                        <span id="new_fat">{{ goal.macro_nutrients['fat'][0] }}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="goalProteinInput" class="form-label">Protein:</label>
+                                        <input type="range" class="form-range" min="0" max="800" id="goalProteinInput" name="protein"
+                                        oninput="document.getElementById('new_protein').innerHTML = document.getElementById('goalProteinInput').value">
+                                        <span id="new_protein">{{ goal.macro_nutrients['protein'][0] }}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="goalNumberOfMealsInput">Number of Meals</label>
+                                        <input type="number" class="form-control" id="goalNumberOfMealsInput" value="{{ goal.number_of_meals }}"
+                                               name="number_of_meals" placeholder="Enter number of meals:">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="goalDesiredWeightInput">Desired Weight</label>
+                                        <input type="number" class="form-control" id="goalDesiredWeightInput" value="{{ goal.desired_weight }}"
+                                               name="desired_weight" placeholder="Enter desired weight:">
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label" for="goalIsActiveCheckbox">Make Goal Active</label>
+                                        <input class="form-check-input" type="checkbox" value="" id="goalIsActiveCheckbox">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                                <a href="#" id="edited_goal">
+                                    <button type="sumbit" class="btn btn-primary">Save changes</button>
+                                </a>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
         </tbody>
     </table>
-    <div class="modal fade" id="editGoalModal" tabindex="-1" aria-labelledby="editGoalModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h5 class="modal-title w-100" id="editGoalModalLabel">Edit My Goal</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="goalTitleInput" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="goalTitleInput" placeholder="Enter goal name:">
-                        </div>
-                        <div class="form-group">
-                            <label for="goalDescriptionInput">Description</label>
-                            <input type="number" class="form-control" id="goalDescriptionInput" placeholder="Enter description:">
-                        </div>
-                        <div class="form-group">
-                            <label for="goalCalorieInput">Calories</label>
-                            <input type="number" class="form-control" id="goalCalorieInput" placeholder="Enter calorie amount:">
-                        </div>
-                        <div class="form-group">
-                            <label for="goalCarbInput" class="form-label">Carbohydrates:</label>
-                            <input type="range" class="form-range" min="0" max="800" id="goalCarbInput"
-                            onChange="document.getElementById('rangeval').innerText = document.getElementById('goalCarbInput').value">
-                            <span id="rangeval">150<!-- Default value --></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="goalFatInput" class="form-label">Fat:</label>
-                            <input type="range" class="form-range" min="0" max="800" id="goalFatInput"
-                            onChange="document.getElementById('rangeval').innerText = document.getElementById('goalFatInput').value">
-                            <span id="rangeval">100<!-- Default value --></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="goalProteinInput" class="form-label">Protein:</label>
-                            <input type="range" class="form-range" min="0" max="800" id="goalProteinInput"
-                            onChange="document.getElementById('rangeval').innerText = document.getElementById('goalProteinInput').value">
-                            <span id="rangeval">200<!-- Default value --></span>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-   <a href="/create_new_goal" >
-      <button type="button" class="btn btn-dark">Create New Goal</button>
-   </a>
+    <a href="/create_new_goal" >
+        <button type="button" class="btn btn-dark">Create New Goal</button>
+    </a>
 {% endblock %}
