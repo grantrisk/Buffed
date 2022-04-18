@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 
 from blueprints.todays_plan import todays_plan_page
 from blueprints.index import index_page

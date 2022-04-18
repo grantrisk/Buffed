@@ -28,17 +28,20 @@ def index():
         password = request.form['password']
         response = fb_connector.sign_in_with_email_and_password(email, password)
         if isinstance(response, dict):
+            print(response)
             if "error" in response:
                 if response["error"]["message"] in invalid_credentials_messages:
-                    return redirect(url_for('index.index'))
+                    return {"success": "false"}
+                else:
+                    return {"success": "error"}
             elif "kind" in response and response["kind"] == 'identitytoolkit#VerifyPasswordResponse':
                 user_id = response["localId"]
                 token = response["idToken"]
                 expires_in = response["expiresIn"]
                 user = User(user_id, token, expires_in)
                 login_user(user)
-                return redirect(url_for('dashboard.dashboard'))
-        return redirect(url_for('index.index'))
+                return {"success": "true"}
+        return {"success": "false"}
 
 
 @index_page.route('/login_required')
