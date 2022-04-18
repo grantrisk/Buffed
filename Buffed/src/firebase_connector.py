@@ -106,6 +106,15 @@ def delete_user_goal(UID: str, goal_id: str):
 
 
 
+    def create_user_new_goal(UID: str, goal: Goal):
+        goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+        goal_doc_ref.document(goal.goal_id).set(vars(goal))
+
+    def delete_user_goal(UID: str, goal_id: str):
+        goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+        goal_doc_ref.document(goal_id).delete()
+
+
 # # ------------------- Create Account -------------------
 # user_email = "riskgrant@gmail.com"
 # user_password = "123456"
