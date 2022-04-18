@@ -134,6 +134,10 @@ class Goal:
         self.number_of_meals = number_of_meals
         self.desired_weight = desired_weight
 
+    def __eq__(self, other):
+        if isinstance(other, Goal):
+            return self.goal_name == other.goal_name and self.calories == other.calories
+
 
 class MealPlan:
     def __init__(self, user_id: str, meals: List[Meal]):
