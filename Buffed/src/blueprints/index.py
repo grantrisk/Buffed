@@ -8,8 +8,6 @@ from models import User, Alert, AlertType
 
 index_page = Blueprint("index", __name__, static_folder="static", template_folder="templates")
 
-# fb_connector = FirebaseConnector()
-
 invalid_credentials_messages = ['EMAIL_NOT_FOUND', 'INVALID_PASSWORD', 'INVALID_EMAIL']
 
 
