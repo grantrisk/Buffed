@@ -1,6 +1,7 @@
 import json
 import os
 from enum import Enum
+from models import *
 
 import firebase_admin
 import requests
@@ -25,68 +26,96 @@ class FirebaseEnum(Enum):
     NAME = "name"
     WEIGHT = "weight"
     MEALS = "meals"
+    ACTIVITY = "activity"
+    DIET = "diet"
 
 
-class FirebaseConnector:
-    def create_firebase_account(self, email: str, password: str):
-        """
-        Creates a user account with the given email and password
-        :param email: user email
-        :param password: user password
-        :return: none
-        """
-        user = firebase_admin.auth.create_user(email=email, password=password)
-        userUID = user.uid
-        data = {
-            u'birth': "",
-            u'current_goal': "",
-            u'email': email,
-            u'gender': "",
-            u'height': "",
-            u'name': "",
-            u'weight': "",
-            u'meals': [],
-        }
-        db.collection(u'users').document(userUID).set(data)
+def create_firebase_account(email: str, password: str):
+    """
+    Creates a user account with the given email and password
+    :param email: user email
+    :param password: user password
+    :return: none
+    """
+    user = firebase_admin.auth.create_user(email=email, password=password)
+    userUID = user.uid
+    data = {
+        u'birth': "",
+        u'current_goal': "",
+        u'email': email,
+        u'gender': "",
+        u'height': "",
+        u'name': "",
+        u'weight': "",
+        u'meals': [],
+        u'activity': "",
+        u'diet': []
+    }
+    db.collection(u'users').document(userUID).set(data)
 
-    def sign_in_with_email_and_password(self, email: str, password: str):
-        """
-        Signs in a user account with the given email and password
-        :param email: user email
-        :param password: user password
-        :return: dictionary response of user object from firebase
-        """
-        payload = json.dumps({
-            "email": email,
-            "password": password,
-            "returnSecureToken": "true"
-        })
-        r = requests.post(rest_api_url,
-                          params={"key": FIREBASE_WEB_API_KEY},
-                          data=payload)
-        return r.json()
 
-    def get_user_info(self, UID: str):
-        """
-        Retrieves a user's document given a specific UID
-        :param UID: users UID
-        :return: dictionary response of user's document from firebase
-        """
-        user_doc_ref = db.collection(u'users').document(UID)
-        user_doc = user_doc_ref.get()
-        return user_doc.to_dict()
+def sign_in_with_email_and_password(email: str, password: str):
+    """
+    Signs in a user account with the given email and password
+    :param email: user email
+    :param password: user password
+    :return: dictionary response of user object from firebase
+    """
+    payload = json.dumps({
+        "email": email,
+        "password": password,
+        "returnSecureToken": "true"
+    })
+    r = requests.post(rest_api_url,
+                      params={"key": FIREBASE_WEB_API_KEY},
+                      data=payload)
+    return r.json()
 
-    def set_user_info(self, UID: str, element: Enum, new_value: str):
-        """
-        Updates a user's information given a specific point in user document
-        :param UID: user UID
-        :param element: FirebaseEnum enum
-        :param new_value: new value being stored in user document
-        :return: None
-        """
-        doc_ref = db.collection(u'users').document(UID)
-        field_updates = {element.value: new_value}
-        doc_ref.update(field_updates)
+
+def get_user_info(UID: str):
+    """
+    Retrieves a user's document given a specific UID
+    :param UID: users UID
+    :return: dictionary response of user's document from firebase
+    """
+    user_doc_ref = db.collection(u'users').document(UID)
+    user_doc = user_doc_ref.get()
+    return user_doc.to_dict()
+
+
+# removed self so Profile could post to FB
+def set_user_info(UID: str, element: Enum, new_value: str):
+    """
+    Updates a user's information given a specific point in user document
+    :param UID: user UID
+    :param element: FirebaseEnum enum
+    :param new_value: new value being stored in user document
+    :return: None
+    """
+    doc_ref = db.collection(u'users').document(UID)
+    field_updates = {element.value: new_value}
+    doc_ref.update(field_updates)
+
+
+def create_user_new_goal(UID: str, goal: Goal):
+    goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+    goal_doc_ref.document(goal.goal_id).set(vars(goal))
+
+
+def delete_user_goal(UID: str, goal_id: str):
+    goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+    goal_doc_ref.document(goal_id).delete()
+
+
+
+    def create_user_new_goal(UID: str, goal: Goal):
+        goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+        goal_doc_ref.document(goal.goal_id).set(vars(goal))
+
+    def delete_user_goal(UID: str, goal_id: str):
+        goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+        goal_doc_ref.document(goal_id).delete()
+
 
     def save_meal(self, UID: str, meal: Meal):
         """
