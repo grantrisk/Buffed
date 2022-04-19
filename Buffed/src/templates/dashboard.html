@@ -127,6 +127,14 @@
                         ["Fats", 2.2]
                     ],
                     type: "pie",
+                    colors: {
+                        Protein: "#2ac54d",
+                        Carbs: "#136ccc",
+                        Fats: "#5e5c5c"
+                    },
+                    pie: {
+                    title: "Macro Summary",
+                    },
                     onclick: function (d, i) {
                         console.log("onclick", d, i);
                     },
@@ -136,14 +144,6 @@
                     onout: function (d, i) {
                         console.log("onout", d, i);
                     },
-                    colors: {
-                        Protein: "#2ac54d",
-                        Carbs: "#136ccc",
-                        Fats: "#5e5c5c"
-                    }
-                },
-                pie: {
-                    title: "Macro Summary",
                 },
                 bindto: "#macro-chart",
             });

@@ -59,22 +59,22 @@
                                     </div>
                                     <div id="slider-range" class="form-group"></div>
                                     <div class="form-group">
-                                        <label for="goalCarbInput" class="form-label">Carbohydrates:</label>
-                                        <input type="range" class="form-range" min="0" max="800" id="goalCarbInput" name="carbs"
-                                        oninput="document.getElementById('new_carbs').innerHTML = document.getElementById('goalCarbInput').value">
-                                        <p id="new_carbs">{{ goal.macro_nutrients['carbs'][0]}}</p>
+                                        <label for="goalCarbInput-{{ loop.index }}" class="form-label">Carbohydrates:</label>
+                                        <input type="range" class="form-range" min="0" max="800" id="goalCarbInput-{{ loop.index }}" name="carbs"
+                                        oninput="document.getElementById('new_carbs-{{ loop.index }}').innerHTML = document.getElementById('goalCarbInput-{{ loop.index }}').value">
+                                        <p id="new_carbs-{{ loop.index }}">{{ goal.macro_nutrients['carbs'][0]}}</p>
                                     </div>
                                     <div class="form-group">
-                                        <label for="goalFatInput" class="form-label">Fat:</label>
-                                        <input type="range" class="form-range" min="0" max="800" id="goalFatInput" name="fat"
-                                        oninput="document.getElementById('new_fat').innerHTML = document.getElementById('goalFatInput').value">
-                                        <span id="new_fat">{{ goal.macro_nutrients['fat'][0] }}</span>
+                                        <label for="goalFatInput-{{ loop.index }}" class="form-label">Fat:</label>
+                                        <input type="range" class="form-range" min="0" max="800" id="goalFatInput-{{ loop.index }}" name="fat"
+                                        oninput="document.getElementById('new_fat-{{ loop.index }}').innerHTML = document.getElementById('goalFatInput-{{ loop.index }}').value">
+                                        <span id="new_fat-{{ loop.index }}">{{ goal.macro_nutrients['fat'][0] }}</span>
                                     </div>
                                     <div class="form-group">
-                                        <label for="goalProteinInput" class="form-label">Protein:</label>
-                                        <input type="range" class="form-range" min="0" max="800" id="goalProteinInput" name="protein"
-                                        oninput="document.getElementById('new_protein').innerHTML = document.getElementById('goalProteinInput').value">
-                                        <span id="new_protein">{{ goal.macro_nutrients['protein'][0] }}</span>
+                                        <label for="goalProteinInput-{{ loop.index }}" class="form-label">Protein:</label>
+                                        <input type="range" class="form-range" min="0" max="800" id="goalProteinInput-{{ loop.index }}" name="protein"
+                                        oninput="document.getElementById('new_protein-{{ loop.index }}').innerHTML = document.getElementById('goalProteinInput-{{ loop.index }}').value">
+                                        <span id="new_protein-{{ loop.index }}">{{ goal.macro_nutrients['protein'][0] }}</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="goalNumberOfMealsInput">Number of Meals</label>

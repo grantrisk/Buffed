@@ -1,6 +1,6 @@
 import os
 import uuid
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 
 import firebase_connector as fb
