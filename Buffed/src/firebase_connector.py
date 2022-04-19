@@ -105,6 +105,12 @@ def delete_user_goal(UID: str, goal_id: str):
     goal_doc_ref.document(goal_id).delete()
 
 
+# TODO: update firebase with new data storage and fix retrieving data from form with id
+def delete_meal(UID: str, meal_id: str):
+    goal_doc_ref = db.collection(u'users').document(UID).collection(u'todaysPlan')
+    goal_doc_ref.document(meal_id).delete()
+
+
 
 
 

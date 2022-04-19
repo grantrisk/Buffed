@@ -158,7 +158,7 @@
 </table>
 
 <!-- Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="delete{{ meals.meal_id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -168,10 +168,12 @@
       <div class="modal-body">
         Are you sure you want to remove this meal? This action cannot be undone.
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Delete Meal</button>
-      </div>
+        <form action="todays_plan/update_plan/" method="POST">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" name="action" value="Delete" class="btn btn-danger" data-bs-dismiss="modal">Delete Meal</button>
+          </div>
+        </form>
     </div>
   </div>
 </div>
