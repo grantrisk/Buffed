@@ -61,7 +61,7 @@
         <!----- Activity Level ----->
         <div class="form-check">
             Activity Level<br>
-            {% for subfield in profile_form.activity_lvl %}
+            {% for subfield in profile_form.activity %}
                 <tr>
                     <td>{{ subfield }}</td>
                     <td>{{ subfield.label }}</td>
@@ -69,26 +69,25 @@
             {% endfor %}
         </div>
 
-        <!----- Starting Goal ----->
-        <div class="form-check">
-            Starting Goal<br>
-            {% for subfield in profile_form.current_goal %}
-                <tr>
-                    <td>{{ subfield }}</td>
-                    <td>{{ subfield.label }}</td>
-                </tr>
-            {% endfor %}
-        </div>
+{#        <!----- Starting Goal ----->#}
+{#        <div class="form-check">#}
+{#            Starting Goal<br>#}
+{#            {% for subfield in profile_form.current_goal %}#}
+{#                <tr>#}
+{#                    <td>{{ subfield }}</td>#}
+{#                    <td>{{ subfield.label }}</td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        </div>#}
 
         <!----- Health Labels ----->
         <div class="form-check">
             Diet Health Labels<br>
+            <ul style="column-count:4; column-gap: 5%;">
             {% for subfield in profile_form.diet_type %}
-                <tr>
-                    <td>{{ subfield }}</td>
-                    <td>{{ subfield.label }}</td>
-                </tr>
+                    <li style="list-style: none;">{{ subfield }} {{ subfield.label }}</li>
             {% endfor %}
+            </ul>
         </div>
 
         <div class="form-group">

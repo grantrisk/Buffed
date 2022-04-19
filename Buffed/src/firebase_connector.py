@@ -1,11 +1,11 @@
 import json
 import os
+from enum import Enum
+from models import *
 
 import firebase_admin
 import requests
 from firebase_admin import credentials, firestore, auth
-
-from models import *
 
 FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
 rest_api_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
@@ -24,7 +24,7 @@ class FirebaseEnum(Enum):
     NAME = "name"
     WEIGHT = "weight"
     MEALS = "meals"
-    ACTIVITY = "activity_lvl"
+    ACTIVITY = "activity"
     DIET = "diet"
 
 
@@ -46,8 +46,11 @@ def create_firebase_account(email: str, password: str):
         u'name': "",
         u'weight': "",
         u'meals': [],
+        u'activity': "",
+        u'diet': []
     }
     db.collection(u'users').document(userUID).set(data)
+
 
 def sign_in_with_email_and_password(email: str, password: str):
     """
@@ -66,6 +69,7 @@ def sign_in_with_email_and_password(email: str, password: str):
                       data=payload)
     return r.json()
 
+
 def get_user_info(UID: str):
     """
     Retrieves a user's document given a specific UID
@@ -75,6 +79,7 @@ def get_user_info(UID: str):
     user_doc_ref = db.collection(u'users').document(UID)
     user_doc = user_doc_ref.get()
     return user_doc.to_dict()
+
 
 # removed self so Profile could post to FB
 def set_user_info(UID: str, element: Enum, new_value: str):
@@ -89,13 +94,18 @@ def set_user_info(UID: str, element: Enum, new_value: str):
     field_updates = {element.value: new_value}
     doc_ref.update(field_updates)
 
+
 def create_user_new_goal(UID: str, goal: Goal):
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal.goal_id).set(vars(goal))
 
+
 def delete_user_goal(UID: str, goal_id: str):
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal_id).delete()
+
+
+
 
 
 # # ------------------- Create Account -------------------
