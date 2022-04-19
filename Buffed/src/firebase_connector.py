@@ -1,6 +1,5 @@
 import json
 import os
-from enum import Enum
 from models import *
 
 import firebase_admin
@@ -107,46 +106,43 @@ def delete_user_goal(UID: str, goal_id: str):
     goal_doc_ref.document(goal_id).delete()
 
 
-
-    def create_user_new_goal(UID: str, goal: Goal):
-        goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
-        goal_doc_ref.document(goal.goal_id).set(vars(goal))
-
-    def delete_user_goal(UID: str, goal_id: str):
+def delete_user_goal(UID: str, goal_id: str):
         goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
         goal_doc_ref.document(goal_id).delete()
 
 
-    def save_meal(self, UID: str, meal: Meal):
-        """
-        Saves a meal to a user's saved meals
-        :param UID: user UID
-        :param meal: meal to be saved
-        :return:
-        """
-        db.collection(u'users').document(UID).collection(u'saved_meals').document(meal.meal_id).set(meal.to_json())
+def save_meal(UID: str, meal: Meal):
+    """
+    Saves a meal to a user's saved meals
+    :param UID: user UID
+    :param meal: meal to be saved
+    :return:
+    """
+    db.collection(u'users').document(UID).collection(u'saved_meals').document(meal.meal_id).set(meal.to_json())
 
-    def remove_meal(self, UID: str, meal_id: str):
-        """
-        Remove a meal from a user's saved meals
-        :param UID: user UID
-        :param meal_id: ID of meal to be removed
-        :return: None
-        """
-        db.collection(u'users').document(UID).collection(u'saved_meals').document(meal_id).delete()
 
-    def get_all_meals(self, UID: str):
-        """
-        Get all of a user's saved meals
-        :param UID: user UID
-        :return: stream
-        """
-        meals = []
-        results = db.collection(u'users').document(UID).collection(u'saved_meals').stream()
-        for result in results:
-            meals.append(Meal.from_dict(result.to_dict()))
+def remove_meal(UID: str, meal_id: str):
+    """
+    Remove a meal from a user's saved meals
+    :param UID: user UID
+    :param meal_id: ID of meal to be removed
+    :return: None
+    """
+    db.collection(u'users').document(UID).collection(u'saved_meals').document(meal_id).delete()
 
-        return meals
+
+def get_all_meals(UID: str):
+    """
+    Get all of a user's saved meals
+    :param UID: user UID
+    :return: stream
+    """
+    meals = []
+    results = db.collection(u'users').document(UID).collection(u'saved_meals').stream()
+    for result in results:
+        meals.append(Meal.from_dict(result.to_dict()))
+
+    return meals
 
 # # ------------------- Create Account -------------------
 # user_email = "riskgrant@gmail.com"

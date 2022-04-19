@@ -1,15 +1,13 @@
 from flask import Blueprint, render_template, request, redirect, jsonify
 from flask_login import login_required, current_user
 
-from firebase_connector import FirebaseConnector
+import firebase_connector
 from edamam_connector import EdamamConnector
 
 
 find_meals_page = Blueprint("find_meals", __name__, static_folder="static", template_folder="templates")
 
 edamam_instance = EdamamConnector()
-
-fb_connector = FirebaseConnector()
 
 
 @find_meals_page.route('/')
@@ -32,7 +30,7 @@ def search_results():
         redirect('find_meals')
 
     meal_results = edamam_instance.search_recipes(request.args["search_query"])
-    saved_meals = fb_connector.get_all_meals(current_user.get_id())
+    saved_meals = firebase_connector.get_all_meals(current_user.get_id())
 
     results_displayed = []
     saved_results_displayed = []
@@ -69,7 +67,7 @@ def nutrition():
 def save_meal():
     if 'id' in request.json:
         meal = edamam_instance.get_recipe_by_id(request.json['id'])
-        fb_connector.save_meal(current_user.get_id(), meal)
+        firebase_connector.save_meal(current_user.get_id(), meal)
         resp = jsonify(success=True)
     else:
         resp = jsonify(success=False)
@@ -79,7 +77,7 @@ def save_meal():
 @find_meals_page.route('/remove_meal/', methods=['POST'])
 def remove_meal():
     if 'id' in request.json:
-        fb_connector.remove_meal(current_user.get_id(), request.json['id'])
+        firebase_connector.remove_meal(current_user.get_id(), request.json['id'])
         resp = jsonify(success=True)
     else:
         resp = jsonify(success=False)
