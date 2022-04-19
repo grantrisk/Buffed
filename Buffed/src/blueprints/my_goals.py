@@ -8,6 +8,7 @@ from firebase_admin import firestore
 
 from datetime import date
 from models import Goal
+from firebase_connector import FirebaseEnum
 
 my_goals_page = Blueprint("my_goals", __name__, static_folder="static", template_folder="templates")
 
@@ -15,6 +16,10 @@ my_goals_page = Blueprint("my_goals", __name__, static_folder="static", template
 def generate_goal_id():
     goal_id = uuid.uuid4()
     return goal_id
+
+
+def set_new_current_goal(UID: str, goal_id):
+    fb.set_user_info(UID, FirebaseEnum.CURRENT_GOAL, goal_id)
 
 
 def create_standard_goal(UID: str):

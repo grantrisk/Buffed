@@ -10,9 +10,11 @@ from blueprints import my_goals
 
 
 # TODO: need to disable navbar use in setup screen, or move this to index's register module
-from models import User
 
 register_page = Blueprint("register", __name__, static_folder="static", template_folder="templates")
+
+# TODO: remove when we can grab user id
+# UID = 'Wuz4BOnSgAZrfjRgmXFwz1WuT663'
 
 
 def send_info(result, UID):
@@ -36,8 +38,13 @@ def send_info(result, UID):
     fb.set_user_info(UID, FirebaseEnum.DIET, result.get('diet_type'))
     my_goals.create_standard_goal(UID)
 
+def calculate_height(height):
+    # calculate height in feet
+    height = height.split("'")
+    return float(height[0]) + float(height[1]) / 12
 
-@register_page.route('/register', methods=['GET', 'POST'])
+
+@register_page.route('/', methods=['GET', 'POST'])
 def register():
     """
     Render html and pass setup form to html
@@ -51,14 +58,17 @@ def register():
                         'sex': request.form["sex"],
                         'birth': request.form["birth"],
                         'weight': request.form["weight"],
-                        'height': request.form["height"],
-                        'activity_lvl': request.form["activity_lvl"],
-                        'current_goal': request.form["current_goal"],
-                        'diet_type': profile_form.diet_type.data}
+                        'height': calculate_height(request.form["height"]),
+                        'activity': request.form["activity"],
+                        'diet': profile_form.diet_type.data}
         # Send this result so it can be stored
         print("Passing on: ", setup_result)
         send_info(setup_result, UID)
         # resume as normal (re-render page with forms after sending)
+        send_info(setup_result)
+        # Create standard goal
+        my_goals.create_standard_goal(UID)
+        # Go to dashboard
         return render_template('dashboard.html')
     else:
         # render template with questionnaire form

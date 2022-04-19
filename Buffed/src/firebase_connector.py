@@ -1,11 +1,11 @@
 import json
 import os
+from enum import Enum
+from models import *
 
 import firebase_admin
 import requests
 from firebase_admin import credentials, firestore, auth
-
-from models import *
 
 FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
 rest_api_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
@@ -24,7 +24,7 @@ class FirebaseEnum(Enum):
     NAME = "name"
     WEIGHT = "weight"
     MEALS = "meals"
-    ACTIVITY = "activity_lvl"
+    ACTIVITY = "activity"
     DIET = "diet"
 
 
@@ -46,7 +46,8 @@ def create_firebase_account(email: str, password: str):
         u'name': "",
         u'weight': "",
         u'meals': [],
-        u'activity_level': ""
+        u'activity': "",
+        u'diet': []
     }
     db.collection(u'users').document(userUID).set(data)
 
@@ -118,13 +119,12 @@ def update_user_goal(UID: str, goal: Goal):
 
 
 # # ------------------- Create Account -------------------
-# user_email = "wolfpackkid22@yahoo.com"
-# user_password = "12345"
+# user_email = "riskgrant@gmail.com"
+# user_password = "123456"
 # # FirebaseConnector.create_firebase_account(user_email, user_password)
 #
 # # ------------------- Signing in -------------------
-# fb_connector = FirebaseConnector()
-# firebase_user = fb_connector.sign_in_with_email_and_password(user_email, user_password)
+# firebase_user = FirebaseConnector.sign_in_with_email_and_password(user_email, user_password)
 # # If there is no user this is returned: User sign in response: {'error': {'code': 400, 'message': 'EMAIL_NOT_FOUND',
 # # 'errors': [{'message': 'EMAIL_NOT_FOUND', 'domain': 'global', 'reason': 'invalid'}]}}
 # print(f"User sign in response: {firebase_user}")

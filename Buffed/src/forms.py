@@ -2,10 +2,10 @@ import datetime
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, DecimalField, \
-    RadioField, SelectMultipleField, widgets, IntegerField
-from wtforms.validators import DataRequired, Email, Regexp, ValidationError, NumberRange, Length
+    RadioField, SelectMultipleField, widgets
+from wtforms.validators import DataRequired, Email, Regexp, NumberRange, Length
 
-from models import Goal
+from Buffed.src.models import Goal
 
 
 class MultiCheckboxField(SelectMultipleField):
@@ -52,7 +52,7 @@ class ProfileQuestionnaire(FlaskForm):
     Form for profile questionnaire
     """
     # Personal Questionnaire
-    # TODO: need to fix validation/error messages for for bday and height
+    # optional: adjust validation/error messages for bday and height
     name = StringField("Display Name", [DataRequired(),
                                         Length(min=1, max=16, message='Must be between 1-16 characters long')])
     sex = RadioField("Sex", [DataRequired()], choices=["Male", "Female"])
@@ -61,17 +61,9 @@ class ProfileQuestionnaire(FlaskForm):
                                           NumberRange(min=0, max=5000, message='Must be a number between 0-5000.')])
     height = StringField('Height (Feet-Inch)', [DataRequired(),
                                                 Regexp('[2-9]\'[0-9]', message='Wrong height format. Example: 6\'0')])
-    activity_lvl = RadioField("Activity Level", [DataRequired()], choices=["Athletic", "Moderate", "Sedentary"])
-    current_goal = RadioField("Current Goal", [DataRequired()], choices=["Lose Weight", "Maintain", "Bulk Up"])
-    # TODO: implement Goal object
-    # # Goal Information: Based on Goal model
-    # if current_goal == "Lose Weight":
-    #     current_goal = Goal("0", "Lose Weight", True, 1300, {'protein': 100, 'carbs': 140, 'fat': 100}, 3, 110)
-    # elif current_goal == "Maintain":
-    #     current_goal = Goal("0", "Maintain", True, 1500, {'protein': 100, 'carbs': 140, 'fat': 100}, 3, 110)
-    # else:
-    #     current_goal = Goal("0", "Bulk Up", True, 2000, {'protein': 100, 'carbs': 140, 'fat': 100}, 3, 110)
-   # random change
+    activity = RadioField("Activity Level", [DataRequired()], choices=["Very Active", "Moderately Active",
+                                                                           "Lightly Active", "Sedentary"])
+
     # Diet Information: Based on Health Labels
     diet_type = MultiCheckboxField("Diet Type",
                                    choices=['Vegan', 'Vegetarian', 'Pescatarian', 'Dairy-Free',
