@@ -6,6 +6,8 @@ import firebase_admin
 import requests
 from firebase_admin import credentials, firestore, auth
 
+from models import Meal
+
 FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
 rest_api_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
 
@@ -85,6 +87,37 @@ class FirebaseConnector:
         doc_ref = db.collection(u'users').document(UID)
         field_updates = {element.value: new_value}
         doc_ref.update(field_updates)
+
+    def save_meal(self, UID: str, meal: Meal):
+        """
+        Saves a meal to a user's saved meals
+        :param UID: user UID
+        :param meal: meal to be saved
+        :return:
+        """
+        db.collection(u'users').document(UID).collection(u'saved_meals').document(meal.meal_id).set(meal.to_json())
+
+    def remove_meal(self, UID: str, meal_id: str):
+        """
+        Remove a meal from a user's saved meals
+        :param UID: user UID
+        :param meal_id: ID of meal to be removed
+        :return: None
+        """
+        db.collection(u'users').document(UID).collection(u'saved_meals').document(meal_id).delete()
+
+    def get_all_meals(self, UID: str):
+        """
+        Get all of a user's saved meals
+        :param UID: user UID
+        :return: stream
+        """
+        meals = []
+        results = db.collection(u'users').document(UID).collection(u'saved_meals').stream()
+        for result in results:
+            meals.append(Meal.from_dict(result.to_dict()))
+
+        return meals
 
 # # ------------------- Create Account -------------------
 # user_email = "riskgrant@gmail.com"

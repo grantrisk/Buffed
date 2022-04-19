@@ -104,13 +104,27 @@ class Meal:
         self.nutrients = nutrients
         self.health_labels = health_labels
         self.ingredients = ingredients
-        self.meal_type = meal_types
+        self.meal_types = meal_types
 
     def get_name(self):
         return self.meal_name
 
     def get_nutrients(self):
         return self.nutrients
+
+    def to_json(self):
+        return {'id': self.meal_id, 'name': self.meal_name, 'imgUrl': self.meal_img_url, 'nutrients': self.nutrients,
+                'healthLabels': self.health_labels, 'ingredients': self.ingredients, 'mealTypes': self.meal_types}
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        """
+        Class method to convert dictionary to Meal object
+        :param data: dictionary containing meal data
+        :return:
+        """
+        return Meal(data['name'], data['id'], data['imgUrl'], data['nutrients'], data['healthLabels'],
+                    data['ingredients'], data['mealTypes'])
 
 
 class Goal:
