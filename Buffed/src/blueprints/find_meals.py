@@ -16,7 +16,6 @@ def find_meals():
         This method returns the find meals page.
         :return: render_template('find_meals.html')
         """
-    print(current_user)
     return render_template('find_meals.html')
 
 
