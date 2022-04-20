@@ -139,7 +139,6 @@ def get_all_meals(UID: str):
 
 
 # --------- Today's Meals ---------
-# TODO: retrieve data from form with id
 def add_meal_todays_plan(UID: str, meal: Meal):
     """
     Adds a meal to today's plan

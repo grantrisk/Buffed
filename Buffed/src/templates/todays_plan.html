@@ -9,11 +9,12 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">Meal</th>
-            <th scope="col">Calories</th>
-            <th scope="col">Protein</th>
-            <th scope="col">Carbs</th>
-            <th scope="col">Fat</th>
+            <th scope="col" style="width: 15%">Meal</th>
+            <th scope="col" style="width: 15%">Calories</th>
+            <th scope="col" style="width: 15%">Protein</th>
+            <th scope="col" style="width: 15%">Carbs</th>
+            <th scope="col" style="width: 15%">Fat</th>
+            <th scope="col" style="width: 15%"></th>
         </tr>
     </thead>
     <tbody>
@@ -43,14 +44,16 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">Calories</th>
-            <th scope="col">Protein</th>
-            <th scope="col">Carbs</th>
-            <th scope="col">Fat</th>
+            <th scope="col" style="width: 20%">Number of Meals</th>
+            <th scope="col" style="width: 20%">Calories</th>
+            <th scope="col" style="width: 20%">Protein</th>
+            <th scope="col" style="width: 20%">Carbs</th>
+            <th scope="col" style="width: 20%">Fat</th>
         </tr>
     </thead>
     <tbody>
         <tr>
+            <td>{{ calories["num_meals"] }}</td>
             <td>{{ calories["calories"] }}</td>
             <td>{{ calories["protein"] }}</td>
             <td>{{ calories["carbs"] }}</td>

@@ -5,21 +5,25 @@ import firebase_connector as fb
 
 todays_plan_page = Blueprint("todays_plan", __name__, static_folder="static", template_folder="templates")
 
+
 def calculate_totals(meals):
     """
     This method caluclates the total of all the macros from the meal list in the database
     :return: dictionary of the macros
     """
+    total_num_meals = 0
     total_calories = 0
     total_protein = 0
     total_carbs = 0
     total_fat = 0
     for meal in meals:
+        total_num_meals += 1
         total_calories += meal.nutrients['calories']
         total_protein += meal.nutrients["protein"]
         total_carbs += meal.nutrients["carbs"]
         total_fat += meal.nutrients["fat"]
-    return {"calories": total_calories, "protein": total_protein, "carbs": total_carbs, "fat": total_fat, }
+    return {"calories": total_calories, "protein": total_protein, "carbs": total_carbs, "fat": total_fat,
+            "num_meals": total_num_meals}
 
 
 @login_required
@@ -34,11 +38,14 @@ def todays_plan():
     calories = calculate_totals(todays_meals)
     return render_template('todays_plan.html', meals=todays_meals, calories=calories)
 
+
 @todays_plan_page.route('/update_plan/', methods=["POST"])
 def update_plan():
     UID = current_user.get_id()
     if request.form['action'] == "Delete":
         meal_id = request.form.get("meal_id")
         fb.delete_meal(UID, meal_id)
+    elif request.form['action'] == "Add":
+        pass
 
     return redirect(url_for('todays_plan.todays_plan'))
