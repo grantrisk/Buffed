@@ -94,6 +94,14 @@ def set_user_info(UID: str, element: Enum, new_value: str):
 
 
 # --------- User Goals ---------
+def get_user_goals(UID: str):
+    goal_doc = db.collection(u'users').document(UID).collection(u'savedGoals').get()
+    goalList = []
+    for item in goal_doc:
+        goalList.append(item.to_dict())
+    return goalList
+
+
 def create_user_new_goal(UID: str, goal: Goal):
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal.goal_id).set(vars(goal))
@@ -102,6 +110,11 @@ def create_user_new_goal(UID: str, goal: Goal):
 def delete_user_goal(UID: str, goal_id: str):
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal_id).delete()
+
+
+def update_user_goal(UID: str, goal: Goal):
+    goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+    goal_doc_ref.document(goal.goal_id).set(vars(goal), merge=True)
 
 # --------- Saved Meals ---------
 def save_meal(UID: str, meal: Meal):
@@ -157,6 +170,7 @@ def remove_meal_todays_plan(UID: str, meal_id: str):
     :return: None
     """
     db.collection(u'users').document(UID).collection(u'todays_plan').document(meal_id).delete()
+
 
 
 def get_all_meals_todays_plan(UID: str):
