@@ -160,7 +160,15 @@ def add_meal_todays_plan(UID: str, meal: Meal):
     :param meal: meal to be saved
     :return: None
     """
-    db.collection(u'users').document(UID).collection(u'todays_plan').document(meal.meal_id).set(meal.to_json())
+    meals_list = get_all_meals_todays_plan(UID)
+    meals_list.append(meal)
+    meal_dict_list = []
+    for meal in meals_list:
+        meal_dict_list.append(vars(meal))
+
+    doc_ref = db.collection(u'users').document(UID)
+    field_updates = {'todays_plan': meal_dict_list}
+    doc_ref.update(field_updates)
 
 
 def remove_meal_todays_plan(UID: str, meal_id: str):
@@ -170,21 +178,32 @@ def remove_meal_todays_plan(UID: str, meal_id: str):
     :param meal_id: ID of meal to be removed
     :return: None
     """
-    db.collection(u'users').document(UID).collection(u'todays_plan').document(meal_id).delete()
+    meals_list = get_all_meals_todays_plan(UID)
+    meal_dict_list = []
+    for meal in meals_list:
+        meal_dict = vars(meal)
+        id = meal_dict['meal_id']
+        if id != meal_id:
+            meal_dict_list.append(meal_dict)
+
+    doc_ref = db.collection(u'users').document(UID)
+    field_updates = {'todays_plan': meal_dict_list}
+    doc_ref.update(field_updates)
 
 
 def get_all_meals_todays_plan(UID: str):
     """
     Get all of a user's saved meals in today's plan
     :param UID: user UID
-    :return: stream
+    :return: list of Meal Objects
     """
+    user_dict = db.collection(u'users').document(UID).get().to_dict()
+    meal_list = user_dict['todays_plan']
     meals = []
-    results = db.collection(u'users').document(UID).collection(u'todays_plan').stream()
-    for result in results:
-        meals.append(Meal.from_dict(result.to_dict()))
-
+    for meal in meal_list:
+        meals.append(Meal.from_dict(meal))
     return meals
+
 
 
 # # ------------------- Create Account -------------------
@@ -206,35 +225,16 @@ def get_all_meals_todays_plan(UID: str):
 # # new_email = "risk@gmail.com"
 # # set_user_info(userUID, FirebaseEnum.EMAIL, new_email)
 #
-# new_name = "Grant Risk"
-# set_user_info(userUID, FirebaseEnum.NAME, new_name)
-#
-# meals = get_all_meals_todays_plan(userUID)
-# for meal in meals:
-#     remove_meal_todays_plan(userUID, meal.meal_id)
+# # new_name = "Grant Risk"
+# # set_user_info(userUID, FirebaseEnum.NAME, new_name)
 #
 # from models import Meal
 #
-# meal1 = Meal("burger", str(uuid.uuid4()), MealType.DINNER.value, "",
+# meal1 = Meal("burger", "recipe_0b30b0c29576079a12998d386a42d019", MealType.DINNER.value, "",
 #              {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [])
-# meal2 = Meal("yogurt", str(uuid.uuid4()), MealType.BREAKFAST.value, "",
-#              {"calories": 100, "protein": 5, "carbs": 90, "fat": 40}, [], [])
-# meal3 = Meal("banana", str(uuid.uuid4()), MealType.BREAKFAST.value, "",
-#              {"calories": 50, "protein": 2, "carbs": 90, "fat": 10}, [], [])
-# meal4 = Meal("pizza", str(uuid.uuid4()), MealType.LUNCH.value, "",
-#              {"calories": 300, "protein": 20, "carbs": 100, "fat": 70}, [], [])
-# meal5 = Meal("hot dog", str(uuid.uuid4()), MealType.DINNER.value, "",
-#              {"calories": 120, "protein": 14, "carbs": 75, "fat": 37}, [], [])
 #
-# add_meal_todays_plan(userUID, meal1)
-# add_meal_todays_plan(userUID, meal2)
-# add_meal_todays_plan(userUID, meal3)
-# add_meal_todays_plan(userUID, meal4)
-# add_meal_todays_plan(userUID, meal5)
+# # add_meal_todays_plan(userUID, meal1)
+# remove_meal_todays_plan(userUID, meal1.meal_id)
 #
 # user_document = get_user_info(userUID)
 # print(f"Retrieving modified user document: {user_document}")
-#
-# meals = get_all_meals_todays_plan(userUID)
-# print(f"Retrieving meal one: {meals[0].meal_name}")
-# print(f"Retrieving meal two: {meals[1].meal_name}")

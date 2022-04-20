@@ -127,12 +127,6 @@ class Meal:
         return Meal(data['meal_name'], data['meal_id'], data['meal_type'], data['meal_img_url'], data['nutrients'],
                     data['health_labels'], data['ingredients'])
 
-    # def get_name(self):
-    #     return self.meal_name
-    #
-    # def get_nutrients(self):
-    #     return self.nutrients
-
 
 class Goal:
     def __init__(self, goal_id: str, goal_name: str, is_active: bool, calories: int, macro_nutrients: dict,
@@ -158,17 +152,6 @@ class Goal:
     def __eq__(self, other):
         if isinstance(other, Goal):
             return self.goal_name == other.goal_name and self.calories == other.calories
-
-
-class MealPlan:
-    def __init__(self, user_id: str, meals: List[Meal]):
-        """
-        Creates an instance of a MealPlan object.
-        :param user_id: the ID of the user who owns the MealPlan
-        :param meals: the list of Meal objects for the meal plan, associated with the user object
-        """
-        self.user_id = user_id
-        self.meals = meals
 
 
 class AlertType(Enum):
