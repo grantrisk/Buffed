@@ -23,11 +23,11 @@ class FirebaseEnum(Enum):
     HEIGHT = "height"
     NAME = "name"
     WEIGHT = "weight"
-    MEALS = "meals"
     ACTIVITY = "activity"
     DIET = "diet"
 
 
+# --------- Account Access ---------
 def create_firebase_account(email: str, password: str):
     """
     Creates a user account with the given email and password
@@ -45,7 +45,6 @@ def create_firebase_account(email: str, password: str):
         u'height': "",
         u'name': "",
         u'weight': "",
-        u'meals': [],
         u'activity': "",
         u'diet': []
     }
@@ -81,7 +80,6 @@ def get_user_info(UID: str):
     return user_doc.to_dict()
 
 
-# removed self so Profile could post to FB
 def set_user_info(UID: str, element: Enum, new_value: str):
     """
     Updates a user's information given a specific point in user document
@@ -95,6 +93,7 @@ def set_user_info(UID: str, element: Enum, new_value: str):
     doc_ref.update(field_updates)
 
 
+# --------- User Goals ---------
 def create_user_new_goal(UID: str, goal: Goal):
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal.goal_id).set(vars(goal))
@@ -104,11 +103,75 @@ def delete_user_goal(UID: str, goal_id: str):
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal_id).delete()
 
+# --------- Saved Meals ---------
+def save_meal(UID: str, meal: Meal):
+    """
+    Saves a meal to a user's saved meals
+    :param UID: user UID
+    :param meal: meal to be saved
+    :return:
+    """
+    db.collection(u'users').document(UID).collection(u'saved_meals').document(meal.meal_id).set(meal.to_json())
 
-# TODO: update firebase with new data storage and fix retrieving data from form with id
-def delete_meal(UID: str, meal_id: str):
-    goal_doc_ref = db.collection(u'users').document(UID).collection(u'todaysPlan')
-    goal_doc_ref.document(meal_id).delete()
+
+def remove_meal(UID: str, meal_id: str):
+    """
+    Remove a meal from a user's saved meals
+    :param UID: user UID
+    :param meal_id: ID of meal to be removed
+    :return: None
+    """
+    db.collection(u'users').document(UID).collection(u'saved_meals').document(meal_id).delete()
+
+
+def get_all_meals(UID: str):
+    """
+    Get all of a user's saved meals
+    :param UID: user UID
+    :return: stream
+    """
+    meals = []
+    results = db.collection(u'users').document(UID).collection(u'saved_meals').stream()
+    for result in results:
+        meals.append(Meal.from_dict(result.to_dict()))
+
+    return meals
+
+
+# --------- Today's Meals ---------
+# TODO: retrieve data from form with id
+def add_meal_todays_plan(UID: str, meal: Meal):
+    """
+    Adds a meal to today's plan
+    :param UID: user UID
+    :param meal: meal to be saved
+    :return: None
+    """
+    db.collection(u'users').document(UID).collection(u'todays_plan').document(meal.meal_id).set(meal.to_json())
+
+
+def remove_meal_todays_plan(UID: str, meal_id: str):
+    """
+    Remove a meal from today's plan
+    :param UID: user UID
+    :param meal_id: ID of meal to be removed
+    :return: None
+    """
+    db.collection(u'users').document(UID).collection(u'todays_plan').document(meal_id).delete()
+
+
+def get_all_meals_todays_plan(UID: str):
+    """
+    Get all of a user's saved meals in today's plan
+    :param UID: user UID
+    :return: stream
+    """
+    meals = []
+    results = db.collection(u'users').document(UID).collection(u'todays_plan').stream()
+    for result in results:
+        meals.append(Meal.from_dict(result.to_dict()))
+
+    return meals
 
 
 
@@ -117,7 +180,7 @@ def delete_meal(UID: str, meal_id: str):
 # # ------------------- Create Account -------------------
 # user_email = "riskgrant@gmail.com"
 # user_password = "123456"
-# create_firebase_account(user_email, user_password)
+# # create_firebase_account(user_email, user_password)
 #
 # # ------------------- Signing in -------------------
 # firebase_user = sign_in_with_email_and_password(user_email, user_password)
@@ -130,23 +193,26 @@ def delete_meal(UID: str, meal_id: str):
 # print(f"Retrieving initial user document: {user_document}")
 #
 # # ------------------- Making Changes -------------------
-# new_email = "risk@gmail.com"
-# set_user_info(userUID, FirebaseEnum.EMAIL, new_email)
+# # new_email = "risk@gmail.com"
+# # set_user_info(userUID, FirebaseEnum.EMAIL, new_email)
 #
 # new_name = "Grant"
 # set_user_info(userUID, FirebaseEnum.NAME, new_name)
 #
+# meals = get_all_meals_todays_plan(userUID)
+# for meal in meals:
+#     remove_meal_todays_plan(userUID, meal.meal_id)
+#
 # from models import Meal
-# meal1 = Meal("burger", "1", "", {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [], [])
-# meal2 = Meal("yogurt", "2", "", {"calories":100, "protein":5, "carbs":90, "fat":40}, [], [], [])
-# meal1 = vars(meal1)
-# meal2 = vars(meal2)
-# new_meals = [meal1, meal2]
-# set_user_info(userUID, FirebaseEnum.MEALS, new_meals)
+# meal1 = Meal("burger", str(uuid.uuid4()), MealType.DINNER.value, "", {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [])
+# meal2 = Meal("yogurt", str(uuid.uuid4()), MealType.BREAKFAST.value, "", {"calories":100, "protein":5, "carbs":90, "fat":40}, [], [])
+#
+# add_meal_todays_plan(userUID, meal1)
+# add_meal_todays_plan(userUID, meal2)
 #
 # user_document = get_user_info(userUID)
 # print(f"Retrieving modified user document: {user_document}")
 #
-# first_meal = user_document['meals'][0]
-# print(f"Retrieving meal 1: {first_meal}")
-# print(f"Retrieving meal 1 calories: {first_meal['nutrients']['calories']}")
+# meals = get_all_meals_todays_plan(userUID)
+# print(f"Retrieving meal one: {meals[0].meal_name}")
+# print(f"Retrieving meal two: {meals[1].meal_name}")

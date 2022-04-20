@@ -1,4 +1,5 @@
 import time
+import uuid
 from enum import Enum
 from typing import List
 
@@ -93,8 +94,8 @@ class MealType(Enum):
 
 
 class Meal:
-    def __init__(self, meal_name: str, meal_id: str, meal_img_url, nutrients: dict, health_labels: List[str],
-                 ingredients: List[str], meal_types: List[str]):
+    def __init__(self, meal_name: str, meal_id: str, meal_type: Enum, meal_img_url, nutrients: dict, health_labels: List[str],
+                 ingredients: List[str]):
         """
         Creates an instance of a Meal object
         :param meal_name: name of the meal
@@ -107,17 +108,30 @@ class Meal:
         """
         self.meal_name = meal_name
         self.meal_id = meal_id
+        self.meal_type = meal_type
         self.meal_img_url = meal_img_url
         self.nutrients = nutrients
         self.health_labels = health_labels
         self.ingredients = ingredients
-        self.meal_type = meal_types
 
-    def get_name(self):
-        return self.meal_name
+    def to_json(self):
+        return vars(self)
 
-    def get_nutrients(self):
-        return self.nutrients
+    @classmethod
+    def from_dict(cls, data: dict):
+        """
+        Class method to convert dictionary to Meal object
+        :param data: dictionary containing meal data
+        :return:
+        """
+        return Meal(data['meal_name'], data['meal_id'], data['meal_type'], data['meal_img_url'], data['nutrients'],
+                    data['health_labels'], data['ingredients'])
+
+    # def get_name(self):
+    #     return self.meal_name
+    #
+    # def get_nutrients(self):
+    #     return self.nutrients
 
 
 class Goal:
