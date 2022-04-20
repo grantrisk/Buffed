@@ -4,6 +4,10 @@
 
 <h1>{% block title %}Today's Plan{% endblock %}</h1>
 
+<form action="/todays_plan/update_plan/" method="POST">
+    <button type="submit" name="action" value="Add" class="btn btn-success">Add Meal</button>
+</form>
+
 <!-- Breakfast -->
 <h3 class="text-start">Breakfast:</h3>
 <table class="table table-hover">

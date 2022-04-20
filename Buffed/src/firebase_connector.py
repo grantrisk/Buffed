@@ -116,6 +116,7 @@ def update_user_goal(UID: str, goal: Goal):
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal.goal_id).set(vars(goal), merge=True)
 
+
 # --------- Saved Meals ---------
 def save_meal(UID: str, meal: Meal):
     """
@@ -172,7 +173,6 @@ def remove_meal_todays_plan(UID: str, meal_id: str):
     db.collection(u'users').document(UID).collection(u'todays_plan').document(meal_id).delete()
 
 
-
 def get_all_meals_todays_plan(UID: str):
     """
     Get all of a user's saved meals in today's plan
@@ -185,9 +185,6 @@ def get_all_meals_todays_plan(UID: str):
         meals.append(Meal.from_dict(result.to_dict()))
 
     return meals
-
-
-
 
 
 # # ------------------- Create Account -------------------
@@ -209,7 +206,7 @@ def get_all_meals_todays_plan(UID: str):
 # # new_email = "risk@gmail.com"
 # # set_user_info(userUID, FirebaseEnum.EMAIL, new_email)
 #
-# new_name = "Grant"
+# new_name = "Grant Risk"
 # set_user_info(userUID, FirebaseEnum.NAME, new_name)
 #
 # meals = get_all_meals_todays_plan(userUID)
@@ -217,11 +214,23 @@ def get_all_meals_todays_plan(UID: str):
 #     remove_meal_todays_plan(userUID, meal.meal_id)
 #
 # from models import Meal
-# meal1 = Meal("burger", str(uuid.uuid4()), MealType.DINNER.value, "", {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [])
-# meal2 = Meal("yogurt", str(uuid.uuid4()), MealType.BREAKFAST.value, "", {"calories":100, "protein":5, "carbs":90, "fat":40}, [], [])
+#
+# meal1 = Meal("burger", str(uuid.uuid4()), MealType.DINNER.value, "",
+#              {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [])
+# meal2 = Meal("yogurt", str(uuid.uuid4()), MealType.BREAKFAST.value, "",
+#              {"calories": 100, "protein": 5, "carbs": 90, "fat": 40}, [], [])
+# meal3 = Meal("banana", str(uuid.uuid4()), MealType.BREAKFAST.value, "",
+#              {"calories": 50, "protein": 2, "carbs": 90, "fat": 10}, [], [])
+# meal4 = Meal("pizza", str(uuid.uuid4()), MealType.LUNCH.value, "",
+#              {"calories": 300, "protein": 20, "carbs": 100, "fat": 70}, [], [])
+# meal5 = Meal("hot dog", str(uuid.uuid4()), MealType.DINNER.value, "",
+#              {"calories": 120, "protein": 14, "carbs": 75, "fat": 37}, [], [])
 #
 # add_meal_todays_plan(userUID, meal1)
 # add_meal_todays_plan(userUID, meal2)
+# add_meal_todays_plan(userUID, meal3)
+# add_meal_todays_plan(userUID, meal4)
+# add_meal_todays_plan(userUID, meal5)
 #
 # user_document = get_user_info(userUID)
 # print(f"Retrieving modified user document: {user_document}")

@@ -1,7 +1,10 @@
+import uuid
+
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 
 import firebase_connector as fb
+from models import Meal, MealType
 
 todays_plan_page = Blueprint("todays_plan", __name__, static_folder="static", template_folder="templates")
 
@@ -46,6 +49,8 @@ def update_plan():
         meal_id = request.form.get("meal_id")
         fb.remove_meal_todays_plan(UID, meal_id)
     elif request.form['action'] == "Add":
-        pass
+        meal1 = Meal("burger", str(uuid.uuid4()), MealType.DINNER.value, "",
+                     {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [])
+        fb.add_meal_todays_plan(UID, meal1)
 
     return redirect(url_for('todays_plan.todays_plan'))
