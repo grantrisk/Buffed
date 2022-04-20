@@ -44,7 +44,7 @@ def update_plan():
     UID = current_user.get_id()
     if request.form['action'] == "Delete":
         meal_id = request.form.get("meal_id")
-        fb.delete_meal(UID, meal_id)
+        fb.remove_meal_todays_plan(UID, meal_id)
     elif request.form['action'] == "Add":
         pass
 
