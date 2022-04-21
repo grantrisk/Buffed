@@ -94,8 +94,8 @@ class MealType(Enum):
 
 
 class Meal:
-    def __init__(self, meal_name: str, meal_id: str, meal_type: Enum, meal_img_url, nutrients: dict, health_labels: List[str],
-                 ingredients: List[str]):
+    def __init__(self, meal_name: str, meal_id: str, meal_type_section: str, meal_img_url, nutrients: dict, health_labels: List[str],
+                 ingredients: List[str], meal_types: List[str]):
         """
         Creates an instance of a Meal object
         :param meal_name: name of the meal
@@ -108,11 +108,12 @@ class Meal:
         """
         self.meal_name = meal_name
         self.meal_id = meal_id
-        self.meal_type = meal_type
+        self.meal_type_section = meal_type_section
         self.meal_img_url = meal_img_url
         self.nutrients = nutrients
         self.health_labels = health_labels
         self.ingredients = ingredients
+        self.meal_type = meal_types
 
     def to_json(self):
         return vars(self)
@@ -124,8 +125,8 @@ class Meal:
         :param data: dictionary containing meal data
         :return:
         """
-        return Meal(data['meal_name'], data['meal_id'], data['meal_type'], data['meal_img_url'], data['nutrients'],
-                    data['health_labels'], data['ingredients'])
+        return Meal(data['meal_name'], data['meal_id'], data['meal_type_section'], data['meal_img_url'], data['nutrients'],
+                    data['health_labels'], data['ingredients'], data['meal_type'])
 
 
 class Goal:

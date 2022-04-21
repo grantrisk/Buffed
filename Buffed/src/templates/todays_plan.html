@@ -24,7 +24,7 @@
     <tbody>
         {% for meal in meals %}
             <!-- Row Information -->
-            {% if meal["meal_type"] == "breakfast" %}
+            {% if meal["meal_type_section"] == "breakfast" %}
                 <tr>
                     <td>{{ meal.meal_name }}</td>
                     <td>{{ meal.nutrients["calories"] }}</td>
@@ -87,7 +87,7 @@
     <tbody>
         {% for meal in meals %}
             <!-- Row Information -->
-            {% if meal["meal_type"] == "lunch" %}
+            {% if meal["meal_type_section"] == "lunch" %}
                 <tr>
                     <td>{{ meal.meal_name }}</td>
                     <td>{{ meal.nutrients["calories"] }}</td>
@@ -150,7 +150,7 @@
     <tbody>
         {% for meal in meals %}
             <!-- Row Information -->
-            {% if meal["meal_type"] == "dinner" %}
+            {% if meal["meal_type_section"] == "dinner" %}
                 <tr>
                     <td>{{ meal.meal_name }}</td>
                     <td>{{ meal.nutrients["calories"] }}</td>
@@ -213,7 +213,7 @@
     <tbody>
         {% for meal in meals %}
             <!-- Row Information -->
-            {% if meal["meal_type"] == "snack" %}
+            {% if meal["meal_type_section"] == "snack" %}
                 <tr>
                     <td>{{ meal.meal_name }}</td>
                     <td>{{ meal.nutrients["calories"] }}</td>
