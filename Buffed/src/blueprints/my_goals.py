@@ -53,8 +53,9 @@ def create_standard_goal(UID: str):
     fb.create_user_new_goal(UID, standard_goal)
 
 
-@login_required
+
 @my_goals_page.route('/', methods=["GET", "POST"])
+@login_required
 def my_goals():
     """
         This method returns the page my_goals as well as the goals per user.
@@ -78,6 +79,7 @@ def my_goals():
 
 
 @my_goals_page.route('/update_goals/', methods=["POST"])
+@login_required
 def update_my_goals():
     UID = current_user.get_id()
     if request.form['action'] == "Update":

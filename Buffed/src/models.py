@@ -95,7 +95,7 @@ class MealType(Enum):
 
 class Meal:
     def __init__(self, meal_name: str, meal_id: str, meal_type_section: str, meal_img_url, nutrients: dict, health_labels: List[str],
-                 ingredients: List[str], meal_types: List[str]):
+                 ingredients: List[str], meal_types: List[str], recipe_source: str, recipe_url: str):
         """
         Creates an instance of a Meal object
         :param meal_name: name of the meal
@@ -105,6 +105,8 @@ class Meal:
         :param health_labels: list containing all health labels as defined by Edamam
         :param ingredients: list containing all ingredients in the meal
         :param meal_types: type of meal (i.e. Breakfast, Lunch, Dinner, etc.)
+        :param recipe_source: name of source of recipe, provided by Edamam
+        :param recipe_url: URL to recipe, provided by Edamam
         """
         self.meal_name = meal_name
         self.meal_id = meal_id
@@ -113,7 +115,9 @@ class Meal:
         self.nutrients = nutrients
         self.health_labels = health_labels
         self.ingredients = ingredients
-        self.meal_type = meal_types
+        self.meal_types = meal_types
+        self.recipe_source = recipe_source
+        self.recipe_url = recipe_url
 
     def to_json(self):
         return vars(self)
@@ -126,7 +130,7 @@ class Meal:
         :return:
         """
         return Meal(data['meal_name'], data['meal_id'], data['meal_type_section'], data['meal_img_url'], data['nutrients'],
-                    data['health_labels'], data['ingredients'], data['meal_type'])
+                    data['health_labels'], data['ingredients'], data['meal_types'], data['recipe_source'], data['recipe_url'])
 
 
 class Goal:

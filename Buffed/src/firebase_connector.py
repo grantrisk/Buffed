@@ -7,6 +7,8 @@ import firebase_admin
 import requests
 from firebase_admin import credentials, firestore, auth
 
+from models import Meal
+
 FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
 rest_api_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
 
@@ -203,8 +205,6 @@ def get_all_meals_todays_plan(UID: str):
     for meal in meal_list:
         meals.append(Meal.from_dict(meal))
     return meals
-
-
 
 # # ------------------- Create Account -------------------
 # user_email = "riskgrant@gmail.com"

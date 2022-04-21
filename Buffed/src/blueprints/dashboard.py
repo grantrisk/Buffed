@@ -5,8 +5,8 @@ from models import *
 dashboard_page = Blueprint("dashboard", __name__, static_folder="static", template_folder="templates")
 
 
-@login_required
 @dashboard_page.route('/')
+@login_required
 def dashboard():
     UID = current_user.get_id()
     goalList = fb.get_user_goals(UID)
