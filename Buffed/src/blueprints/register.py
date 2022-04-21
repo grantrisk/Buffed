@@ -1,11 +1,13 @@
 import flask_login
-from flask import Blueprint, render_template, request
 from flask_login import current_user
+from flask import Blueprint, render_template, request
 
-import firebase_connector as fb_connector
+import firebase_connector as fb
 from firebase_connector import FirebaseEnum
+
 from forms import ProfileQuestionnaire
-from blueprints.my_goals import create_standard_goal
+from blueprints import my_goals
+
 
 # TODO: need to disable navbar use in setup screen, or move this to index's register module
 
@@ -15,7 +17,7 @@ register_page = Blueprint("register", __name__, static_folder="static", template
 # UID = 'Wuz4BOnSgAZrfjRgmXFwz1WuT663'
 
 
-def send_info(result):
+def send_info(result, UID):
     """
     Save info to the user object, then send to Firebase connector
     """
@@ -24,17 +26,17 @@ def send_info(result):
 
     # how do I get a current user's id?
     # UID = User.get_id()
-    UID = current_user.get_id()  # email: fake.email@email.com // pass: 123456
+    # UID = "aTgX2eI0XLN6CGPiGRacjTOM8g32"  # email: fake.email@email.com // pass: 123456
 
-
-    fb_connector.set_user_info(UID, FirebaseEnum.NAME, result.get('name'))
-    fb_connector.set_user_info(UID, FirebaseEnum.GENDER, result.get('sex'))
-    fb_connector.set_user_info(UID, FirebaseEnum.BIRTH, result.get('birth'))
-    fb_connector.set_user_info(UID, FirebaseEnum.WEIGHT, result.get('weight'))
-    fb_connector.set_user_info(UID, FirebaseEnum.HEIGHT, result.get('height'))
-    fb_connector.set_user_info(UID, FirebaseEnum.ACTIVITY, result.get('activity'))
-    fb_connector.set_user_info(UID, FirebaseEnum.DIET, result.get('diet'))
-
+    fb.set_user_info(UID, FirebaseEnum.NAME, result.get('name'))
+    fb.set_user_info(UID, FirebaseEnum.GENDER, result.get('sex'))
+    fb.set_user_info(UID, FirebaseEnum.BIRTH, result.get('birth'))
+    fb.set_user_info(UID, FirebaseEnum.WEIGHT, result.get('weight'))
+    fb.set_user_info(UID, FirebaseEnum.HEIGHT, result.get('height'))
+    fb.set_user_info(UID, FirebaseEnum.ACTIVITY, result.get('activity_lvl'))
+    fb.set_user_info(UID, FirebaseEnum.CURRENT_GOAL, result.get('current_goal'))
+    fb.set_user_info(UID, FirebaseEnum.DIET, result.get('diet_type'))
+    my_goals.create_standard_goal(UID)
 
 def calculate_height(height):
     # calculate height in feet
@@ -47,7 +49,7 @@ def register():
     """
     Render html and pass setup form to html
     """
-
+    UID = current_user.get_id()
     profile_form = ProfileQuestionnaire()
     # validate_on_submit checks for submission with POST method,
     # then calls validate() to trigger form validation
@@ -60,9 +62,12 @@ def register():
                         'activity': request.form["activity"],
                         'diet': profile_form.diet_type.data}
         # Send this result so it can be stored
+        print("Passing on: ", setup_result)
+        send_info(setup_result, UID)
+        # resume as normal (re-render page with forms after sending)
         send_info(setup_result)
         # Create standard goal
-        create_standard_goal(current_user.get_id())
+        my_goals.create_standard_goal(UID)
         # Go to dashboard
         return render_template('dashboard.html')
     else:

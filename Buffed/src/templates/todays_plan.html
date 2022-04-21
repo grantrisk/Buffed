@@ -2,53 +2,286 @@
 {% set active_page = "todays_plan" %}
 {% block content %}
 
-    <h1>{% block title %}Today's Plan{% endblock %}</h1>
+<h1>{% block title %}Today's Plan{% endblock %}</h1>
 
-    <h3 class="text-start">Breakfast:</h3>
-<!--TODO: Implement delete button-->
-<!--    <input type="submit" value="DELETE" name="action1"/>-->
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Meal</th>
-                <th scope="col">Calories</th>
-                <th scope="col">Protein</th>
-                <th scope="col">Carbs</th>
-                <th scope="col">Fat</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for meal in meals %}
+<form action="/todays_plan/update_plan/" method="POST">
+    <button type="submit" name="action" value="Add" class="btn btn-success">Add Meal</button>
+</form>
+
+<!-- Breakfast -->
+<h3 class="text-start">Breakfast:</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col" style="width: 15%">Meal</th>
+            <th scope="col" style="width: 15%">Calories</th>
+            <th scope="col" style="width: 15%">Protein</th>
+            <th scope="col" style="width: 15%">Carbs</th>
+            <th scope="col" style="width: 15%">Fat</th>
+            <th scope="col" style="width: 15%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for meal in meals %}
+            <!-- Row Information -->
+            {% if meal["meal_type_section"] == "breakfast" %}
                 <tr>
-                    <td>{{ meal["meal_name"] }}</td>
-                    <td>{{ meal["nutrients"]["calories"] }}</td>
-                    <td>{{ meal["nutrients"]["protein"] }}</td>
-                    <td>{{ meal["nutrients"]["carbs"] }}</td>
-                    <td>{{ meal["nutrients"]["fat"] }}</td>
+                    <td>{{ meal.meal_name }}</td>
+                    <td>{{ meal.nutrients["calories"] }}</td>
+                    <td>{{ meal.nutrients["protein"] }}</td>
+                    <td>{{ meal.nutrients["carbs"] }}</td>
+                    <td>{{ meal.nutrients["fat"] }}</td>
                     <!-- Button trigger modal -->
-                    <td><button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">Delete Meal</button></td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#delete{{ meal.meal_id }}">Delete Meal</button>
+                    </td>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            {% endif %}
+            <!-- Modal -->
+            <div class="modal fade" id="delete{{ meal.meal_id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Delete Meal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Form -->
+                    <form action="/todays_plan/update_plan/" method="POST">
+                        <div class="modal-body">
+                            Are you sure you want to remove this meal? This action cannot be undone. <br>
+                            <div class="form-group">
+                                <label for="mealMealID" class="form-label">Removing: {{ meal.meal_name }}</label>
+                                <input type="hidden" class="form-control" id="mealMealID" name="meal_id" value="{{ meal.meal_id }}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" name="action" value="Delete" class="btn btn-danger" data-bs-dismiss="modal">Delete Meal</button>
+                        </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+    </tbody>
+</table>
 
-    <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">Delete Meal</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            Are you sure you want to remove this meal? This action cannot be undone.
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger">Delete Meal</button>
-          </div>
-        </div>
-      </div>
-    </div>
+<br>
+<br>
+
+<!-- Lunch -->
+<h3 class="text-start">Lunch:</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col" style="width: 15%">Meal</th>
+            <th scope="col" style="width: 15%">Calories</th>
+            <th scope="col" style="width: 15%">Protein</th>
+            <th scope="col" style="width: 15%">Carbs</th>
+            <th scope="col" style="width: 15%">Fat</th>
+            <th scope="col" style="width: 15%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for meal in meals %}
+            <!-- Row Information -->
+            {% if meal["meal_type_section"] == "lunch" %}
+                <tr>
+                    <td>{{ meal.meal_name }}</td>
+                    <td>{{ meal.nutrients["calories"] }}</td>
+                    <td>{{ meal.nutrients["protein"] }}</td>
+                    <td>{{ meal.nutrients["carbs"] }}</td>
+                    <td>{{ meal.nutrients["fat"] }}</td>
+                    <!-- Button trigger modal -->
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#delete{{ meal.meal_id }}">Delete Meal</button>
+                    </td>
+                </tr>
+            {% endif %}
+            <!-- Modal -->
+            <div class="modal fade" id="delete{{ meal.meal_id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Delete Meal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Form -->
+                    <form action="/todays_plan/update_plan/" method="POST">
+                        <div class="modal-body">
+                            Are you sure you want to remove this meal? This action cannot be undone. <br>
+                            <div class="form-group">
+                                <label for="mealMealID" class="form-label">Removing: {{ meal.meal_name }}</label>
+                                <input type="hidden" class="form-control" id="mealMealID" name="meal_id" value="{{ meal.meal_id }}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" name="action" value="Delete" class="btn btn-danger" data-bs-dismiss="modal">Delete Meal</button>
+                        </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<br>
+
+<!-- Dinner -->
+<h3 class="text-start">Dinner:</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col" style="width: 15%">Meal</th>
+            <th scope="col" style="width: 15%">Calories</th>
+            <th scope="col" style="width: 15%">Protein</th>
+            <th scope="col" style="width: 15%">Carbs</th>
+            <th scope="col" style="width: 15%">Fat</th>
+            <th scope="col" style="width: 15%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for meal in meals %}
+            <!-- Row Information -->
+            {% if meal["meal_type_section"] == "dinner" %}
+                <tr>
+                    <td>{{ meal.meal_name }}</td>
+                    <td>{{ meal.nutrients["calories"] }}</td>
+                    <td>{{ meal.nutrients["protein"] }}</td>
+                    <td>{{ meal.nutrients["carbs"] }}</td>
+                    <td>{{ meal.nutrients["fat"] }}</td>
+                    <!-- Button trigger modal -->
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#delete{{ meal.meal_id }}">Delete Meal</button>
+                    </td>
+                </tr>
+            {% endif %}
+            <!-- Modal -->
+            <div class="modal fade" id="delete{{ meal.meal_id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Delete Meal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Form -->
+                    <form action="/todays_plan/update_plan/" method="POST">
+                        <div class="modal-body">
+                            Are you sure you want to remove this meal? This action cannot be undone. <br>
+                            <div class="form-group">
+                                <label for="mealMealID" class="form-label">Removing: {{ meal.meal_name }}</label>
+                                <input type="hidden" class="form-control" id="mealMealID" name="meal_id" value="{{ meal.meal_id }}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" name="action" value="Delete" class="btn btn-danger" data-bs-dismiss="modal">Delete Meal</button>
+                        </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<br>
+
+<!-- Snacks -->
+<h3 class="text-start">Snacks:</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col" style="width: 15%">Meal</th>
+            <th scope="col" style="width: 15%">Calories</th>
+            <th scope="col" style="width: 15%">Protein</th>
+            <th scope="col" style="width: 15%">Carbs</th>
+            <th scope="col" style="width: 15%">Fat</th>
+            <th scope="col" style="width: 15%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for meal in meals %}
+            <!-- Row Information -->
+            {% if meal["meal_type_section"] == "snack" %}
+                <tr>
+                    <td>{{ meal.meal_name }}</td>
+                    <td>{{ meal.nutrients["calories"] }}</td>
+                    <td>{{ meal.nutrients["protein"] }}</td>
+                    <td>{{ meal.nutrients["carbs"] }}</td>
+                    <td>{{ meal.nutrients["fat"] }}</td>
+                    <!-- Button trigger modal -->
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#delete{{ meal.meal_id }}">Delete Meal</button>
+                    </td>
+                </tr>
+            {% endif %}
+            <!-- Modal -->
+            <div class="modal fade" id="delete{{ meal.meal_id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Delete Meal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Form -->
+                    <form action="/todays_plan/update_plan/" method="POST">
+                        <div class="modal-body">
+                            Are you sure you want to remove this meal? This action cannot be undone. <br>
+                            <div class="form-group">
+                                <label for="mealMealID" class="form-label">Removing: {{ meal.meal_name }}</label>
+                                <input type="hidden" class="form-control" id="mealMealID" name="meal_id" value="{{ meal.meal_id }}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" name="action" value="Delete" class="btn btn-danger" data-bs-dismiss="modal">Delete Meal</button>
+                        </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<br>
+
+<!-- Total Section -->
+<h3 class="text-start">Total:</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col" style="width: 20%">Number of Meals</th>
+            <th scope="col" style="width: 20%">Calories</th>
+            <th scope="col" style="width: 20%">Protein</th>
+            <th scope="col" style="width: 20%">Carbs</th>
+            <th scope="col" style="width: 20%">Fat</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ calories["num_meals"] }}</td>
+            <td>{{ calories["calories"] }}</td>
+            <td>{{ calories["protein"] }}</td>
+            <td>{{ calories["carbs"] }}</td>
+            <td>{{ calories["fat"] }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
 {% endblock content %}
