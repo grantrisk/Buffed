@@ -130,7 +130,7 @@ class Meal:
         :return:
         """
         return Meal(data['meal_name'], data['meal_id'], data['meal_type_section'], data['meal_img_url'], data['nutrients'],
-                    data['health_labels'], data['ingredients'], data['meal_type'], data['recipe_source'], data['recipe_url'])
+                    data['health_labels'], data['ingredients'], data['meal_types'], data['recipe_source'], data['recipe_url'])
 
 
 class Goal:

@@ -120,7 +120,7 @@ class EdamamConnector:
                 if "url" in result["recipe"]:
                     recipe_url = result["recipe"]["url"]
 
-                search_results.append(Meal(recipe_name, recipe_id, img_url, nutrients, health_labels, ingredients,
+                search_results.append(Meal(recipe_name, recipe_id, None, img_url, nutrients, health_labels, ingredients,
                                            meal_type, recipe_source, recipe_url))
 
         return search_results
@@ -152,7 +152,7 @@ class EdamamConnector:
             if "url" in recipe:
                 recipe_url = recipe["url"]
 
-            return Meal(recipe_name, recipe_id, img_url, nutrients, health_labels, ingredients, meal_type,
+            return Meal(recipe_name, recipe_id, None, img_url, nutrients, health_labels, ingredients, meal_type,
                         recipe_source, recipe_url)
 
     def __build_nutrients_json(self, food_id, measureURI):
