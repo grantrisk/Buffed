@@ -93,7 +93,7 @@ class EdamamConnector:
             raise InvalidRequestError("Invalid request")
 
         search_results = []
-        recipe_id, recipe_name, img_url, health_labels, meal_type = "", "", "", "", ""
+        recipe_id, recipe_name, img_url, health_labels, meal_type, recipe_source, recipe_url = "", "", "", "", "", "", ""
         ingredients = []
         nutrients = {}
         if "hits" in r.json():
@@ -115,8 +115,13 @@ class EdamamConnector:
                         ingredients.append(ingredient)
                 if "mealType" in result["recipe"]:
                     meal_type = result["recipe"]["mealType"]
+                if "source" in result["recipe"]:
+                    recipe_source = result["recipe"]["source"]
+                if "url" in result["recipe"]:
+                    recipe_url = result["recipe"]["url"]
 
-                search_results.append(Meal(recipe_name, recipe_id, img_url, nutrients, health_labels, ingredients, meal_type))
+                search_results.append(Meal(recipe_name, recipe_id, img_url, nutrients, health_labels, ingredients,
+                                           meal_type, recipe_source, recipe_url))
 
         return search_results
 
@@ -127,7 +132,7 @@ class EdamamConnector:
 
         nutrients = {}
         ingredients = []
-        recipe_name, img_url, health_labels, meal_type = "", "", "", ""
+        recipe_name, img_url, health_labels, meal_type, recipe_source, recipe_url = "", "", "", "", "", ""
         if "recipe" in r.json():
             recipe = r.json()["recipe"]
             if "label" in recipe:
@@ -142,8 +147,13 @@ class EdamamConnector:
                 meal_type = recipe["mealType"]
             if "ingredientLines" in recipe:
                 ingredients = recipe["ingredientLines"]
+            if "source" in recipe:
+                recipe_source = recipe["source"]
+            if "url" in recipe:
+                recipe_url = recipe["url"]
 
-            return Meal(recipe_name, recipe_id, img_url, nutrients, health_labels, ingredients, meal_type)
+            return Meal(recipe_name, recipe_id, img_url, nutrients, health_labels, ingredients, meal_type,
+                        recipe_source, recipe_url)
 
     def __build_nutrients_json(self, food_id, measureURI):
         """

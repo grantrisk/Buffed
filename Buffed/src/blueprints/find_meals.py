@@ -21,6 +21,7 @@ def find_meals():
 
 
 @find_meals_page.route('/search_results')
+@login_required
 def search_results():
     """
     Renders the search results page for Find Meals searches
@@ -50,6 +51,7 @@ def search_results():
 
 
 @find_meals_page.route('/nutrition')
+@login_required
 def nutrition():
     """
     Returns the Nutrition page, which shows an individual meal's nutrition details
@@ -64,6 +66,7 @@ def nutrition():
 
 
 @find_meals_page.route('/save_meal/', methods=['POST'])
+@login_required
 def save_meal():
     if 'id' in request.json:
         meal = edamam_instance.get_recipe_by_id(request.json['id'])
@@ -75,6 +78,7 @@ def save_meal():
 
 
 @find_meals_page.route('/remove_meal/', methods=['POST'])
+@login_required
 def remove_meal():
     if 'id' in request.json:
         firebase_connector.remove_meal(current_user.get_id(), request.json['id'])

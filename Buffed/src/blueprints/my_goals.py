@@ -56,8 +56,9 @@ def create_standard_goal(UID: str):
     fb_connector.create_user_new_goal(UID, standard_goal)
     set_new_current_goal(UID, goal_id)
 
-@login_required
+
 @my_goals_page.route('/', methods=["GET", "POST"])
+@login_required
 def my_goals():
     """
         This method returns the page my_goals as well as the goals per user.
@@ -95,6 +96,7 @@ def my_goals():
 
 
 @my_goals_page.route('/update_goals/', methods=["GET", "POST"])
+@login_required
 def update_my_goals():
 
     if request.method == "POST":

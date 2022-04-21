@@ -87,7 +87,7 @@ class Ingredient:
 
 class Meal:
     def __init__(self, meal_name: str, meal_id: str, meal_img_url, nutrients: dict, health_labels: List[str],
-                 ingredients: List[str], meal_types: List[str]):
+                 ingredients: List[str], meal_types: List[str], recipe_source: str, recipe_url: str):
         """
         Creates an instance of a Meal object
         :param meal_name: name of the meal
@@ -97,6 +97,8 @@ class Meal:
         :param health_labels: list containing all health labels as defined by Edamam
         :param ingredients: list containing all ingredients in the meal
         :param meal_types: type of meal (i.e. Breakfast, Lunch, Dinner, etc.)
+        :param recipe_source: name of source of recipe, provided by Edamam
+        :param recipe_url: URL to recipe, provided by Edamam
         """
         self.meal_name = meal_name
         self.meal_id = meal_id
@@ -105,6 +107,8 @@ class Meal:
         self.health_labels = health_labels
         self.ingredients = ingredients
         self.meal_types = meal_types
+        self.recipe_source = recipe_source
+        self.recipe_url = recipe_url
 
     def get_name(self):
         return self.meal_name
@@ -113,8 +117,10 @@ class Meal:
         return self.nutrients
 
     def to_json(self):
-        return {'id': self.meal_id, 'name': self.meal_name, 'imgUrl': self.meal_img_url, 'nutrients': self.nutrients,
-                'healthLabels': self.health_labels, 'ingredients': self.ingredients, 'mealTypes': self.meal_types}
+        # return {'id': self.meal_id, 'name': self.meal_name, 'imgUrl': self.meal_img_url, 'nutrients': self.nutrients,
+        #         'healthLabels': self.health_labels, 'ingredients': self.ingredients, 'mealTypes': self.meal_types,
+        #         'recipeSource': self.recipe_source, 'recipeURL': self.recipe_url}
+        return vars(self)
 
     @classmethod
     def from_dict(cls, data: dict):
@@ -123,8 +129,8 @@ class Meal:
         :param data: dictionary containing meal data
         :return:
         """
-        return Meal(data['name'], data['id'], data['imgUrl'], data['nutrients'], data['healthLabels'],
-                    data['ingredients'], data['mealTypes'])
+        return Meal(data['meal_name'], data['meal_id'], data['meal_img_url'], data['nutrients'], data['health_labels'],
+                    data['ingredients'], data['meal_types'], data['recipe_source'], data['recipe_url'])
 
 
 class Goal:
