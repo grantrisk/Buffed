@@ -1,4 +1,5 @@
 import time
+import uuid
 from enum import Enum
 from typing import List
 
@@ -85,8 +86,15 @@ class Ingredient:
         self.ingredient_measures = ingredient_measures
 
 
+class MealType(Enum):
+    BREAKFAST = "breakfast"
+    LUNCH = "lunch"
+    DINNER = "dinner"
+    SNACK = "snack"
+
+
 class Meal:
-    def __init__(self, meal_name: str, meal_id: str, meal_img_url, nutrients: dict, health_labels: List[str],
+    def __init__(self, meal_name: str, meal_id: str, meal_type_section: str, meal_img_url, nutrients: dict, health_labels: List[str],
                  ingredients: List[str], meal_types: List[str]):
         """
         Creates an instance of a Meal object
@@ -100,17 +108,25 @@ class Meal:
         """
         self.meal_name = meal_name
         self.meal_id = meal_id
+        self.meal_type_section = meal_type_section
         self.meal_img_url = meal_img_url
         self.nutrients = nutrients
         self.health_labels = health_labels
         self.ingredients = ingredients
         self.meal_type = meal_types
 
-    def get_name(self):
-        return self.meal_name
+    def to_json(self):
+        return vars(self)
 
-    def get_nutrients(self):
-        return self.nutrients
+    @classmethod
+    def from_dict(cls, data: dict):
+        """
+        Class method to convert dictionary to Meal object
+        :param data: dictionary containing meal data
+        :return:
+        """
+        return Meal(data['meal_name'], data['meal_id'], data['meal_type_section'], data['meal_img_url'], data['nutrients'],
+                    data['health_labels'], data['ingredients'], data['meal_type'])
 
 
 class Goal:
@@ -139,17 +155,6 @@ class Goal:
             return self.goal_name == other.goal_name and self.calories == other.calories
 
 
-class MealPlan:
-    def __init__(self, user_id: str, meals: List[Meal]):
-        """
-        Creates an instance of a MealPlan object.
-        :param user_id: the ID of the user who owns the MealPlan
-        :param meals: the list of Meal objects for the meal plan, associated with the user object
-        """
-        self.user_id = user_id
-        self.meals = meals
-
-
 class AlertType(Enum):
     PRIMARY = 'alert-primary'
     SECONDARY = 'alert-secondary'
@@ -170,4 +175,3 @@ class Alert:
         """
         self.alert_type = alert_type
         self.message = message
-
