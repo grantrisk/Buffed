@@ -3,7 +3,7 @@ import datetime
 from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, DecimalField, \
     RadioField, SelectMultipleField, widgets
-from wtforms.validators import DataRequired, Email, Regexp, NumberRange, Length
+from wtforms.validators import DataRequired, Email, Regexp, NumberRange, Length, EqualTo
 
 from models import Goal
 
@@ -41,10 +41,15 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 
-#
-# def validate_birth(form,field):
-#     if (datetime.date.today().year - int(field.data[:4])) < (13 * 365):
-#         raise ValidationError("You must be 13 years or older!")
+class RegisterForm(FlaskForm):
+    # TODO: implement more robust email and password requirements and validation
+    email = EmailField("Email", validators=[DataRequired(), Email(), EqualTo(fieldname="confirm_email",
+                                                                             message="Your Emails don't match.")])
+    confirm_email = EmailField("Confirm Email", validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired(), EqualTo(fieldname="confirm_password",
+                                                                             message="Your Passwords don't match.")])
+    confirm_password = PasswordField("Confirm Password", validators=[DataRequired()])
+    submit = SubmitField("Register")  # may not be needed
 
 
 class ProfileQuestionnaire(FlaskForm):

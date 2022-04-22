@@ -1,45 +1,41 @@
-import flask_login
-from flask_login import current_user
-from flask import Blueprint, render_template, request
+from flask_login import current_user, login_user
+from flask import Blueprint, render_template, request, redirect, url_for
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import firebase_connector as fb
+from blueprints.index import invalid_credentials_messages
 from firebase_connector import FirebaseEnum
 
-from forms import ProfileQuestionnaire
+from forms import ProfileQuestionnaire, RegisterForm
 from blueprints import my_goals
-
-
-# TODO: need to disable navbar use in setup screen, or move this to index's register module
+from models import User
 
 register_page = Blueprint("register", __name__, static_folder="static", template_folder="templates")
 
-# TODO: remove when we can grab user id
-# UID = 'Wuz4BOnSgAZrfjRgmXFwz1WuT663'
 
-
-def send_info(result, UID):
+def send_setup_info(result: dict, UID: str) -> None:
     """
     Save info to the user object, then send to Firebase connector
     """
-    # TODO: Send info to User object to send to Firebase connector
+    # TODO: Remove this print
     print("Sending to FB: ", result)
-
-    # how do I get a current user's id?
-    # UID = User.get_id()
-    # UID = "aTgX2eI0XLN6CGPiGRacjTOM8g32"  # email: fake.email@email.com // pass: 123456
 
     fb.set_user_info(UID, FirebaseEnum.NAME, result.get('name'))
     fb.set_user_info(UID, FirebaseEnum.GENDER, result.get('sex'))
     fb.set_user_info(UID, FirebaseEnum.BIRTH, result.get('birth'))
     fb.set_user_info(UID, FirebaseEnum.WEIGHT, result.get('weight'))
     fb.set_user_info(UID, FirebaseEnum.HEIGHT, result.get('height'))
-    fb.set_user_info(UID, FirebaseEnum.ACTIVITY, result.get('activity_lvl'))
-    fb.set_user_info(UID, FirebaseEnum.CURRENT_GOAL, result.get('current_goal'))
-    fb.set_user_info(UID, FirebaseEnum.DIET, result.get('diet_type'))
-    my_goals.create_standard_goal(UID)
+    fb.set_user_info(UID, FirebaseEnum.ACTIVITY, result.get('activity'))
+    fb.set_user_info(UID, FirebaseEnum.DIET, result.get('diet'))
+    my_goals.create_standard_goal(UID)  # create a new standard goal and set it as current goal
 
-def calculate_height(height):
-    # calculate height in feet
+
+def calculate_height(height: str) -> float:
+    """
+    Calculate height in feet as a float
+    :param height: string formatted as feet-inches (6'2)
+    :return: height in feet
+    """
     height = height.split("'")
     return float(height[0]) + float(height[1]) / 12
 
@@ -49,110 +45,60 @@ def register():
     """
     Render html and pass setup form to html
     """
-    UID = current_user.get_id()
+    register_form = RegisterForm()
     profile_form = ProfileQuestionnaire()
-    # validate_on_submit checks for submission with POST method,
-    # then calls validate() to trigger form validation
-    if profile_form.validate_on_submit():
-        setup_result = {'name': request.form["name"],
-                        'sex': request.form["sex"],
-                        'birth': request.form["birth"],
-                        'weight': request.form["weight"],
-                        'height': calculate_height(request.form["height"]),
-                        'activity': request.form["activity"],
-                        'diet': profile_form.diet_type.data}
-        # Send this result so it can be stored
-        print("Passing on: ", setup_result)
-        send_info(setup_result, UID)
-        # resume as normal (re-render page with forms after sending)
-        send_info(setup_result)
-        # Create standard goal
-        my_goals.create_standard_goal(UID)
-        # Go to dashboard
-        return render_template('dashboard.html')
+
+    if profile_form.submit.data:
+        # TODO: securely handle password, other info...
+        email = request.form['email']
+        confirm_email = request.form['confirm_email']
+
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+
+        print(email, confirm_email, password, confirm_password)
+
+        if email == confirm_email and password == confirm_password and profile_form.validate_on_submit():
+            # validate_on_submit checks for submission with POST method,
+            # then calls validate() to trigger form validation
+            try:
+                fb.create_firebase_account(email, password)
+                # ValueError – If the specified user properties are invalid.
+                # FirebaseError – If an error occurs while creating the user account.
+
+                response = fb.sign_in_with_email_and_password(email, password)
+                if isinstance(response, dict):
+                    if "error" in response:
+                        if response["error"]["message"] in invalid_credentials_messages:
+                            return redirect(url_for('index.index'))
+                    elif "kind" in response and response["kind"] == 'identitytoolkit#VerifyPasswordResponse':
+                        user_id = response["localId"]
+                        token = response["idToken"]
+                        expires_in = response["expiresIn"]
+                        user = User(user_id, token, expires_in)
+                        login_user(user)
+
+                        UID = current_user.get_id()
+
+                        setup_result = {'name': request.form["name"],
+                                        'sex': request.form["sex"],
+                                        'birth': request.form["birth"],
+                                        'weight': request.form["weight"],
+                                        'height': calculate_height(request.form["height"]),
+                                        'activity': request.form["activity"],
+                                        'diet': profile_form.diet_type.data}
+                        # Send this result so it can be stored
+                        send_setup_info(setup_result, UID)
+                        # Go to dashboard
+                        return render_template('dashboard.html')
+            except ValueError:
+                # TODO: handle exceptions
+                print("Value Error")
+                return render_template('register.html', register_form=register_form, profile_form=profile_form)
+        else:
+            # TODO: Give user feedback
+            print("Emails / Passwords do not match")
+            return render_template('register.html', register_form=register_form, profile_form=profile_form)
     else:
-        # render template with questionnaire form
-        return render_template('register.html', profile_form=profile_form)
-
-
-
-# we can do this all at once
-# @register_page.route('/account_setup', methods=['GET', 'POST'])
-# def setup_questions():
-#     """
-#     Renders both profile and diet questionnaires and gets validated posted info
-#     """
-#     setup_form = AccountSetupForm()
-#
-#     # validate_on_submit checks for submission with POST method,
-#     # then calls validate() to trigger form validation
-#     if "submit" in request.form and setup_form.profile_q.validate(setup_form) and setup_form.diet_q.validate(setup_form):
-#         # if a form is posted, store information as result
-#         setup_result = {'sex': request.form["sex"],
-#                         'bday': request.form["bday"],
-#                         'weight': request.form["weight"],
-#                         'height': request.form["height"],
-#                         'activity_level': request.form["activity_level"],
-#                         'goal': request.form["goal"],  # are we using goal objects still?
-#                         'diet_type': request.form["diet_type"],
-#                         'allergies': request.form["allergies"]}
-#         # Send this result so it can be stored
-#         print(setup_result)
-#         send_info(setup_result)
-#         # resume as normal (re-render page with forms after sending)
-#         return render_template('register.html', setup_form=setup_form)
-#     else:
-#         # render template with questionnaire forms
-#         return render_template('register.html', setup_form=setup_form)
-#
-#
-# # TODO: not using this for registration currently; should be moved where we'll handle editing information
-# @register_page.route('/register-profile', methods=['GET', 'POST'])
-# def profile_questions():
-#     """
-#     This method returns the account setup page.
-#     :return: The account setup page including questionnaire forms
-#     """
-#     profile_form = ProfileQuestionnaire()
-#     diet_form = DietQuestionnaire()
-#     # validate_on_submit checks for submission with POST method,
-#     # then calls validate() to trigger form validation
-#     if profile_form.validate_on_submit():
-#         # if a form is posted, store information as result
-#         profile_result = {'sex': request.form["sex"],
-#                           'bday': request.form["bday"],
-#                           'weight': request.form["weight"],
-#                           'height': request.form["height"],
-#                           'activity_level': request.form["activity_level"],
-#                           'goal': request.form["goal"]}
-#         # Send this result so it can be stored
-#         send_info(profile_result)
-#         # resume as normal (re-render page with forms after sending)
-#         return render_template('register.html', profile_form=profile_form, diet_form=diet_form)
-#     else:
-#         # render template with questionnaire forms
-#         return render_template('register.html', profile_form=profile_form, diet_form=diet_form)
-#
-#
-# # TODO: not using this for registration currently; should be moved where we'll handle editing information
-# @register_page.route('/register-diet', methods=['GET', 'POST'])
-# def diet_questions():
-#     """
-#     This method returns the account setup page.
-#     :return: The account setup page including questionnaire forms
-#     """
-#     profile_form = ProfileQuestionnaire()
-#     diet_form = DietQuestionnaire()
-#
-#     # validate_on_submit checks for submission with POST method,
-#     # then calls validate() to trigger form validation
-#     if diet_form.validate_on_submit():
-#         diet_result = {'diet_type': request.form["diet_type"],
-#                        'allergies': request.form["allergies"]}
-#         # Send this result so it can be stored
-#         send_info(diet_result)
-#         # resume as normal (re-render page with forms after sending)
-#         return render_template('register.html', profile_form=profile_form, diet_form=diet_form)
-#     else:
-#         # render template with questionnaire forms
-#         return render_template('register.html', profile_form=profile_form, diet_form=diet_form)
+        # render template with register and profile form
+        return render_template('register.html', register_form=register_form, profile_form=profile_form)
