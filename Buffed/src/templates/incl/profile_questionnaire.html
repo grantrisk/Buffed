@@ -3,14 +3,6 @@
 {#    <h2>Profile Questionnaire</h2>#}
 
     {{ profile_form.hidden_tag() }}
-    <form action="{{ url_for('register.register') }}" method="post">
-{#!= 'hidden' and p.widget.input_type != 'submit' #}
-{#        {% for p in profile_form if p not in ['sex','diet_type'] and p.widget.input_type not in ['hidden','submit']  %}#}
-{#            <div class="form-group">#}
-{#                {{ p.label() }}#}
-{#                {{ p }}#}
-{#            </div>#}
-{#        {% endfor %}#}
 
         <!----- Display Name ----->
         <div class="form-group">
@@ -69,17 +61,6 @@
             {% endfor %}
         </div>
 
-{#        <!----- Starting Goal ----->#}
-{#        <div class="form-check">#}
-{#            Starting Goal<br>#}
-{#            {% for subfield in profile_form.current_goal %}#}
-{#                <tr>#}
-{#                    <td>{{ subfield }}</td>#}
-{#                    <td>{{ subfield.label }}</td>#}
-{#                </tr>#}
-{#            {% endfor %}#}
-{#        </div>#}
-
         <!----- Health Labels ----->
         <div class="form-check">
             Diet Health Labels<br>
@@ -97,9 +78,4 @@
             <input type="submit" class="btn btn-primary btn-lg" name="submit" value="Submit">
         </div>
         {{ profile_form.csrf_token }}
-{##}
-{#            {% if profile_form.submit.data %}#}
-{#                {{ is_available() }}#}
-{#            {% endif %}#}
-    </form>
 {% endblock profile_body %}
