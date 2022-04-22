@@ -5,6 +5,7 @@ from wtforms import StringField, EmailField, TextAreaField, SubmitField, Passwor
     RadioField, SelectMultipleField, widgets
 from wtforms.validators import DataRequired, Email, Regexp, NumberRange, Length
 
+from models import Goal
 
 
 class MultiCheckboxField(SelectMultipleField):

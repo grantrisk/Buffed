@@ -4,8 +4,8 @@ from flask_login import login_required
 my_profile_page = Blueprint("my_profile", __name__, static_folder="static", template_folder="templates")
 
 
-@login_required
 @my_profile_page.route('/')
+@login_required
 def my_profile():
     """
         This method returns the page for my profile.

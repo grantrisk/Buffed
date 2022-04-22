@@ -1,5 +1,152 @@
 {% extends "base.html" %}
 {% set active_page = "dashboard" %}
+{% block title %}
+    Dashboard
+{% endblock %}
 {% block content %}
-<h1>{% block title %}Dashboard{% endblock %}</h1>
+    <h1>Dashboard</h1>
+    <div class="container" >
+    <br><br>
+        <div class="row">
+            <div class="col">
+                <h3><b>Active Goal: {{ goal.goal_name }}</b></h3>
+                <div>
+                    <p class="fs-3" id="calories">Calories:       {{goal.calories}}<p></p>
+                    <p class="fs-3" id="calories">Carbohydrates:  {{goal.macro_nutrients['carbs'][0]}}</p>
+                    <p class="fs-3" id="calories">Fats:           {{goal.macro_nutrients['fat'][0]}}</p>
+                    <p class="fs-3" id="calories">Protein:        {{goal.macro_nutrients['protein'][0]}}</p>
+                </div>
+            </div>
+            <div class="col" style="position: relative;">
+                <div id="macro-chart"></div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-4 chart-container" style="position: relative;">
+                <div id="protein-chart"></div>
+            </div>
+            <div class="col-4 chart-container" style="position: relative;">
+                <div id="carbs-chart"></div>
+            </div>
+            <div class="col-4 chart-container" style="position: relative;">
+                <div id="fats-chart"></div>
+            </div>
+        </div>
+    </div>
+    {% block javascript %}
+        <script>
+            const carbChart = bb.generate({
+                data: {
+                    columns: [
+                        ["Carbs", 7],
+                        ["CarbsGoal", 3],
+                    ],
+                    type: "donut",
+                    onclick: function (d, i) {
+                        console.log("onclick", d, i);
+                    },
+                    onover: function (d, i) {
+                        console.log("onover", d, i);
+                    },
+                    onout: function (d, i) {
+                        console.log("onout", d, i);
+                    },
+                    colors: {
+                        Carbs: "#136ccc",
+                        CarbsGoal: "#ffffff"
+                    }
+
+                },
+                donut: {
+                    title: "Carbohydrates",
+                },
+                bindto: "#carbs-chart",
+            });
+            const fatChart = bb.generate({
+                data: {
+                    columns: [
+                        ["Fats", 8],
+                        ["FatsGoal", 1],
+                    ],
+                    type: "donut",
+                    onclick: function (d, i) {
+                        console.log("onclick", d, i);
+                    },
+                    onover: function (d, i) {
+                        console.log("onover", d, i);
+                    },
+                    onout: function (d, i) {
+                        console.log("onout", d, i);
+                    },
+                    colors: {
+                        Fats: "#5e5c5c",
+                        FatsGoal: "#ffffff"
+                    }
+                },
+                donut: {
+                    title: "Fats",
+                },
+                bindto: "#fats-chart",
+            });
+            const proteinChart = bb.generate({
+                data: {
+                    columns: [
+                        ["Protein", 5],
+                        ["ProteinGoal", 5],
+                    ],
+                    type: "donut",
+                    onclick: function (d, i) {
+                        console.log("onclick", d, i);
+                    },
+                    onover: function (d, i) {
+                        console.log("onover", d, i);
+                    },
+                    onout: function (d, i) {
+                        console.log("onout", d, i);
+                    },
+                    colors: {
+                        Protein: "#2ac54d",
+                        ProteinGoal: "#ffffff"
+                    },
+                },
+                donut: {
+                    title: "Protein",
+                },
+                bindto: "#protein-chart",
+            });
+
+            const macroChart = bb.generate({
+                data: {
+                    columns: [
+                        ["Protein", 3.6],
+                        ["Carbs", 4.2],
+                        ["Fats", 2.2]
+                    ],
+                    type: "pie",
+                    colors: {
+                        Protein: "#2ac54d",
+                        Carbs: "#136ccc",
+                        Fats: "#5e5c5c"
+                    },
+                    pie: {
+                    title: "Macro Summary",
+                    },
+                    onclick: function (d, i) {
+                        console.log("onclick", d, i);
+                    },
+                    onover: function (d, i) {
+                        console.log("onover", d, i);
+                    },
+                    onout: function (d, i) {
+                        console.log("onout", d, i);
+                    },
+                },
+                bindto: "#macro-chart",
+            });
+        </script>
+    {% endblock %}
 {% endblock %}

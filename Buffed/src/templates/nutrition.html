@@ -3,11 +3,93 @@
 {% block content %}
 <h1>{% block title %}Nutrition{% endblock %}</h1>
 <h2>{{ meal.meal_name }}</h2>
-<img src="{{ meal.meal_img_url }}">
+<a href="{{ meal.recipe_url }}"><img src="{{ meal.meal_img_url }}"></a>
 <br><br>
-<h2>Nutrients per Serving</h2>
-{% for nutrient in meal.nutrients %}
-    <h3><b>{{ meal.nutrients[nutrient]['label'] }}</b>: {{ round(meal.nutrients[nutrient]['quantity'], 2) }}{{ meal.nutrients[nutrient]['unit'] }}</h3>
-{% endfor %}
 
+<ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="pills-nutrition-tab" data-bs-toggle="pill" data-bs-target="#pills-nutrition" type="button" role="tab" aria-controls="pills-nutrition" aria-selected="true">Nutrition</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-recipe-tab" data-bs-toggle="pill" data-bs-target="#pills-recipe" type="button" role="tab" aria-controls="pills-recipe" aria-selected="false">Recipe</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-health-tab" data-bs-toggle="pill" data-bs-target="#pills-health" type="button" role="tab" aria-controls="pills-health" aria-selected="false">Diets/Allergies</button>
+  </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-nutrition" role="tabpanel" aria-labelledby="pills-home-tab">
+    <hr>
+    <div class="grid">
+      <div class="row justify-content-center">
+        <div class="col col-md-6 text-end">
+          <h3><b>Calories</b></h3>
+        </div>
+        <div class="col col-md-6 text-start">
+          <h3>{{ round(meal.nutrients['ENERC_KCAL']['quantity']) }}</h3>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <br>
+    <h2>Macronutrients</h2>
+    <hr>
+    <div class="grid">
+      <div class="row justify-content-center">
+        <div class="col col-md-6 text-end">
+          <h3><b>Protein</b></h3>
+        </div>
+        <div class="col col-md-6 text-start">
+          <h3>{{ round(meal.nutrients['PROCNT']['quantity']) }}{{ meal.nutrients['PROCNT']['unit'] }}</h3>
+        </div>
+      </div>
+      <hr>
+      <div class="row justify-content-center">
+        <div class="col col-md-6 text-end">
+          <h3><b>Carbohydrates</b></h3>
+        </div>
+        <div class="col col-md-6 text-start">
+          <h3>{{ round(meal.nutrients['CHOCDF']['quantity']) }}{{ meal.nutrients['CHOCDF']['unit'] }}</h3>
+        </div>
+      </div>
+      <hr>
+      <div class="row justify-content-center">
+        <div class="col col-md-6 text-end">
+          <h3><b>Fat</b></h3>
+        </div>
+        <div class="col col-md-6 text-start">
+          <h3>{{ round(meal.nutrients['FAT']['quantity']) }}{{ meal.nutrients['FAT']['unit'] }}</h3>
+        </div>
+      </div>
+    </div>
+    <br>
+    <h2>All Nutrients</h2>
+    {% for nutrient in meal.nutrients %}
+      <hr>
+      <div class="row justify-content-center">
+        <div class="col col-md-6 text-end">
+          <h4><b>{{ meal.nutrients[nutrient]['label'] }}</b></h4>
+        </div>
+        <div class="col col-md-6 text-start">
+          <h4>{{ round(meal.nutrients[nutrient]['quantity']) }}{{ meal.nutrients[nutrient]['unit'] }}</h4>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Recipe Tab -->
+  <div class="tab-pane fade" id="pills-recipe" role="tabpanel" aria-labelledby="pills-recipe-tab">
+    <h2>Ingredients</h2>
+      {% for ingredient in meal.ingredients %}
+        <h3>{{ ingredient }}</h3>
+      {% endfor %}
+  </div>
+
+  <!-- Diet/Allergies Tab -->
+  <div class="tab-pane fade" id="pills-health" role="tabpanel" aria-labelledby="pills-health-tab">
+    {% for health_label in meal.health_labels %}
+      <h3>{{ health_label }}</h3>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

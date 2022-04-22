@@ -7,6 +7,8 @@ import firebase_admin
 import requests
 from firebase_admin import credentials, firestore, auth
 
+from models import Meal
+
 FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
 rest_api_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
 
@@ -23,11 +25,11 @@ class FirebaseEnum(Enum):
     HEIGHT = "height"
     NAME = "name"
     WEIGHT = "weight"
-    MEALS = "meals"
     ACTIVITY = "activity"
     DIET = "diet"
 
 
+# --------- Account Access ---------
 def create_firebase_account(email: str, password: str):
     """
     Creates a user account with the given email and password
@@ -45,7 +47,6 @@ def create_firebase_account(email: str, password: str):
         u'height': "",
         u'name': "",
         u'weight': "",
-        u'meals': [],
         u'activity': "",
         u'diet': []
     }
@@ -81,7 +82,6 @@ def get_user_info(UID: str):
     return user_doc.to_dict()
 
 
-# removed self so Profile could post to FB
 def set_user_info(UID: str, element: Enum, new_value: str):
     """
     Updates a user's information given a specific point in user document
@@ -95,6 +95,15 @@ def set_user_info(UID: str, element: Enum, new_value: str):
     doc_ref.update(field_updates)
 
 
+# --------- User Goals ---------
+def get_user_goals(UID: str):
+    goal_doc = db.collection(u'users').document(UID).collection(u'savedGoals').get()
+    goalList = []
+    for item in goal_doc:
+        goalList.append(item.to_dict())
+    return goalList
+
+
 def create_user_new_goal(UID: str, goal: Goal):
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal.goal_id).set(vars(goal))
@@ -105,49 +114,127 @@ def delete_user_goal(UID: str, goal_id: str):
     goal_doc_ref.document(goal_id).delete()
 
 
+def update_user_goal(UID: str, goal: Goal):
+    goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
+    goal_doc_ref.document(goal.goal_id).set(vars(goal), merge=True)
 
-    def create_user_new_goal(UID: str, goal: Goal):
-        goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
-        goal_doc_ref.document(goal.goal_id).set(vars(goal))
 
-    def delete_user_goal(UID: str, goal_id: str):
-        goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
-        goal_doc_ref.document(goal_id).delete()
+# --------- Saved Meals ---------
+def save_meal(UID: str, meal: Meal):
+    """
+    Saves a meal to a user's saved meals
+    :param UID: user UID
+    :param meal: meal to be saved
+    :return:
+    """
+    db.collection(u'users').document(UID).collection(u'saved_meals').document(meal.meal_id).set(meal.to_json())
 
+
+def remove_meal(UID: str, meal_id: str):
+    """
+    Remove a meal from a user's saved meals
+    :param UID: user UID
+    :param meal_id: ID of meal to be removed
+    :return: None
+    """
+    db.collection(u'users').document(UID).collection(u'saved_meals').document(meal_id).delete()
+
+
+def get_all_meals(UID: str):
+    """
+    Get all of a user's saved meals
+    :param UID: user UID
+    :return: stream
+    """
+    meals = []
+    results = db.collection(u'users').document(UID).collection(u'saved_meals').stream()
+    for result in results:
+        meals.append(Meal.from_dict(result.to_dict()))
+
+    return meals
+
+
+# --------- Today's Meals ---------
+def add_meal_todays_plan(UID: str, meal: Meal):
+    """
+    Adds a meal to today's plan
+    :param UID: user UID
+    :param meal: meal to be saved
+    :return: None
+    """
+    meals_list = get_all_meals_todays_plan(UID)
+    meals_list.append(meal)
+    meal_dict_list = []
+    for meal in meals_list:
+        meal_dict_list.append(vars(meal))
+
+    doc_ref = db.collection(u'users').document(UID)
+    field_updates = {'todays_plan': meal_dict_list}
+    doc_ref.update(field_updates)
+
+
+def remove_meal_todays_plan(UID: str, meal_id: str):
+    """
+    Remove a meal from today's plan
+    :param UID: user UID
+    :param meal_id: ID of meal to be removed
+    :return: None
+    """
+    meals_list = get_all_meals_todays_plan(UID)
+    meal_dict_list = []
+    for meal in meals_list:
+        meal_dict = vars(meal)
+        id = meal_dict['meal_id']
+        if id != meal_id:
+            meal_dict_list.append(meal_dict)
+
+    doc_ref = db.collection(u'users').document(UID)
+    field_updates = {'todays_plan': meal_dict_list}
+    doc_ref.update(field_updates)
+
+
+def get_all_meals_todays_plan(UID: str):
+    """
+    Get all of a user's saved meals in today's plan
+    :param UID: user UID
+    :return: list of Meal Objects
+    """
+    user_dict = db.collection(u'users').document(UID).get().to_dict()
+    meal_list = user_dict['todays_plan']
+    meals = []
+    for meal in meal_list:
+        meals.append(Meal.from_dict(meal))
+    return meals
 
 # # ------------------- Create Account -------------------
 # user_email = "riskgrant@gmail.com"
 # user_password = "123456"
-# # FirebaseConnector.create_firebase_account(user_email, user_password)
+# # create_firebase_account(user_email, user_password)
 #
 # # ------------------- Signing in -------------------
-# firebase_user = FirebaseConnector.sign_in_with_email_and_password(user_email, user_password)
+# firebase_user = sign_in_with_email_and_password(user_email, user_password)
 # # If there is no user this is returned: User sign in response: {'error': {'code': 400, 'message': 'EMAIL_NOT_FOUND',
 # # 'errors': [{'message': 'EMAIL_NOT_FOUND', 'domain': 'global', 'reason': 'invalid'}]}}
 # print(f"User sign in response: {firebase_user}")
 # userUID = firebase_user['localId']
 # print(f"User UID in database: {userUID}")
-# user_document = FirebaseConnector.get_user_info(userUID)
+# user_document = get_user_info(userUID)
 # print(f"Retrieving initial user document: {user_document}")
 #
 # # ------------------- Making Changes -------------------
-# new_email = "risk@gmail.com"
-# FirebaseConnector.set_user_info(userUID, FirebaseEnum.EMAIL, new_email)
+# # new_email = "risk@gmail.com"
+# # set_user_info(userUID, FirebaseEnum.EMAIL, new_email)
 #
-# new_name = "Grant"
-# FirebaseConnector.set_user_info(userUID, FirebaseEnum.NAME, new_name)
+# # new_name = "Grant Risk"
+# # set_user_info(userUID, FirebaseEnum.NAME, new_name)
 #
 # from models import Meal
-# meal1 = Meal("burger", "1", "", {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [], [])
-# meal2 = Meal("yogurt", "2", "", {"calories":100, "protein":5, "carbs":90, "fat":40}, [], [], [])
-# meal1 = vars(meal1)
-# meal2 = vars(meal2)
-# new_meals = [meal1, meal2]
-# FirebaseConnector.set_user_info(userUID, FirebaseEnum.MEALS, new_meals)
 #
-# user_document = FirebaseConnector.get_user_info(userUID)
+# meal1 = Meal("burger", "recipe_0b30b0c29576079a12998d386a42d019", MealType.DINNER.value, "",
+#              {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [])
+#
+# # add_meal_todays_plan(userUID, meal1)
+# remove_meal_todays_plan(userUID, meal1.meal_id)
+#
+# user_document = get_user_info(userUID)
 # print(f"Retrieving modified user document: {user_document}")
-#
-# first_meal = user_document['meals'][0]
-# print(f"Retrieving meal 1: {first_meal}")
-# print(f"Retrieving meal 1 calories: {first_meal['nutrients']['calories']}")
