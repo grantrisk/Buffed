@@ -23,10 +23,10 @@ def calculate_totals(meals):
     total_fat = 0
     for meal in meals:
         total_num_meals += 1
-        total_calories += meal.nutrients['calories']
-        total_protein += meal.nutrients["protein"]
-        total_carbs += meal.nutrients["carbs"]
-        total_fat += meal.nutrients["fat"]
+        total_calories += meal.nutrients['ENERC_KCAL']['quantity']
+        total_protein += meal.nutrients['PROCNT']['quantity']
+        total_carbs += meal.nutrients['CHOCDF']['quantity']
+        total_fat += meal.nutrients['FAT']['quantity']
     return {"calories": total_calories, "protein": total_protein, "carbs": total_carbs, "fat": total_fat,
             "num_meals": total_num_meals}
 
@@ -41,7 +41,7 @@ def todays_plan():
     UID = current_user.get_id()
     todays_meals = fb.get_all_meals_todays_plan(UID)
     calories = calculate_totals(todays_meals)
-    return render_template('todays_plan.html', meals=todays_meals, calories=calories)
+    return render_template('todays_plan.html', meals=todays_meals, calories=calories, round=round)
 
 
 @todays_plan_page.route('/update_plan/', methods=["POST"])

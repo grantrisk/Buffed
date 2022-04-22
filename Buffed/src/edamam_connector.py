@@ -139,6 +139,8 @@ class EdamamConnector:
                 recipe_name = recipe["label"]
             if "totalNutrients" in recipe:
                 nutrients = recipe["totalNutrients"]
+                for nutrient in nutrients:
+                    nutrients[nutrient]["quantity"] /= recipe["yield"]
             if "image" in recipe:
                 img_url = recipe["image"]
             if "healthLabels" in recipe:
