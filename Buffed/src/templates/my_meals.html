@@ -10,7 +10,7 @@
                     <div class="card g-col-4 w-25">
                         <div class="card-body">
                             <button class="save-meal-button btn btn-danger float-end" id="{{ card.meal_id }}">- My Meals</button>
-                            <button class="todays-plan-button btn btn-primary float-start" id="today-{{ card.meal_id }}">+ Today's Plan</button>
+                            <button class="todays-plan-button btn btn-primary float-start" id="today-{{ card.meal_id }}" data-bs-toggle="modal" data-bs-target="#meal-selector">+ Today's Plan</button>
                             <a href="{{ url_for('find_meals.nutrition', meal_id=card.meal_id) }}"><img class="card-img-top" src="{{ card.meal_img_url }}"></a>
                             <h1 class="card-title">{{ card.meal_name }}</h1>
                             <h2 class="card-text">Calories: {{ round(card.nutrients["ENERC_KCAL"]["quantity"], 2) }} per serving</h2>
@@ -22,6 +22,54 @@
     {% else %}
         <h2>No meals saved.</h2>
     {% endif %}
+</div>
+
+<div class="modal fade" id="meal-selector" tabindex="-1" aria-labelledby="mealModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Add to Today's Plan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Form -->
+            <form id="meal-selection-form" method="POST">
+                <div class="modal-body">
+                    Which meal would you like to add this to?
+                    <input id="inputMealID" type="hidden" name="mealID">
+                    <br><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="mealTypeOption" id="breakfastButton" value="breakfast">
+                        <label class="form-check-label" for="breakfastButton">
+                            Breakfast
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="mealTypeOption" id="lunchButton" value="lunch">
+                        <label class="form-check-label" for="lunchButton">
+                            Lunch
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="mealTypeOption" id="dinnerButton" value="dinner">
+                        <label class="form-check-label" for="dinnerButton">
+                            Dinner
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="mealTypeOption" id="snackButton" value="snack">
+                        <label class="form-check-label" for="snackButton">
+                            Snack
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="todays-plan-button" value="Add" class="btn btn-primary" data-bs-dismiss="modal">Add to Today's Plan</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

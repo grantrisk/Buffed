@@ -27,10 +27,10 @@
             {% if meal["meal_type_section"] == "breakfast" %}
                 <tr>
                     <td>{{ meal.meal_name }}</td>
-                    <td>{{ meal.nutrients["calories"] }}</td>
-                    <td>{{ meal.nutrients["protein"] }}</td>
-                    <td>{{ meal.nutrients["carbs"] }}</td>
-                    <td>{{ meal.nutrients["fat"] }}</td>
+                    <td>{{ round(meal.nutrients["ENERC_KCAL"]["quantity"], 2) }}</td>
+                    <td>{{ round(meal.nutrients["PROCNT"]["quantity"], 2) }}</td>
+                    <td>{{ round(meal.nutrients["CHOCDF"]["quantity"], 2) }}</td>
+                    <td>{{ round(meal.nutrients["FAT"]["quantity"], 2) }}</td>
                     <!-- Button trigger modal -->
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
@@ -90,10 +90,10 @@
             {% if meal["meal_type_section"] == "lunch" %}
                 <tr>
                     <td>{{ meal.meal_name }}</td>
-                    <td>{{ meal.nutrients["calories"] }}</td>
-                    <td>{{ meal.nutrients["protein"] }}</td>
-                    <td>{{ meal.nutrients["carbs"] }}</td>
-                    <td>{{ meal.nutrients["fat"] }}</td>
+                    <td>{{ round(meal.nutrients["ENERC_KCAL"]["quantity"], 2) }}</td>
+                    <td>{{ round(meal.nutrients["PROCNT"]["quantity"], 2) }}</td>
+                    <td>{{ round(meal.nutrients["CHOCDF"]["quantity"], 2) }}</td>
+                    <td>{{ round(meal.nutrients["FAT"]["quantity"], 2) }}</td>
                     <!-- Button trigger modal -->
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
@@ -153,10 +153,10 @@
             {% if meal["meal_type_section"] == "dinner" %}
                 <tr>
                     <td>{{ meal.meal_name }}</td>
-                    <td>{{ meal.nutrients["calories"] }}</td>
-                    <td>{{ meal.nutrients["protein"] }}</td>
-                    <td>{{ meal.nutrients["carbs"] }}</td>
-                    <td>{{ meal.nutrients["fat"] }}</td>
+                    <td>{{ round(meal.nutrients["ENERC_KCAL"]["quantity"], 2) }}</td>
+                    <td>{{ round(meal.nutrients["PROCNT"]["quantity"], 2) }}</td>
+                    <td>{{ round(meal.nutrients["CHOCDF"]["quantity"], 2) }}</td>
+                    <td>{{ round(meal.nutrients["FAT"]["quantity"], 2) }}</td>
                     <!-- Button trigger modal -->
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
@@ -216,10 +216,10 @@
             {% if meal["meal_type_section"] == "snack" %}
                 <tr>
                     <td>{{ meal.meal_name }}</td>
-                    <td>{{ meal.nutrients["calories"] }}</td>
-                    <td>{{ meal.nutrients["protein"] }}</td>
-                    <td>{{ meal.nutrients["carbs"] }}</td>
-                    <td>{{ meal.nutrients["fat"] }}</td>
+                    <td>{{ round(meal.nutrients["ENERC_KCAL"]["quantity"], 2) }}</td>
+                    <td>{{ round(meal.nutrients["PROCNT"]["quantity"], 2) }}</td>
+                    <td>{{ round(meal.nutrients["CHOCDF"]["quantity"], 2) }}</td>
+                    <td>{{ round(meal.nutrients["FAT"]["quantity"], 2) }}</td>
                     <!-- Button trigger modal -->
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
@@ -274,11 +274,11 @@
     </thead>
     <tbody>
         <tr>
-            <td>{{ calories["num_meals"] }}</td>
-            <td>{{ calories["calories"] }}</td>
-            <td>{{ calories["protein"] }}</td>
-            <td>{{ calories["carbs"] }}</td>
-            <td>{{ calories["fat"] }}</td>
+            <td>{{ round(calories["num_meals"], 2) }}</td>
+            <td>{{ round(calories["calories"], 2) }}</td>
+            <td>{{ round(calories["protein"], 2) }}</td>
+            <td>{{ round(calories["carbs"], 2) }}</td>
+            <td>{{ round(calories["fat"], 2) }}</td>
         </tr>
     </tbody>
 </table>
