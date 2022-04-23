@@ -38,9 +38,13 @@
     <!-- Datepicker is deprecated in bootstrap, so trying to figure out how to implement it. -->
 
     <form action="{{ url_for('edit_profile.edit_profile') }}" method="post">
+
+
         {#!= 'hidden' and p.widget.input_type != 'submit' #}
 {#      {% for p in profile_form if p not in ['sex','diet_type'] and p.widget.input_type not in ['hidden','submit']  %}#}
 {#
+
+
         <div class="form-group">#}
             {# {{ p.label() }}#}
             {# {{ p }}#}
@@ -48,65 +52,112 @@
         </div>#}
 {#        {% endfor %}#}
 
+
+
         <!----- Display Name ----->
         <div class="form-group">
-            {{ profile_form.name.label }}
-            {{ profile_form.name }}
+            <h6 style="text-align: left;">{{ profile_form.name.label }}</h6>
+            <div>
+            {{ profile_form.name(class="form-control") }}
+            </div>
         </div>
+
+
 
         <!----- Sex ----->
         <div class="form-group">
-            Sex
+            <h6 style="text-align: left;">Sex</h6>
             {% for subfield in profile_form.sex %}
                 <tr>
-                    <td>{{ subfield }}</td>
+                    <td>{{ subfield(class="form-check-input") }}</td>
                     <td>{{ subfield.label }}</td>
                 </tr>
             {% endfor %}
         </div>
+
+
+
 
         <!----- Birthday ----->
         <div class="form-group">
-            {{ profile_form.birth.label }}
-            {{ profile_form.birth }}
+            <h6 style="text-align: left;">{{ profile_form.birth.label }}</h6>
+            {{ profile_form.birth(class="form-control") }}
         </div>
+
+
+
+
         {% if profile_form.birth.errors %}
-            <ul class="errors">{% for error in profile_form.birth.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+
+        <ul class="errors">
+            {% for error in profile_form.birth.errors %}
+            <li>
+                {{ error }}
+            </li>
+            {% endfor %}
+        </ul>
+
         {% endif %}
+
+
 
         <!----- Weight ----->
         <div class="form-group">
-            {{ profile_form.weight.label }}
-            {{ profile_form.weight }}
+            <h6 style="text-align: left;">{{ profile_form.weight.label }}</h6>
+            {{ profile_form.weight(class="form-control") }}
         </div>
+
         {% if profile_form.weight.errors %}
-            <ul class="errors">{% for error in profile_form.weight.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+
+
+
+        <ul class="errors">
+            {% for error in profile_form.weight.errors %}
+            <li>
+                {{ error }}
+            </li>
+            {% endfor %}
+        </ul>
         {% endif %}
+
+
 
         <!----- Height ----->
         <div class="form-group">
-            {{ profile_form.height.label }}
-            {{ profile_form.height(placeholder="5'5") }}
+            <h6 style="text-align: left;">{{ profile_form.height.label }}</h6>
+            {{ profile_form.height(class="form-control") }}
         </div>
+
+
+
         {% if profile_form.height.errors %}
-            <span class="errors" style="color:red">{% for error in profile_form.height.errors %}
-                {{ error }}
-            {% endfor %}</span>
+
+        <span class="errors" style="color:red">{% for error in profile_form.height.errors %}
+            {{ error }}
+            {% endfor %}
+        </span>
+
         {% endif %}
 
+
+
         <!----- Activity Level ----->
-        <div class="form-check">
-            Activity Level<br>
-            {% for subfield in profile_form.activity %}
-                <tr>
-                    <td>{{ subfield }}</td>
-                    <td>{{ subfield.label }}</td>
-                </tr>
-            {% endfor %}
+        <div class="form-group">
+            <h6 style="text-align: left;">Activity Level</h6><br>
+
+                {% for subfield in profile_form.activity %}
+                    <tr>
+                        <td>{{ subfield }}</td>
+                        <td>{{ subfield.label }}</td>
+                    </tr>
+                {% endfor %}
+
         </div>
 
-{#        <!----- Starting Goal ----->#}
-{#        <div class="form-check">#}
+
+
+{#      <!----- Starting Goal ----->#}
+{#        <div class="form-group">#}
 {#            Starting Goal<br>#}
 {#            {% for subfield in profile_form.current_goal %}#}
 {#                <tr>#}
@@ -116,15 +167,23 @@
 {#            {% endfor %}#}
 {#        </div>#}
 
+        <br>
+
         <!----- Health Labels ----->
-        <div class="form-check">
-            Diet Health Labels<br>
-            <ul style="column-count:4; column-gap: 5%;">
-            {% for subfield in profile_form.diet_type %}
-                    <li style="list-style: none;">{{ subfield }} {{ subfield.label }}</li>
-            {% endfor %}
-            </ul>
+        <div class="form-group">
+            <h6 style="text-align: left;">Diet Health Labels</h6><br>
+            <div class="form-check">
+                <ul style="column-count:4; column-gap: 5%;">
+                {% for subfield in profile_form.diet_type %}
+                        <li style="list-style: none;">
+                            {{ subfield(class="form-check-input") }}
+                            {{ subfield.label }}
+                        </li>
+                {% endfor %}
+                </ul>
+            </div>
         </div>
+
 
         <div class="form-group">
             <!-- Submit -->

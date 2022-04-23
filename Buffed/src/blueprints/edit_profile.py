@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask_login import current_user
 from flask import Blueprint, render_template, request, redirect, url_for
 
@@ -30,6 +32,7 @@ def send_info(result, UID):
     fb.set_user_info(UID, FirebaseEnum.DIET, result.get('diet_type'))
     my_goals.create_standard_goal(UID)
 
+
 def calculate_height(height):
     # calculate height in feet
     height = height.split("'")
@@ -44,8 +47,36 @@ def edit_profile():
         """
 
     UID = current_user.get_id()
+    user_info = fb.get_user_info(UID)
+
+    # Pull the individual values from the user's dict.
+    name = user_info['name']
+    weight = user_info['weight']
+    height = user_info['height']
+    email = user_info['email']
+    activity = user_info['activity']
+    gender = user_info['gender']
+    birthdate = user_info['birth']
+    current_goal = user_info['current_goal']
+
+    # Split the user's birthdate into year, month, day
+    birth_values = birthdate.split('-')
+    year = int(birth_values[0])
+    month = int(birth_values[1])
+    day = int(birth_values[2])
+
     profile_form = ProfileQuestionnaire()
-    # validate_on_submit checks for submission with POST method,
+
+    # Populate the forms for default values so user doesn't have to re-enter everything.
+    if request.method == "GET":
+        profile_form.name.data = name
+        profile_form.weight.data = int(weight)
+        profile_form.height.data = float(height)
+        profile_form.sex.data = gender
+        profile_form.activity.data = activity
+        profile_form.birth.data = datetime(year, month, day)
+    # Validate_on_submit checks for submission with POST method
+
     # then calls validate() to trigger form validation
     if profile_form.validate_on_submit():
         setup_result = {'name': request.form["name"],
@@ -59,7 +90,7 @@ def edit_profile():
         print("Passing on: ", setup_result)
         send_info(setup_result, UID)
 
-        # Go to dashboard
+        # Go to profile to see changes on submit
         return redirect(url_for("my_profile.my_profile"))
 
     return render_template('edit_profile.html', profile_form=profile_form)
