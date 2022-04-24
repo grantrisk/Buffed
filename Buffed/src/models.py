@@ -60,7 +60,6 @@ class Measure:
     """
     Object representation of a measure, used internally for Ingredient nutrition lookup
     """
-
     def __init__(self, measure_label, measure_uri, weight):
         self.measure_label = measure_label
         self.measure_uri = measure_uri
@@ -87,6 +86,9 @@ class Ingredient:
 
 
 class MealType(Enum):
+    """
+    Enum for Meal Type storage in Firebase
+    """
     BREAKFAST = "breakfast"
     LUNCH = "lunch"
     DINNER = "dinner"
@@ -100,6 +102,7 @@ class Meal:
         Creates an instance of a Meal object
         :param meal_name: name of the meal
         :param meal_id: unique identifier for the Meal
+        :param meal_type_section: Enum string of MealType
         :param meal_img_url: URL to image of meal
         :param nutrients: dictionary containing all nutrients
         :param health_labels: list containing all health labels as defined by Edamam
@@ -120,6 +123,10 @@ class Meal:
         self.recipe_url = recipe_url
 
     def to_json(self):
+        """
+        Converts Meal object into a dictionary
+        :return: a dictionary
+        """
         return vars(self)
 
     @classmethod
@@ -127,7 +134,7 @@ class Meal:
         """
         Class method to convert dictionary to Meal object
         :param data: dictionary containing meal data
-        :return:
+        :return: a Meal object
         """
         return Meal(data['meal_name'], data['meal_id'], data['meal_type_section'], data['meal_img_url'], data['nutrients'],
                     data['health_labels'], data['ingredients'], data['meal_types'], data['recipe_source'], data['recipe_url'])

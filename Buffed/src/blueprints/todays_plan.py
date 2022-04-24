@@ -8,12 +8,10 @@ from models import Meal, MealType
 
 todays_plan_page = Blueprint("todays_plan", __name__, static_folder="static", template_folder="templates")
 
-UID = "hUhfVXJfBxfl2qM0T1trDcs1wdh2"
-#meals = fb_connector.get_user_info(UID)['meals']
 
 def calculate_totals(meals):
     """
-    This method caluclates the total of all the macros from the meal list in the database
+    This method calculates the total of all the macros from the meal list in the database
     :return: dictionary of the macros
     """
     total_num_meals = 0
@@ -46,15 +44,15 @@ def todays_plan():
 
 @todays_plan_page.route('/update_plan/', methods=["POST"])
 def update_plan():
+    """
+    This method updated a users plan in Firebase
+    :return: redirect of todays_plan page
+    """
     UID = current_user.get_id()
     if request.form['action'] == "Delete":
         meal_id = request.form.get("meal_id")
         meal_type_section = request.form.get("meal_type_section")
         print("Removing " + meal_id + " from " + meal_type_section)
         fb.remove_meal_todays_plan(UID, meal_id, meal_type_section)
-    elif request.form['action'] == "Add":
-        meal1 = Meal("burger", str(uuid.uuid4()), MealType.DINNER.value, "",
-                     {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [], [], None, None)
-        fb.add_meal_todays_plan(UID, meal1)
 
     return redirect(url_for('todays_plan.todays_plan'))
