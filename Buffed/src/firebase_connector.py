@@ -1,6 +1,5 @@
 import json
 import os
-from enum import Enum
 from models import *
 
 import firebase_admin
@@ -178,6 +177,7 @@ def remove_meal_todays_plan(UID: str, meal_id: str, meal_type_section: str):
     Remove a meal from today's plan
     :param UID: user UID
     :param meal_id: ID of meal to be removed
+    :param meal_type_section: type of meal (breakfast, lunch, etc.)
     :return: None
     """
     meals_list = get_all_meals_todays_plan(UID)
