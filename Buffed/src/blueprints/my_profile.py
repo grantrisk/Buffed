@@ -19,7 +19,7 @@ def my_profile():
 
     greeting_list = ['Howdy', 'Hello', 'Welcome', 'Welcome back', 'How\'s it going', 'Long-time no see',
                      'Yo', 'What\'s up', 'Heyyyyy', 'Sup']
-
+    print(user_info)
     # Assign a random greeting when they go to the profile page.
     greeting = greeting_list[random.randint(0, 9)]
 
@@ -48,6 +48,6 @@ def my_profile():
         age = age - 1
     else:
         age = age
-
+    print(activity)
     return render_template('my_profile.html', name=name, weight=weight, height=height, email=email,
                            activity=activity, gender=gender, goal=current_goal, greeting=greeting, age=age)

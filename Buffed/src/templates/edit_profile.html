@@ -31,7 +31,7 @@
     <p><i>You will be able to edit your information in this page.</i></p>
 
     <hr/>
-
+    <br><br>
 
 
     <!-- Form-entries below need to be put into a form. -->
@@ -57,31 +57,34 @@
         <!----- Display Name ----->
         <div class="form-group">
             <h6 style="text-align: left;">{{ profile_form.name.label }}</h6>
-            <div>
+            <div class="d-flex justify-content-between w-50">
             {{ profile_form.name(class="form-control") }}
             </div>
         </div>
 
-
+        <br>
 
         <!----- Sex ----->
         <div class="form-group">
             <h6 style="text-align: left;">Sex</h6>
-            {% for subfield in profile_form.sex %}
-                <tr>
-                    <td>{{ subfield(class="form-check-input") }}</td>
-                    <td>{{ subfield.label }}</td>
-                </tr>
-            {% endfor %}
+            <div class="d-flex justify-content-between w-50">
+                {% for subfield in profile_form.sex %}
+                    <tr>
+                        <td>{{ subfield(class="form-check-input") }}</td>
+                        <td>{{ subfield.label(class="form-check-label") }}</td>
+                    </tr>
+                {% endfor %}
+            </div>
         </div>
 
-
-
+        <br>
 
         <!----- Birthday ----->
         <div class="form-group">
             <h6 style="text-align: left;">{{ profile_form.birth.label }}</h6>
-            {{ profile_form.birth(class="form-control") }}
+            <div class="d-flex justify-content-between w-50">
+                {{ profile_form.birth(class="form-control") }}
+            </div>
         </div>
 
 
@@ -99,12 +102,14 @@
 
         {% endif %}
 
-
+        <br>
 
         <!----- Weight ----->
         <div class="form-group">
             <h6 style="text-align: left;">{{ profile_form.weight.label }}</h6>
-            {{ profile_form.weight(class="form-control") }}
+            <div class="d-flex justify-content-between w-50">
+                {{ profile_form.weight(class="form-control") }}
+            </div>
         </div>
 
         {% if profile_form.weight.errors %}
@@ -120,12 +125,14 @@
         </ul>
         {% endif %}
 
-
+        <br>
 
         <!----- Height ----->
         <div class="form-group">
             <h6 style="text-align: left;">{{ profile_form.height.label }}</h6>
-            {{ profile_form.height(class="form-control") }}
+            <div class="d-flex justify-content-between w-50">
+                {{ profile_form.height(class="form-control") }}
+            </div>
         </div>
 
 
@@ -139,19 +146,19 @@
 
         {% endif %}
 
-
+        <br>
 
         <!----- Activity Level ----->
         <div class="form-group">
             <h6 style="text-align: left;">Activity Level</h6><br>
-
+            <div class="d-flex justify-content-between w-50">
                 {% for subfield in profile_form.activity %}
                     <tr>
                         <td>{{ subfield }}</td>
                         <td>{{ subfield.label }}</td>
                     </tr>
                 {% endfor %}
-
+            </div>
         </div>
 
 

@@ -27,7 +27,7 @@ def send_info(result, UID):
     fb.set_user_info(UID, FirebaseEnum.BIRTH, result.get('birth'))
     fb.set_user_info(UID, FirebaseEnum.WEIGHT, result.get('weight'))
     fb.set_user_info(UID, FirebaseEnum.HEIGHT, result.get('height'))
-    fb.set_user_info(UID, FirebaseEnum.ACTIVITY, result.get('activity_lvl'))
+    fb.set_user_info(UID, FirebaseEnum.ACTIVITY, result.get('activity'))
     fb.set_user_info(UID, FirebaseEnum.CURRENT_GOAL, result.get('current_goal'))
     fb.set_user_info(UID, FirebaseEnum.DIET, result.get('diet_type'))
     my_goals.create_standard_goal(UID)
