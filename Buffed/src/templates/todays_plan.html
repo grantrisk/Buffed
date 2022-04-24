@@ -4,10 +4,6 @@
 
 <h1>{% block title %}Today's Plan{% endblock %}</h1>
 
-<form action="/todays_plan/update_plan/" method="POST">
-    <button type="submit" name="action" value="Add" class="btn btn-success">Add Meal</button>
-</form>
-
 <!-- Breakfast -->
 <h3 class="text-start">Breakfast:</h3>
 <table class="table table-hover">
@@ -34,12 +30,12 @@
                     <!-- Button trigger modal -->
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#delete{{ meal.meal_id }}">Delete Meal</button>
+                                data-bs-target="#delete{{ meal.meal_id }}-breakfast">Delete Meal</button>
                     </td>
                 </tr>
             {% endif %}
             <!-- Modal -->
-            <div class="modal fade" id="delete{{ meal.meal_id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal fade" id="delete{{ meal.meal_id }}-breakfast" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- Header -->
@@ -54,6 +50,7 @@
                             <div class="form-group">
                                 <label for="mealMealID" class="form-label">Removing: {{ meal.meal_name }}</label>
                                 <input type="hidden" class="form-control" id="mealMealID" name="meal_id" value="{{ meal.meal_id }}">
+                                <input type="hidden" class="form-control" id="mealMealType" name="meal_type_section" value="breakfast">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -97,12 +94,12 @@
                     <!-- Button trigger modal -->
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#delete{{ meal.meal_id }}">Delete Meal</button>
+                                data-bs-target="#delete{{ meal.meal_id }}-lunch">Delete Meal</button>
                     </td>
                 </tr>
             {% endif %}
             <!-- Modal -->
-            <div class="modal fade" id="delete{{ meal.meal_id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal fade" id="delete{{ meal.meal_id }}-lunch" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- Header -->
@@ -117,6 +114,7 @@
                             <div class="form-group">
                                 <label for="mealMealID" class="form-label">Removing: {{ meal.meal_name }}</label>
                                 <input type="hidden" class="form-control" id="mealMealID" name="meal_id" value="{{ meal.meal_id }}">
+                                <input type="hidden" class="form-control" id="mealMealType" name="meal_type_section" value="lunch">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -160,12 +158,12 @@
                     <!-- Button trigger modal -->
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#delete{{ meal.meal_id }}">Delete Meal</button>
+                                data-bs-target="#delete{{ meal.meal_id }}-dinner">Delete Meal</button>
                     </td>
                 </tr>
             {% endif %}
             <!-- Modal -->
-            <div class="modal fade" id="delete{{ meal.meal_id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal fade" id="delete{{ meal.meal_id }}-dinner" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- Header -->
@@ -180,6 +178,7 @@
                             <div class="form-group">
                                 <label for="mealMealID" class="form-label">Removing: {{ meal.meal_name }}</label>
                                 <input type="hidden" class="form-control" id="mealMealID" name="meal_id" value="{{ meal.meal_id }}">
+                                <input type="hidden" class="form-control" id="mealMealType" name="meal_type_section" value="dinner">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -223,12 +222,12 @@
                     <!-- Button trigger modal -->
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#delete{{ meal.meal_id }}">Delete Meal</button>
+                                data-bs-target="#delete{{ meal.meal_id }}-snack">Delete Meal</button>
                     </td>
                 </tr>
             {% endif %}
             <!-- Modal -->
-            <div class="modal fade" id="delete{{ meal.meal_id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal fade" id="delete{{ meal.meal_id }}-snack" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- Header -->
@@ -243,6 +242,7 @@
                             <div class="form-group">
                                 <label for="mealMealID" class="form-label">Removing: {{ meal.meal_name }}</label>
                                 <input type="hidden" class="form-control" id="mealMealID" name="meal_id" value="{{ meal.meal_id }}">
+                                <input type="hidden" class="form-control" id="mealMealType" name="meal_type_section" value="snack">
                             </div>
                         </div>
                         <div class="modal-footer">
