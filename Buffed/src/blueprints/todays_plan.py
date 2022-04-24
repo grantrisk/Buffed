@@ -39,7 +39,7 @@ def todays_plan():
     UID = current_user.get_id()
     todays_meals = fb.get_all_meals_todays_plan(UID)
     calories = calculate_totals(todays_meals)
-    return render_template('todays_plan.html', meals=todays_meals, calories=calories, round=round)
+    return render_template('todays_plan.html', meals=todays_meals, calories=calories, round=round, len=len)
 
 
 @todays_plan_page.route('/update_plan/', methods=["POST"])
