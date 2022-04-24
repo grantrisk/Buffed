@@ -139,6 +139,16 @@ def remove_meal(UID: str, meal_id: str):
     db.collection(u'users').document(UID).collection(u'saved_meals').document(meal_id).delete()
 
 
+def update_meal(UID: str, meal: Meal):
+    """
+    Updates a meal saved to a user
+    :param UID: user UID
+    :param meal: meal to be updated
+    :return: None
+    """
+    db.collection(u'users').document(UID).collection(u'saved_meals').document(meal.meal_id).set(vars(meal))
+
+
 def get_all_meals(UID: str):
     """
     Get all of a user's saved meals
