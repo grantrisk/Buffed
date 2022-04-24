@@ -49,7 +49,9 @@ def update_plan():
     UID = current_user.get_id()
     if request.form['action'] == "Delete":
         meal_id = request.form.get("meal_id")
-        fb.remove_meal_todays_plan(UID, meal_id)
+        meal_type_section = request.form.get("meal_type_section")
+        print("Removing " + meal_id + " from " + meal_type_section)
+        fb.remove_meal_todays_plan(UID, meal_id, meal_type_section)
     elif request.form['action'] == "Add":
         meal1 = Meal("burger", str(uuid.uuid4()), MealType.DINNER.value, "",
                      {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [], [], None, None)

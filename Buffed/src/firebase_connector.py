@@ -173,7 +173,7 @@ def add_meal_todays_plan(UID: str, meal: Meal):
     doc_ref.update(field_updates)
 
 
-def remove_meal_todays_plan(UID: str, meal_id: str):
+def remove_meal_todays_plan(UID: str, meal_id: str, meal_type_section: str):
     """
     Remove a meal from today's plan
     :param UID: user UID
@@ -182,11 +182,13 @@ def remove_meal_todays_plan(UID: str, meal_id: str):
     """
     meals_list = get_all_meals_todays_plan(UID)
     meal_dict_list = []
+    meal_removed = False
     for meal in meals_list:
         meal_dict = vars(meal)
-        id = meal_dict['meal_id']
-        if id != meal_id:
-            meal_dict_list.append(meal_dict)
+        if not meal_removed and meal_id == meal.meal_id and meal_type_section == meal.meal_type_section:
+            meal_removed = True
+            continue
+        meal_dict_list.append(meal_dict)
 
     doc_ref = db.collection(u'users').document(UID)
     field_updates = {'todays_plan': meal_dict_list}
