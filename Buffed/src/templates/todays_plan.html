@@ -15,6 +15,7 @@
             <th scope="col" style="width: 15%">Carbs</th>
             <th scope="col" style="width: 15%">Fat</th>
             <th scope="col" style="width: 15%"></th>
+            <th scope="col" style="width: 5%"></th>
         </tr>
     </thead>
     <tbody>
@@ -31,6 +32,11 @@
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#delete{{ meal.meal_id }}-breakfast">Delete Meal</button>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('find_meals.nutrition', meal_id=meal.meal_id) }}">
+                            <i class="fa-solid fa-arrow-right fa-sm"></i>
+                        </a>
                     </td>
                 </tr>
             {% endif %}
@@ -79,6 +85,7 @@
             <th scope="col" style="width: 15%">Carbs</th>
             <th scope="col" style="width: 15%">Fat</th>
             <th scope="col" style="width: 15%"></th>
+            <th scope="col" style="width: 5%"></th>
         </tr>
     </thead>
     <tbody>
@@ -95,6 +102,11 @@
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#delete{{ meal.meal_id }}-lunch">Delete Meal</button>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('find_meals.nutrition', meal_id=meal.meal_id) }}">
+                            <i class="fa-solid fa-arrow-right fa-sm"></i>
+                        </a>
                     </td>
                 </tr>
             {% endif %}
@@ -143,6 +155,7 @@
             <th scope="col" style="width: 15%">Carbs</th>
             <th scope="col" style="width: 15%">Fat</th>
             <th scope="col" style="width: 15%"></th>
+            <th scope="col" style="width: 5%"></th>
         </tr>
     </thead>
     <tbody>
@@ -159,6 +172,11 @@
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#delete{{ meal.meal_id }}-dinner">Delete Meal</button>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('find_meals.nutrition', meal_id=meal.meal_id) }}">
+                            <i class="fa-solid fa-arrow-right fa-sm"></i>
+                        </a>
                     </td>
                 </tr>
             {% endif %}
@@ -207,6 +225,7 @@
             <th scope="col" style="width: 15%">Carbs</th>
             <th scope="col" style="width: 15%">Fat</th>
             <th scope="col" style="width: 15%"></th>
+            <th scope="col" style="width: 5%"></th>
         </tr>
     </thead>
     <tbody>
@@ -223,6 +242,11 @@
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#delete{{ meal.meal_id }}-snack">Delete Meal</button>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('find_meals.nutrition', meal_id=meal.meal_id) }}">
+                            <i class="fa-solid fa-arrow-right fa-sm"></i>
+                        </a>
                     </td>
                 </tr>
             {% endif %}
