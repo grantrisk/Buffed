@@ -17,7 +17,12 @@ def my_meals():
     This method returns the my meals page.
     :return: render_template('my_meals.html')
     """
-    return render_template('my_meals.html', saved_meals=firebase_connector.get_all_meals(current_user.get_id()),
+    saved_meals = firebase_connector.get_all_meals(current_user.get_id())
+    for meal in saved_meals:
+        if not edamam_instance.is_valid_image(meal.meal_img_url):
+            new_meal = edamam_instance.get_recipe_by_id(meal.meal_id)
+            firebase_connector.update_meal(current_user.get_id(), new_meal)
+    return render_template('my_meals.html', saved_meals=saved_meals,
                            round=round)
 
 

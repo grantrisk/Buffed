@@ -157,6 +157,17 @@ class EdamamConnector:
             return Meal(recipe_name, recipe_id, None, img_url, nutrients, health_labels, ingredients, meal_type,
                         recipe_source, recipe_url)
 
+    def is_valid_image(self, img_url: str):
+        """
+        Determines whether the requested Edamam image has expired.
+
+        :param img_url: URL of the requested image
+        :return: True if valid, False otherwise
+        """
+        r = requests.get(img_url)
+        return r.status_code in (200, 304)
+
+
     def __build_nutrients_json(self, food_id, measureURI):
         """
         Internal method to build JSON for ingredients input for nutrition input
