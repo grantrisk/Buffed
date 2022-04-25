@@ -3,9 +3,28 @@
 {% block content %}
 <h1>{% block title %}Find Meals{% endblock %}</h1>
 <form action="{{ url_for('find_meals.search_results') }}">
-    <input type="text" name="search_query" placeholder="Search">
-    <input type="submit">
+    <div class="row">
+        <div class="input-group col-sm-4 justify-content-center">
+            <input type="text" class="form-control" name="search_query" placeholder="Search" style="flex: 0 1 25%;">
+            <div class="input-group-append">
+                <input type="submit" class="btn btn-primary" value="Search">
+            </div>
+        </div>
+    </div>
+    <div id="filters-accordion">
+        <a class="btn btn-link" data-bs-toggle="collapse" href="#collapse" role="button" aria-expanded="false" aria-controls="collapse">
+            Filters
+        </a>
+        <div class="collapse" id="collapse">
+            <div class="card card-body">
+                Filters go here
+            </div>
+        </div>
+    </div>
 </form>
+<div id="filters">
+
+</div>
 <br>
 <a href="https://www.edamam.com/" target="_blank">
     <img src="{{ url_for('static', filename='resources/Edamam_Badge_Transparent.svg') }}" width="200">

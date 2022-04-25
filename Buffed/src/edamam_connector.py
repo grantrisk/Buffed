@@ -78,10 +78,11 @@ class EdamamConnector:
         else:
             raise InvalidRequestError("Invalid request: " + r.request.body)
 
-    def search_recipes(self, query) -> List[Meal]:
+    def search_recipes(self, query: str) -> List[Meal]:
         """
         Queries Recipe Search API for recipes. Raises an exception if the API key(s) are invalid.
         :param query: search term
+        :param filters: dict containing key-value filter parameters
         :return: list of Meals from search results
         """
         r = requests.get('https://api.edamam.com/api/recipes/v2',
