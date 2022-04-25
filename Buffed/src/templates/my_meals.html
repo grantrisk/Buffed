@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 {% set active_page = "my_meals" %}
 {% block content %}
+
+<div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+    <strong>Success!</strong> Your meal has been added to Today's Plan!
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div id="fail-alert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
+    <strong>Something went wrong.</strong> Please try adding your meal to Today's Plan again.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 <h1>{% block title %}My Meals{% endblock %}</h1>
 <div class="grid">
     {% if saved_meals|length > 0 %}

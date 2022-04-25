@@ -1,4 +1,8 @@
 $(document).ready(function () {
+
+    const successAlert = $("#success-alert");
+    const failAlert = $("#fail-alert");
+
     $(".save-meal-button").click(function (e) {
         e.preventDefault();
         $(this).prop('disabled', true);
@@ -41,11 +45,16 @@ $(document).ready(function () {
             data: $("#meal-selection-form").serialize(),
             url: "/my_meals/add_to_plan/",
             success: function (result) {
-                alert("Added to Today's Plan");
+                successAlert.fadeIn();
             },
             error: function (result) {
-                alert("Failed to add meal to Today's Plan");
+                failAlert.fadeIn();
             }
         });
+    });
+
+    $('.alert').on('close.bs.alert', function (event) {
+        event.preventDefault();
+        $(this).fadeOut();
     });
 });
