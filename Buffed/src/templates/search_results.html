@@ -2,6 +2,11 @@
 {% set active_page = "find_meals" %}
 {% block content %}
     <h1>{% block title %}Find Meals{% endblock %}</h1>
+    <form action="{{ url_for('find_meals.search_results') }}">
+        <input type="text" name="search_query" placeholder="Search">
+        <input type="submit">
+    </form>
+    <br>
     <div class="grid">
         <!-- User saved meals -->
         {% if saved_meals|length > 0 %}
