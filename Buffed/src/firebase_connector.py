@@ -205,6 +205,17 @@ def remove_meal_todays_plan(UID: str, meal_id: str, meal_type_section: str):
     doc_ref.update(field_updates)
 
 
+def remove_all_meals_todays_plan(UID: str):
+    """
+    Remove all the meals from today's plan
+    :param UID: user UID
+    :return: None
+    """
+    meal_dict_list = []
+    doc_ref = db.collection(u'users').document(UID)
+    field_updates = {'todays_plan': meal_dict_list}
+    doc_ref.update(field_updates)
+
 def get_all_meals_todays_plan(UID: str):
     """
     Get all of a user's saved meals in today's plan

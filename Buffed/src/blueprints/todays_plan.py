@@ -53,5 +53,7 @@ def update_plan():
         meal_id = request.form.get("meal_id")
         meal_type_section = request.form.get("meal_type_section")
         fb.remove_meal_todays_plan(UID, meal_id, meal_type_section)
+    elif request.form['action'] == "DeleteAll":
+        fb.remove_all_meals_todays_plan(UID)
 
     return redirect(url_for('todays_plan.todays_plan'))
