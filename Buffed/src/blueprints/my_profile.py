@@ -39,6 +39,10 @@ def my_profile():
     month = int(birth_values[1])
     day = int(birth_values[2])
 
+    # Get the height and then divide to see the ft and then remaining inches.
+    ft = str(height // 12) + "'"
+    inches = str(height % 12) + "\""
+
     # Check to see what the age of the person is supposed to be this year
     # If the month, day isn't here yet, just take the age they're supposed to be and minus 1.
     age = date.today().year - year
@@ -49,5 +53,5 @@ def my_profile():
     else:
         age = age
     print(activity)
-    return render_template('my_profile.html', name=name, weight=weight, height=height, email=email,
+    return render_template('my_profile.html', name=name, weight=weight, ft=ft, inches=inches, email=email,
                            activity=activity, gender=gender, goal=current_goal, greeting=greeting, age=age)

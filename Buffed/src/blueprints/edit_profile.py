@@ -6,7 +6,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 import firebase_connector as fb
 from firebase_connector import FirebaseEnum
 
-from forms import ProfileQuestionnaire
+from forms import EditProfile
 from blueprints import my_goals
 
 edit_profile_page = Blueprint("edit_profile", __name__, static_folder="static", template_folder="templates")
@@ -33,10 +33,17 @@ def send_info(result, UID):
     my_goals.create_standard_goal(UID)
 
 
-def calculate_height(height):
+def calculate_height(ft, inches):
     # calculate height in feet
-    height = height.split("'")
-    return float(height[0]) + float(height[1]) / 12
+    height_ft = ft.split("'")
+    height_in = inches.split("\"")
+
+    ft = int(height_ft[0])
+    inches = int(height_in[0])
+
+    ft_to_inches = ft * 12
+    total_inches = ft_to_inches + inches
+    return total_inches
 
 
 @edit_profile_page.route('/', methods=['GET', 'POST'])
@@ -65,14 +72,21 @@ def edit_profile():
     month = int(birth_values[1])
     day = int(birth_values[2])
 
-    profile_form = ProfileQuestionnaire()
+    # Get the height and then divide to see the ft and then remaining inches.
+    ft = str(height // 12) + "'"
+    inches = str(height % 12) + "\""
+
+    new_weight = int(weight)
+
+    profile_form = EditProfile()
 
     # Populate the forms for default values so user doesn't have to re-enter everything.
     if request.method == "GET":
         profile_form.name.data = name
-        profile_form.weight.data = int(weight)
-        profile_form.height.data = float(height)
+        profile_form.weight.data = int(new_weight)
         profile_form.sex.data = gender
+        profile_form.height_feet.data = ft
+        profile_form.height_inches.data = inches
         profile_form.activity.data = activity
         profile_form.birth.data = datetime(year, month, day)
     # Validate_on_submit checks for submission with POST method
@@ -83,9 +97,10 @@ def edit_profile():
                         'sex': request.form["sex"],
                         'birth': request.form["birth"],
                         'weight': request.form["weight"],
-                        'height': calculate_height(request.form["height"]),
+                        'height': calculate_height(request.form["height_feet"], request.form["height_inches"]),
                         'activity': request.form["activity"],
                         'diet': profile_form.diet_type.data}
+
         # Send this result so it can be stored
         print("Passing on: ", setup_result)
         send_info(setup_result, UID)

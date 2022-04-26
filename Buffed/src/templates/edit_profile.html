@@ -129,38 +129,38 @@
 
         <!----- Height ----->
         <div class="form-group">
-            <h6 style="text-align: left;">{{ profile_form.height.label }}</h6>
-            <div class="d-flex justify-content-between w-50">
-                {{ profile_form.height(class="form-control") }}
+            <h6 style="text-align: left;">Height</h6>
+        </div>
+
+        <!-- Height labels for ft. & inches. -->
+        <div style="display: flex; width: 160;">
+            <div style="width: 80px;">
+                {{ profile_form.height_feet.label }}
+            </div>
+            {{ profile_form.height_inches.label }}
+        </div>
+
+        <!-- Dropdowns for Height (ft and inches.) -->
+        <div style="display: flex; width: 160px;">
+            <div class="form-group" style="width: 80px">
+                {{ profile_form.height_feet(class="btn btn-secondary dropdown-toggle") }}
+            </div>
+
+            <div class="form-group" style="width: 80px;">
+                {{ profile_form.height_inches(class="btn btn-secondary dropdown-toggle") }}
             </div>
         </div>
 
-
-
-        {% if profile_form.height.errors %}
-
-        <span class="errors" style="color:red">{% for error in profile_form.height.errors %}
-            {{ error }}
-            {% endfor %}
-        </span>
-
-        {% endif %}
 
         <br>
 
         <!----- Activity Level ----->
-        <div class="form-group">
-            <h6 style="text-align: left;">Activity Level</h6><br>
-            <div class="d-flex justify-content-between w-50">
-                {% for subfield in profile_form.activity %}
-                    <tr>
-                        <td>{{ subfield }}</td>
-                        <td>{{ subfield.label }}</td>
-                    </tr>
-                {% endfor %}
+        <div style="display: flex; width: 160px;">
+            <div class="form-group">
+                <h6 style="text-align: left;">Activity Level</h6>
+                {{ profile_form.activity(class="btn btn-secondary dropdown-toggle") }}
             </div>
         </div>
-
 
 
 {#      <!----- Starting Goal ----->#}

@@ -49,9 +49,12 @@
     <!-- To Dashboard button -->
     <!-- Not a submit button, just a pass to get through this screen -->
     <div class="action-buttons">
-        <a href="/dashboard" class="btn btn-secondary btn-lg">To Dashboard</a>
+        <a href="{{ url_for('index.index') }}" class="btn btn-danger">Back</a>
     </div>
 {% endblock %}
+
+    <br>
+    <br>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
