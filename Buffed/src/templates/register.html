@@ -19,6 +19,15 @@
 
 {% set active_page = "register" %}
 {% block content %}
+    {# macro for confirming if two given fields' data match,
+       if not it displays the given alert message #}
+    {% macro confirm_match(item1, item2, alert_msg) %}
+        {% if not item1 == item2 %}
+            <div class="alert alert-warning d-md-inline" role="alert">
+              {{ alert_msg }}
+            </div>
+        {% endif %}
+    {% endmacro %}
 
 <div class="jumbotron" align="center">
     {% for alert in alerts %}
@@ -40,6 +49,9 @@
         <div class="form-group">
             {{ register_form.confirm_email.label }}
             {{ register_form.confirm_email }}
+            {% if register_form.confirm_email.data %}
+                {{ confirm_match(register_form.email.data,register_form.confirm_email.data, "Emails do not match") }}
+            {% endif %}
         </div>
         <div class="form-group">
             {{ register_form.password.label }}
@@ -48,6 +60,9 @@
         <div class="form-group">
             {{ register_form.confirm_password.label }}
             {{ register_form.confirm_password }}
+            {% if register_form.confirm_password.data %}
+                {{ confirm_match(register_form.password.data,register_form.confirm_password.data, "Passwords do not match") }}
+            {% endif %}
         </div>
     <!-- Setup Questionnaire -->
 
