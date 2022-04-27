@@ -1,3 +1,4 @@
+from firebase_admin._auth_utils import EmailAlreadyExistsError
 from flask_login import current_user, login_user
 from flask import Blueprint, render_template, request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -42,6 +43,31 @@ def calculate_height(height: str) -> float:
     return float(height[0]) + float(height[1]) / 12
 
 
+# def handle_catch(caller, on_exception):
+#     """
+#     Try statement to include in register.html macro
+#     :param caller:
+#     """
+#     try:
+#         return caller()
+#     except:
+#         return on_exception
+#
+#
+# def check_email(email):
+#     """
+#     Try statement to include in register.html macro
+#     :param email: the given email
+#     :return errorMsg: the error message to show or an empty string
+#     """
+#     pass
+#     # try:
+#     #     emailObject = validate_email(email)
+#     #     t
+#     # except:
+#     #     return on_exception
+
+
 @register_page.route('/', methods=['GET', 'POST'])
 def register():
     """
@@ -50,8 +76,7 @@ def register():
     register_form = RegisterForm()
     profile_form = ProfileQuestionnaire()
 
-    if profile_form.submit.data:
-        # TODO: securely handle password, other info...
+    if profile_form.submit.data and register_form.validate():
         email = request.form['email']
         confirm_email = request.form['confirm_email']
 
@@ -94,13 +119,13 @@ def register():
                         send_setup_info(setup_result, UID)
                         # Go to dashboard
                         return redirect(url_for('dashboard.dashboard'))
+            except EmailAlreadyExistsError as errorMsg:
+                return render_template('register.html', register_form=register_form, profile_form=profile_form, error=str(errorMsg))
             except ValueError:
                 # TODO: handle exceptions
                 print("Value Error")
                 return render_template('register.html', register_form=register_form, profile_form=profile_form)
         else:
-            # TODO: Give user feedback
-            print("Emails / Passwords do not match")
             return render_template('register.html', register_form=register_form, profile_form=profile_form)
     else:
         # render template with register and profile form
