@@ -103,6 +103,24 @@ def get_user_goals(UID: str):
     return goalList
 
 
+def get_user_active_goal(UID: str):
+    goalList = get_user_goals(UID)
+    for goal in goalList:
+        if goal['is_active']:
+            return goal
+
+
+def set_active_goal_to_false(UID: str):
+    active_goal = get_user_active_goal(UID)
+    old_goal = Goal(active_goal['goal_id'],
+                    active_goal['goal_name'], False,
+                    active_goal['calories'],
+                    active_goal['macro_nutrients'],
+                    active_goal['number_of_meals'],
+                    active_goal['desired_weight'])
+    update_user_goal(UID, old_goal)
+
+
 def create_user_new_goal(UID: str, goal: Goal):
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal.goal_id).set(vars(goal))

@@ -23,11 +23,13 @@ def send_setup_info(result: dict, UID: str) -> None:
     fb.set_user_info(UID, FirebaseEnum.NAME, result.get('name'))
     fb.set_user_info(UID, FirebaseEnum.GENDER, result.get('sex'))
     fb.set_user_info(UID, FirebaseEnum.BIRTH, result.get('birth'))
+    fb.set_user_info(UID, FirebaseEnum.CURRENT_GOAL, result.get('current_goal'))
     fb.set_user_info(UID, FirebaseEnum.WEIGHT, result.get('weight'))
     fb.set_user_info(UID, FirebaseEnum.HEIGHT, result.get('height'))
     fb.set_user_info(UID, FirebaseEnum.ACTIVITY, result.get('activity'))
     fb.set_user_info(UID, FirebaseEnum.DIET, result.get('diet'))
-    my_goals.create_standard_goal(UID)  # create a new standard goal and set it as current goal
+    standard_goal = my_goals.create_standard_goal(UID)
+    fb.create_user_new_goal(UID, standard_goal)
 
 
 def calculate_height(height: str) -> float:
@@ -82,6 +84,7 @@ def register():
                         setup_result = {'name': request.form["name"],
                                         'sex': request.form["sex"],
                                         'birth': request.form["birth"],
+                                        'current_goal': "Standard Goal",
                                         'weight': request.form["weight"],
                                         'height': calculate_height(request.form["height"]),
                                         'activity': request.form["activity"],
@@ -89,7 +92,7 @@ def register():
                         # Send this result so it can be stored
                         send_setup_info(setup_result, UID)
                         # Go to dashboard
-                        return render_template('dashboard.html')
+                        return redirect(url_for('dashboard.dashboard'))
             except:
                 # while vague, these exceptions are handled within forms.py and errors are shown in register.html
                 # such as ValueErrors or EmailAlreadyExistsErrors, etc
