@@ -29,7 +29,7 @@ def send_info(result, UID):
     fb.set_user_info(UID, FirebaseEnum.HEIGHT, result.get('height'))
     fb.set_user_info(UID, FirebaseEnum.ACTIVITY, result.get('activity'))
     fb.set_user_info(UID, FirebaseEnum.CURRENT_GOAL, result.get('current_goal'))
-    fb.set_user_info(UID, FirebaseEnum.DIET, result.get('diet_type'))
+    fb.set_user_info(UID, FirebaseEnum.DIET, result.get('diet'))
     my_goals.create_standard_goal(UID)
 
 
@@ -65,6 +65,8 @@ def edit_profile():
     gender = user_info['gender']
     birthdate = user_info['birth']
     current_goal = user_info['current_goal']
+    diet_type = user_info['diet']
+
 
     # Split the user's birthdate into year, month, day
     birth_values = birthdate.split('-')
@@ -76,6 +78,7 @@ def edit_profile():
     ft = str(height // 12) + "'"
     inches = str(height % 12) + "\""
 
+    # Convert weight to int
     new_weight = int(weight)
 
     profile_form = EditProfile()
@@ -89,6 +92,10 @@ def edit_profile():
         profile_form.height_inches.data = inches
         profile_form.activity.data = activity
         profile_form.birth.data = datetime(year, month, day)
+        profile_form.diet_type.data = diet_type
+
+
+
     # Validate_on_submit checks for submission with POST method
 
     # then calls validate() to trigger form validation
@@ -99,7 +106,8 @@ def edit_profile():
                         'weight': request.form["weight"],
                         'height': calculate_height(request.form["height_feet"], request.form["height_inches"]),
                         'activity': request.form["activity"],
-                        'diet': profile_form.diet_type.data}
+                        'diet': profile_form.diet_type.data,
+                        'current_goal': current_goal}
 
         # Send this result so it can be stored
         print("Passing on: ", setup_result)

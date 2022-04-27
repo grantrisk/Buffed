@@ -28,10 +28,9 @@
     </nav>
 
     <br>
-    <p><i>You will be able to edit your information in this page.</i></p>
+    <p><i>You can change your information below.</i></p>
 
     <hr/>
-    <br><br>
 
 
     <!-- Form-entries below need to be put into a form. -->
@@ -55,9 +54,9 @@
 
 
         <!----- Display Name ----->
-        <div class="form-group">
-            <h6 style="text-align: left;">{{ profile_form.name.label }}</h6>
-            <div class="d-flex justify-content-between w-50">
+        <div class="form-group" style="margin: auto; width: 300px;">
+            <h6 style="text-align: center;">{{ profile_form.name.label }}</h6>
+            <div class="d-flex">
             {{ profile_form.name(class="form-control") }}
             </div>
         </div>
@@ -65,9 +64,9 @@
         <br>
 
         <!----- Sex ----->
-        <div class="form-group">
-            <h6 style="text-align: left;">Sex</h6>
-            <div class="d-flex justify-content-between w-50">
+        <div class="form-group" style="margin: auto; width: 300px;">
+            <h6 style="text-align: center;">Sex</h6>
+            <div style="margin: auto; width: 300px;">
                 {% for subfield in profile_form.sex %}
                     <tr>
                         <td>{{ subfield(class="form-check-input") }}</td>
@@ -80,9 +79,9 @@
         <br>
 
         <!----- Birthday ----->
-        <div class="form-group">
-            <h6 style="text-align: left;">{{ profile_form.birth.label }}</h6>
-            <div class="d-flex justify-content-between w-50">
+        <div class="form-group" style="margin: auto; width: 300px;">
+            <h6 style="text-align: center;">{{ profile_form.birth.label }}</h6>
+            <div class="d-flex">
                 {{ profile_form.birth(class="form-control") }}
             </div>
         </div>
@@ -105,9 +104,9 @@
         <br>
 
         <!----- Weight ----->
-        <div class="form-group">
-            <h6 style="text-align: left;">{{ profile_form.weight.label }}</h6>
-            <div class="d-flex justify-content-between w-50">
+        <div class="form-group" style="margin: auto; width: 300px;">
+            <h6 style="text-align: center;">{{ profile_form.weight.label }}</h6>
+            <div class="d-flex">
                 {{ profile_form.weight(class="form-control") }}
             </div>
         </div>
@@ -128,20 +127,22 @@
         <br>
 
         <!----- Height ----->
-        <div class="form-group">
-            <h6 style="text-align: left;">Height</h6>
+        <div class="form-group" style="margin: auto; width: 160px;">
+            <h6 style="text-align: center;">Height</h6>
         </div>
 
         <!-- Height labels for ft. & inches. -->
-        <div style="display: flex; width: 160;">
+        <div style="margin: auto; display: flex; width: 160px;">
             <div style="width: 80px;">
                 {{ profile_form.height_feet.label }}
             </div>
-            {{ profile_form.height_inches.label }}
+            <div style="width: 80px;">
+                {{ profile_form.height_inches.label }}
+            </div>
         </div>
 
         <!-- Dropdowns for Height (ft and inches.) -->
-        <div style="display: flex; width: 160px;">
+        <div style="margin: auto; display: flex; width: 160px;">
             <div class="form-group" style="width: 80px">
                 {{ profile_form.height_feet(class="btn btn-secondary dropdown-toggle") }}
             </div>
@@ -155,30 +156,18 @@
         <br>
 
         <!----- Activity Level ----->
-        <div style="display: flex; width: 160px;">
+        <div style="margin: auto; width: 300px;">
             <div class="form-group">
-                <h6 style="text-align: left;">Activity Level</h6>
+                <h6 style="text-align: center;">Activity Level</h6>
                 {{ profile_form.activity(class="btn btn-secondary dropdown-toggle") }}
             </div>
         </div>
 
-
-{#      <!----- Starting Goal ----->#}
-{#        <div class="form-group">#}
-{#            Starting Goal<br>#}
-{#            {% for subfield in profile_form.current_goal %}#}
-{#                <tr>#}
-{#                    <td>{{ subfield }}</td>#}
-{#                    <td>{{ subfield.label }}</td>#}
-{#                </tr>#}
-{#            {% endfor %}#}
-{#        </div>#}
-
         <br>
 
         <!----- Health Labels ----->
-        <div class="form-group">
-            <h6 style="text-align: left;">Diet Health Labels</h6><br>
+        <div class="form-group" style="margin: auto;">
+            <h6 style="text-align: center;">Diet Health Labels</h6><br>
             <div class="form-check">
                 <ul style="column-count:4; column-gap: 5%;">
                 {% for subfield in profile_form.diet_type %}
