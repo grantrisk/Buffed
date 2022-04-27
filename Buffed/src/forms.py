@@ -1,11 +1,11 @@
-import datetime
-
+import re
+import email_validator
+from firebase_admin import auth
 from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, DecimalField, \
     RadioField, SelectMultipleField, widgets, IntegerField, SelectField
-from wtforms.validators import DataRequired, Email, Regexp, NumberRange, Length
-
-from Buffed.src.models import Goal
+from wtforms.validators import DataRequired, Email, Regexp, NumberRange, Length, EqualTo, ValidationError
+import firebase_connector as fb
 
 
 class MultiCheckboxField(SelectMultipleField):
@@ -41,10 +41,48 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 
-#
-# def validate_birth(form,field):
-#     if (datetime.date.today().year - int(field.data[:4])) < (13 * 365):
-#         raise ValidationError("You must be 13 years or older!")
+class RegisterForm(FlaskForm):
+    # TODO: implement more robust email and password requirements and validation
+    email = EmailField("Email", validators=[DataRequired(message="Please fill in this field"),
+                                            Email(check_deliverability=True), Length(min=7, max=50),
+                                            EqualTo(fieldname="confirm_email", message="Emails don't match.")])
+    confirm_email = EmailField("Confirm Email", validators=[DataRequired(message="Please fill in this field"), Email()])
+    password = PasswordField("Password",
+                             validators=[DataRequired(message="Please fill in this field"),
+                                         Length(min=7, max=50),
+                                         EqualTo(fieldname="confirm_password",
+                                                 message="Passwords don't match.")])
+    confirm_password = PasswordField("Confirm Password", validators=[DataRequired(message="Please fill in this field")])
+    submit = SubmitField("Register")  # may not be needed
+
+    def validate_password(form, field):
+        """
+        Validate password meets minimum requirements
+        Valid passwords contain:
+        - 8 to 30 characters
+        - 1 digit or more
+        - 1 symbol or more
+        - 1 uppercase letter or more
+        - 1 lowercase letter or more
+        """
+        reg_exp = "^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$"
+        reg = re.compile(reg_exp)
+        if not re.search(reg, field.data):
+            raise ValidationError("Password must include:"
+                                  "1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character")
+
+    def validate_email(form, field):
+        try:
+            emailObj = email_validator.validate_email(field.data)
+            auth.get_user_by_email(emailObj.email)
+        except email_validator.EmailNotValidError as err:
+            raise ValidationError(str(err))
+        except ValueError as verr:
+            raise ValidationError(str(verr))
+        except auth.UserNotFoundError:
+            pass
+        raise ValidationError("Email already in use.")
+
 
 
 class ProfileQuestionnaire(FlaskForm):
@@ -62,7 +100,7 @@ class ProfileQuestionnaire(FlaskForm):
     height = StringField('Height (Feet-Inch)', [DataRequired(),
                                                 Regexp('[2-9]\'[0-9]', message='Wrong height format. Example: 6\'0')])
     activity = RadioField("Activity Level", [DataRequired()], choices=["Very Active", "Moderately Active",
-                                                                           "Lightly Active", "Sedentary"])
+                                                                       "Lightly Active", "Sedentary"])
 
     # Diet Information: Based on Health Labels
     diet_type = MultiCheckboxField("Diet Type",
@@ -74,6 +112,7 @@ class ProfileQuestionnaire(FlaskForm):
                                             'Alcohol-Free', 'No oil added', 'FODMAP-Free', 'Kosher'])
 
     submit = SubmitField("Save")
+
 
 class EditProfile(FlaskForm):
     """
