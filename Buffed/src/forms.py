@@ -5,7 +5,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, DecimalField, \
     RadioField, SelectMultipleField, widgets, IntegerField, SelectField
 from wtforms.validators import DataRequired, Email, Regexp, NumberRange, Length, EqualTo, ValidationError
-import firebase_connector as fb
 
 
 class MultiCheckboxField(SelectMultipleField):
@@ -72,6 +71,15 @@ class RegisterForm(FlaskForm):
                                   "1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character")
 
     def validate_email(form, field):
+        """
+        Custom email validator
+            Check if the email is valid and if the email already has an account
+            Try to get any existing account information for that email
+            using Flask-Login's authentication. Handle all exceptions, but
+            if the user is not found then they may successfully pass this validation
+        :param field: the form field in question, in this case email
+        :returns: Nothing. raises ValidationErrors with exception messages, or passes
+        """
         try:
             emailObj = email_validator.validate_email(field.data)
             auth.get_user_by_email(emailObj.email)
@@ -80,8 +88,11 @@ class RegisterForm(FlaskForm):
         except ValueError as verr:
             raise ValidationError(str(verr))
         except auth.UserNotFoundError:
-            pass
-        raise ValidationError("Email already in use.")
+            pass  # If user isn't found, they don't already have an account.
+        except auth.EmailAlreadyExistsError:
+            raise ValidationError("Email already in use.")
+        except:
+            raise ValidationError("Error. Please try a different email.")
 
 
 

@@ -28,7 +28,7 @@
     </nav>
 
     <div class="p-3 text-white" style="background: #595cef;">
-        <h5>Hello, Bob!</h5>
+        <h5>{{ greeting }}, {{ name }}!</h5>
     </div>
 
     <br>
@@ -42,32 +42,32 @@
         <div class="col" style="min-height:600px; border-right: 5px solid #595cef;">
 
             <h5>Name</h5><p></p>
-            Bob Dylan<br><br>
+            {{ name }}<br><br>
 
             <h5>Email</h5><p></p>
-            folkguitarist1@gmail.com<br><br>
+            {{ email }}<br><br>
 
             <h5>Age</h5><p></p>
-            80 years old<br><br>
+            {{ age }}<br><br>
 
         </div>
 
         <div class="col" style="min-height:600px">
 
             <h5>Gender</h5><p></p>
-            <p>Male</p><br>
+            <p>{{ gender }}</p><br>
 
             <h5>Height</h5><p></p>
-            <p>5' 6"</p><br>
+            <p>{{ ft }}{{ inches }}</p><br>
 
             <h5>Weight</h5><p></p>
-            <p>150 lbs.</p><br>
+            <p>{{ weight }}</p><br>
 
             <h5>Activity level</h5><p></p>
-            <p>Low</p><br>
+            <p>{{ activity }}</p><br>
 
             <h5>Current Goal</h5><p></p>
-            <p>Gain Weight</p><br>
+            <p>{{ goal }}</p><br>
 
         </div>
     </div>
