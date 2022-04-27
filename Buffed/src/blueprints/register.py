@@ -30,6 +30,8 @@ def send_setup_info(result: dict, UID: str) -> None:
     fb.set_user_info(UID, FirebaseEnum.DIET, result.get('diet'))
     standard_goal = my_goals.create_standard_goal(UID)
     fb.create_user_new_goal(UID, standard_goal)
+    # Initialize Today's Plan Collection
+    fb.initialize_todays_plan(UID)
 
 
 def calculate_height(height: str) -> float:

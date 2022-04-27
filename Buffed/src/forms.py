@@ -64,7 +64,7 @@ class RegisterForm(FlaskForm):
         - 1 uppercase letter or more
         - 1 lowercase letter or more
         """
-        reg_exp = "^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$"
+        reg_exp = "^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!^&+=]).*$"
         reg = re.compile(reg_exp)
         if not re.search(reg, field.data):
             raise ValidationError("Password must include:"
