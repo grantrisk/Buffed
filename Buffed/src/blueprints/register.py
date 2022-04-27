@@ -1,7 +1,6 @@
 from firebase_admin._auth_utils import EmailAlreadyExistsError
 from flask_login import current_user, login_user
 from flask import Blueprint, render_template, request, redirect, url_for
-from werkzeug.security import generate_password_hash, check_password_hash
 
 import firebase_connector as fb
 from blueprints.index import invalid_credentials_messages
@@ -41,30 +40,6 @@ def calculate_height(height: str) -> float:
     return float(height[0]) + float(height[1]) / 12
 
 
-# def handle_catch(caller, on_exception):
-#     """
-#     Try statement to include in register.html macro
-#     :param caller:
-#     """
-#     try:
-#         return caller()
-#     except:
-#         return on_exception
-#
-#
-# def check_email(email):
-#     """
-#     Try statement to include in register.html macro
-#     :param email: the given email
-#     :return errorMsg: the error message to show or an empty string
-#     """
-#     pass
-#     # try:
-#     #     emailObject = validate_email(email)
-#     #     t
-#     # except:
-#     #     return on_exception
-
 @register_page.route('/', methods=['GET', 'POST'])
 def register():
     """
@@ -100,7 +75,7 @@ def register():
                         token = response["idToken"]
                         expires_in = response["expiresIn"]
                         user = User(user_id, token, expires_in)
-                        login_user(user)
+                        login_user(user)  # log the user in to flask-login
 
                         UID = current_user.get_id()
 
@@ -115,11 +90,9 @@ def register():
                         send_setup_info(setup_result, UID)
                         # Go to dashboard
                         return render_template('dashboard.html')
-            except EmailAlreadyExistsError as errorMsg:
-                return render_template('register.html', register_form=register_form, profile_form=profile_form, error=str(errorMsg))
-            except ValueError:
-                # TODO: handle exceptions
-                print("Value Error")
+            except:
+                # while vague, these exceptions are handled within forms.py and errors are shown in register.html
+                # such as ValueErrors or EmailAlreadyExistsErrors, etc
                 return render_template('register.html', register_form=register_form, profile_form=profile_form)
         else:
             return render_template('register.html', register_form=register_form, profile_form=profile_form)
