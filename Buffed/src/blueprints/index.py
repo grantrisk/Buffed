@@ -27,6 +27,10 @@ def index():
     elif request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
+        remember_me = request.form['rememberMe']
+
+        print(remember_me)
+
         response = fb_connector.sign_in_with_email_and_password(email, password)
         if isinstance(response, dict):
             print(response)
@@ -40,7 +44,14 @@ def index():
                 token = response["idToken"]
                 expires_in = response["expiresIn"]
                 user = User(user_id, token, expires_in)
-                login_user(user)
+
+                if remember_me == "True":
+                    print(True)
+                    login_user(user, remember=True)
+                if remember_me == "False":
+                    print(False)
+                    login_user(user, remember=False)
+
                 return {"success": "true"}
         return {"success": "false"}
 
