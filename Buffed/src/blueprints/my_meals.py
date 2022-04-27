@@ -36,6 +36,11 @@ def add_to_todays_plan():
     if 'mealID' in request.form and 'mealTypeOption' in request.form:
         meal = edamam_instance.get_recipe_by_id(request.form['mealID'])
         meal.meal_type_section = request.form['mealTypeOption']
+        num_of_servings = float(request.form['numOfServings'])
+        meal.nutrients['ENERC_KCAL']['quantity'] = meal.nutrients['ENERC_KCAL']['quantity'] * num_of_servings
+        meal.nutrients['FAT']['quantity'] = meal.nutrients['FAT']['quantity'] * num_of_servings
+        meal.nutrients['PROCNT']['quantity'] = meal.nutrients['PROCNT']['quantity'] * num_of_servings
+        meal.nutrients['CHOCDF']['quantity'] = meal.nutrients['CHOCDF']['quantity'] * num_of_servings
         firebase_connector.add_meal_todays_plan(current_user.get_id(), meal)
         resp = jsonify(success=True)
     else:

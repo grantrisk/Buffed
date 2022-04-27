@@ -1,6 +1,6 @@
+from firebase_admin._auth_utils import EmailAlreadyExistsError
 from flask_login import current_user, login_user
 from flask import Blueprint, render_template, request, redirect, url_for
-from werkzeug.security import generate_password_hash, check_password_hash
 
 import firebase_connector as fb
 from blueprints.index import invalid_credentials_messages
@@ -23,11 +23,15 @@ def send_setup_info(result: dict, UID: str) -> None:
     fb.set_user_info(UID, FirebaseEnum.NAME, result.get('name'))
     fb.set_user_info(UID, FirebaseEnum.GENDER, result.get('sex'))
     fb.set_user_info(UID, FirebaseEnum.BIRTH, result.get('birth'))
+    fb.set_user_info(UID, FirebaseEnum.CURRENT_GOAL, result.get('current_goal'))
     fb.set_user_info(UID, FirebaseEnum.WEIGHT, result.get('weight'))
     fb.set_user_info(UID, FirebaseEnum.HEIGHT, result.get('height'))
     fb.set_user_info(UID, FirebaseEnum.ACTIVITY, result.get('activity'))
     fb.set_user_info(UID, FirebaseEnum.DIET, result.get('diet'))
-    my_goals.create_standard_goal(UID)  # create a new standard goal and set it as current goal
+    standard_goal = my_goals.create_standard_goal(UID)
+    fb.create_user_new_goal(UID, standard_goal)
+    # Initialize Today's Plan Collection
+    fb.initialize_todays_plan(UID)
 
 
 def calculate_height(height: str) -> float:
@@ -48,8 +52,7 @@ def register():
     register_form = RegisterForm()
     profile_form = ProfileQuestionnaire()
 
-    if profile_form.submit.data:
-        # TODO: securely handle password, other info...
+    if profile_form.submit.data and register_form.validate():
         email = request.form['email']
         confirm_email = request.form['confirm_email']
 
@@ -76,13 +79,14 @@ def register():
                         token = response["idToken"]
                         expires_in = response["expiresIn"]
                         user = User(user_id, token, expires_in)
-                        login_user(user)
+                        login_user(user)  # log the user in to flask-login
 
                         UID = current_user.get_id()
 
                         setup_result = {'name': request.form["name"],
                                         'sex': request.form["sex"],
                                         'birth': request.form["birth"],
+                                        'current_goal': "Standard Goal",
                                         'weight': request.form["weight"],
                                         'height': calculate_height(request.form["height"]),
                                         'activity': request.form["activity"],
@@ -90,14 +94,12 @@ def register():
                         # Send this result so it can be stored
                         send_setup_info(setup_result, UID)
                         # Go to dashboard
-                        return render_template('dashboard.html')
-            except ValueError:
-                # TODO: handle exceptions
-                print("Value Error")
+                        return redirect(url_for('dashboard.dashboard'))
+            except:
+                # while vague, these exceptions are handled within forms.py and errors are shown in register.html
+                # such as ValueErrors or EmailAlreadyExistsErrors, etc
                 return render_template('register.html', register_form=register_form, profile_form=profile_form)
         else:
-            # TODO: Give user feedback
-            print("Emails / Passwords do not match")
             return render_template('register.html', register_form=register_form, profile_form=profile_form)
     else:
         # render template with register and profile form
