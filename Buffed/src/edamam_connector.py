@@ -78,16 +78,17 @@ class EdamamConnector:
         else:
             raise InvalidRequestError("Invalid request: " + r.request.body)
 
-    def search_recipes(self, query: str) -> List[Meal]:
+    def search_recipes(self, query: str, diet: dict) -> List[Meal]:
         """
         Queries Recipe Search API for recipes. Raises an exception if the API key(s) are invalid.
         :param query: search term
         :param filters: dict containing key-value filter parameters
+        :param diet: dict containing dietary/allergy/nutrient filters (must use Edamam API parameter labels)
         :return: list of Meals from search results
         """
         r = requests.get('https://api.edamam.com/api/recipes/v2',
                          params={'app_id': self.__recipe_app_id, 'app_key': self.__recipe_app_key,
-                                 'q': query, 'type': 'public'})
+                                 'q': query, 'type': 'public', 'health': diet})
         if r.status_code == 401:
             raise APIKeyError("Invalid food database app ID or key")
         elif r.status_code != 200:

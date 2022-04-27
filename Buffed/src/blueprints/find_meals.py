@@ -1,9 +1,11 @@
+from typing import List
+
 from flask import Blueprint, render_template, request, redirect, jsonify
 from flask_login import login_required, current_user
 
 import firebase_connector
 from edamam_connector import EdamamConnector
-
+from models import Meal
 
 find_meals_page = Blueprint("find_meals", __name__, static_folder="static", template_folder="templates")
 
@@ -17,7 +19,15 @@ def find_meals():
     This method returns the find meals page.
     :return: render_template('find_meals.html')
     """
-    return render_template('find_meals.html')
+    max_nutrients = firebase_connector.get_remaining_nutrients(current_user.get_id())
+
+    calorie_warn = max_nutrients['calories'] <= 0
+    carbs_warn = max_nutrients['carbs'] <= 0
+    protein_warn = max_nutrients['protein'] <= 0
+    fat_warn = max_nutrients['fat'] <= 0
+
+    return render_template('find_meals.html', calorie_warn=calorie_warn, carbs_warn=carbs_warn,
+                           protein_warn=protein_warn, fat_warn=fat_warn)
 
 
 @find_meals_page.route('/search_results')
@@ -30,7 +40,7 @@ def search_results():
     if 'search_query' not in request.args:
         redirect('find_meals')
 
-    meal_results = edamam_instance.search_recipes(request.args["search_query"])
+    meal_results = edamam_instance.search_recipes(request.args["search_query"], {})
     saved_meals = firebase_connector.get_all_meals(current_user.get_id())
 
     results_displayed = []
