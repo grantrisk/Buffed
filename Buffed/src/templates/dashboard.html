@@ -9,12 +9,12 @@
     <br><br>
         <div class="row">
             <div class="col">
-                <h3><b>Active Goal: {{ goal.goal_name }}</b></h3>
+                <h3 align="left"><b><u>Active Goal: {{ goal.goal_name }}</u></b></h3>
                 <div>
-                    <p class="fs-3" id="calories">Calories:       {{goal.calories}}<p></p>
-                    <p class="fs-3" id="calories">Carbohydrates:  {{goal.macro_nutrients['carbs'][0]}}</p>
-                    <p class="fs-3" id="calories">Fats:           {{goal.macro_nutrients['fat'][0]}}</p>
-                    <p class="fs-3" id="calories">Protein:        {{goal.macro_nutrients['protein'][0]}}</p>
+                    <p class="fs-3" align="left" id="calories">Calories: {{goal.calories}}</p>
+                    <p class="fs-3" align="left" id="carbs">Carbohydrates: {{goal.macro_nutrients['carbs'][0]}}</p>
+                    <p class="fs-3" align="left" id="fats">Fats: {{goal.macro_nutrients['fat'][0]}}</p>
+                    <p class="fs-3" align="left" id="protein">Protein: {{goal.macro_nutrients['protein'][0]}}</p>
                 </div>
             </div>
             <div class="col" style="position: relative;">
