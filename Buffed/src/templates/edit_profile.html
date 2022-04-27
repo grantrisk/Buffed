@@ -28,116 +28,171 @@
     </nav>
 
     <br>
-    <p><i>You will be able to edit your information in this page.</i></p>
+    <p><i>You can change your information below.</i></p>
 
     <hr/>
-
 
 
     <!-- Form-entries below need to be put into a form. -->
     <!-- Datepicker is deprecated in bootstrap, so trying to figure out how to implement it. -->
 
-    <!-- Allow the user to change their name. -->
-    <h6 style="text-align: left;">Name</h6>
-    <input type="text" name="name" class="form-control" placeholder="Name">
+    <form action="{{ url_for('edit_profile.edit_profile') }}" method="post">
+
+
+        {#!= 'hidden' and p.widget.input_type != 'submit' #}
+{#      {% for p in profile_form if p not in ['sex','diet_type'] and p.widget.input_type not in ['hidden','submit']  %}#}
+{#
+
+
+        <div class="form-group">#}
+            {# {{ p.label() }}#}
+            {# {{ p }}#}
+            {#
+        </div>#}
+{#        {% endfor %}#}
 
 
 
-
-
-    <!-- Need to use a Date-picker for the birthday. So we can get the age. -->
-    <h6 style="text-align: left;">Birthdate</h6>
-    <div class="input-group date" id="datepicker">
-        <input type="text" class="form-control">
-        <span class="input-group-append">
-            <span class="input-group-text bg-white d-block">
-                <i class="fa fa-calendar"></i>
-            </span>
-        </span>
-    </div>
-
-    <script type="text/javascript">
-        $(function() {
-            $('datepicker').datepicker();
-        });
-    </script>
-
-    <!-- Gender Form-Select -->
-    <h6 style="text-align: left;">Gender</h6>
-    <select class="form-select">
-        <option>Male</option>
-        <option>Female</option>
-    </select>
-
-
-    <!-- The titles for the dropdowns below them. -->
-    <div style="display: flex;">
-        <div style="width: 160px;">
-            <h6 style="text-align: left;">Height</h6>
-        </div>
-        <h6 style="text-align: left;">Weight</h6>
-    </div>
-    <div style="display: flex;">
-
-
-        <!-- Height Selector Feet then Inches. -->
-        <div style="display: flex; width: 160px">
-            <select class="form-select" style="width: 80px;">
-                <option>3'</option>
-                <option>4'</option>
-                <option>5'</option>
-                <option>6'</option>
-                <option>7'</option>
-            </select>
-
-            <select class="form-select" style="width: 80px;">
-                <option>0</option>
-                <option>1"</option>
-                <option>2"</option>
-                <option>3"</option>
-                <option>4"</option>
-                <option>5"</option>
-                <option>6"</option>
-                <option>7"</option>
-                <option>8"</option>
-                <option>9"</option>
-                <option>10"</option>
-                <option>11"</option>
-            </select>
+        <!----- Display Name ----->
+        <div class="form-group" style="margin: auto; width: 300px;">
+            <h6 style="text-align: center;">{{ profile_form.name.label }}</h6>
+            <div class="d-flex">
+            {{ profile_form.name(class="form-control") }}
+            </div>
         </div>
 
-        <!-- Weight Selector.  Probably something similar to a drop-down. -->
-        <input type="text" name="weight" class="form-control" placeholder="Weight (lbs.)" style="width: 100px;">
-    </div>
+        <br>
+
+        <!----- Sex ----->
+        <div class="form-group" style="margin: auto; width: 300px;">
+            <h6 style="text-align: center;">Sex</h6>
+            <div style="margin: auto; width: 300px;">
+                {% for subfield in profile_form.sex %}
+                    <tr>
+                        <td>{{ subfield(class="form-check-input") }}</td>
+                        <td>{{ subfield.label(class="form-check-label") }}</td>
+                    </tr>
+                {% endfor %}
+            </div>
+        </div>
+
+        <br>
+
+        <!----- Birthday ----->
+        <div class="form-group" style="margin: auto; width: 300px;">
+            <h6 style="text-align: center;">{{ profile_form.birth.label }}</h6>
+            <div class="d-flex">
+                {{ profile_form.birth(class="form-control") }}
+            </div>
+        </div>
 
 
-    <!-- Activity level of the user -->
-    <h6 style="text-align: left;">Activity Level</h6>
-    <select class="form-select" style="width: 500px;">
-        <option>No Activity</option>
-        <option>Light</option>
-        <option>Moderate</option>
-        <option>Active</option>
-        <option>Very Active</option>
-        <option>Extra Active</option>
-    </select>
 
 
-        <!-- Activity level of the user -->
-    <h6 style="text-align: left;">Goal</h6>
-    <select class="form-select" style="width: 500px;">
-        <option>Lose Weight</option>
-        <option>Maintain Weight</option>
-        <option>Gain Weight</option>
-    </select>
-    <br>
-    <!-- Goal of the user below. -->
+        {% if profile_form.birth.errors %}
+
+        <ul class="errors">
+            {% for error in profile_form.birth.errors %}
+            <li>
+                {{ error }}
+            </li>
+            {% endfor %}
+        </ul>
+
+        {% endif %}
+
+        <br>
+
+        <!----- Weight ----->
+        <div class="form-group" style="margin: auto; width: 300px;">
+            <h6 style="text-align: center;">{{ profile_form.weight.label }}</h6>
+            <div class="d-flex">
+                {{ profile_form.weight(class="form-control") }}
+            </div>
+        </div>
+
+        {% if profile_form.weight.errors %}
 
 
-     <!-- Button -->
-    <div class="col text-center">
-        <input type="submit" name="edit-button" class="btn btn-primary" value="Submit Changes" style="width: 100%;">
-    </div>
+
+        <ul class="errors">
+            {% for error in profile_form.weight.errors %}
+            <li>
+                {{ error }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <br>
+
+        <!----- Height ----->
+        <div class="form-group" style="margin: auto; width: 160px;">
+            <h6 style="text-align: center;">Height</h6>
+        </div>
+
+        <!-- Height labels for ft. & inches. -->
+        <div style="margin: auto; display: flex; width: 160px;">
+            <div style="width: 80px;">
+                {{ profile_form.height_feet.label }}
+            </div>
+            <div style="width: 80px;">
+                {{ profile_form.height_inches.label }}
+            </div>
+        </div>
+
+        <!-- Dropdowns for Height (ft and inches.) -->
+        <div style="margin: auto; display: flex; width: 160px;">
+            <div class="form-group" style="width: 80px">
+                {{ profile_form.height_feet(class="btn btn-secondary dropdown-toggle") }}
+            </div>
+
+            <div class="form-group" style="width: 80px;">
+                {{ profile_form.height_inches(class="btn btn-secondary dropdown-toggle") }}
+            </div>
+        </div>
+
+
+        <br>
+
+        <!----- Activity Level ----->
+        <div style="margin: auto; width: 300px;">
+            <div class="form-group">
+                <h6 style="text-align: center;">Activity Level</h6>
+                {{ profile_form.activity(class="btn btn-secondary dropdown-toggle") }}
+            </div>
+        </div>
+
+        <br>
+
+        <!----- Health Labels ----->
+        <div class="form-group" style="margin: auto;">
+            <h6 style="text-align: center;">Diet Health Labels</h6><br>
+            <div class="form-check">
+                <ul style="column-count:4; column-gap: 5%;">
+                {% for subfield in profile_form.diet_type %}
+                        <li style="list-style: none;">
+                            {{ subfield(class="form-check-input") }}
+                            {{ subfield.label }}
+                        </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <!-- Submit -->
+            <br>
+{#            {{ profile_form.submit }}#}
+            <input type="submit" class="btn btn-primary btn-lg" name="submit" value="Submit">
+        </div>
+        {{ profile_form.csrf_token }}
+        {##}
+        {#            {% if profile_form.submit.data %}#}
+        {#                {{ is_available() }}#}
+        {#            {% endif %}#}
+    </form>
 
 
 
