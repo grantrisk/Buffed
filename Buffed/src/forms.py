@@ -22,6 +22,8 @@ class ContactForm(FlaskForm):
     """
     Creates contact form with validation specifications and alert details
     """
+    # display flag
+    display = False
     # flag for alerting users if the form doesn't work
     available = False
     alert = 'warning'  # alert category, for bootstrap formatting
