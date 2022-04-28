@@ -1,7 +1,7 @@
 import flask_login
 from flask import Blueprint, render_template, request, url_for, redirect
 import firebase_connector as fb_connector
-from flask_login import login_user
+from flask_login import login_user, current_user
 
 from forms import LoginForm, ContactForm
 from models import User, Alert, AlertType
@@ -23,6 +23,8 @@ def index():
     if request.method == 'GET':
         if "sign_out" in request.args:
             flask_login.logout_user()
+        if current_user.get_id() is not None:
+            return redirect(url_for("dashboard.dashboard"))
         return render_template('index.html', login_form=LoginForm(), contact_form=ContactForm())
     elif request.method == 'POST':
         email = request.form['email']

@@ -100,6 +100,8 @@ class RegisterForm(FlaskForm):
 
 
 
+
+
 class ProfileQuestionnaire(FlaskForm):
     """
     Form for profile questionnaire
