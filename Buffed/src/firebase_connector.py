@@ -103,6 +103,24 @@ def get_user_goals(UID: str):
     return goalList
 
 
+def get_user_active_goal(UID: str):
+    goalList = get_user_goals(UID)
+    for goal in goalList:
+        if goal['is_active']:
+            return goal
+
+
+def set_active_goal_to_false(UID: str):
+    active_goal = get_user_active_goal(UID)
+    old_goal = Goal(active_goal['goal_id'],
+                    active_goal['goal_name'], False,
+                    active_goal['calories'],
+                    active_goal['macro_nutrients'],
+                    active_goal['number_of_meals'],
+                    active_goal['desired_weight'])
+    update_user_goal(UID, old_goal)
+
+
 def create_user_new_goal(UID: str, goal: Goal):
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal.goal_id).set(vars(goal))
@@ -164,6 +182,16 @@ def get_all_meals(UID: str):
 
 
 # --------- Today's Meals ---------
+def initialize_todays_plan(UID: str):
+    """
+    Initializes a blank list of meals into users information
+    :param UID: user UID
+    :return: None
+    """
+    doc_ref = db.collection(u'users').document(UID)
+    field_updates = {'todays_plan': []}
+    doc_ref.update(field_updates)
+
 def add_meal_todays_plan(UID: str, meal: Meal):
     """
     Adds a meal to today's plan

@@ -6,7 +6,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 import firebase_connector as fb
 from firebase_connector import FirebaseEnum
 
-from forms import EditProfile
+from forms import ProfileQuestionnaire
 from blueprints import my_goals
 
 edit_profile_page = Blueprint("edit_profile", __name__, static_folder="static", template_folder="templates")
@@ -81,7 +81,7 @@ def edit_profile():
     # Convert weight to int
     new_weight = int(weight)
 
-    profile_form = EditProfile()
+    profile_form = ProfileQuestionnaire()
 
     # Populate the forms for default values so user doesn't have to re-enter everything.
     if request.method == "GET":

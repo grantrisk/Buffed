@@ -66,7 +66,7 @@ class RegisterForm(FlaskForm):
         - 1 uppercase letter or more
         - 1 lowercase letter or more
         """
-        reg_exp = "^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$"
+        reg_exp = "^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!^&+=]).*$"
         reg = re.compile(reg_exp)
         if not re.search(reg, field.data):
             raise ValidationError("Password must include:"
@@ -98,36 +98,9 @@ class RegisterForm(FlaskForm):
 
 
 
+
+
 class ProfileQuestionnaire(FlaskForm):
-    """
-    Form for profile questionnaire
-    """
-    # Personal Questionnaire
-    # optional: adjust validation/error messages for bday and height
-    name = StringField("Display Name", [DataRequired(),
-                                        Length(min=1, max=16, message='Must be between 1-16 characters long')])
-    sex = RadioField("Sex", [DataRequired()], choices=["Male", "Female"])
-    birth = DateField("Birthdate", [DataRequired()])
-    weight = DecimalField("Weight (lb)", [DataRequired(),
-                                          NumberRange(min=0, max=5000, message='Must be a number between 0-5000.')])
-    height = StringField('Height (Feet-Inch)', [DataRequired(),
-                                                Regexp('[2-9]\'[0-9]', message='Wrong height format. Example: 6\'0')])
-    activity = RadioField("Activity Level", [DataRequired()], choices=["Very Active", "Moderately Active",
-                                                                       "Lightly Active", "Sedentary"])
-
-    # Diet Information: Based on Health Labels
-    diet_type = MultiCheckboxField("Diet Type",
-                                   choices=['Vegan', 'Vegetarian', 'Pescatarian', 'Dairy-Free',
-                                            'Gluten-Free', 'Wheat-Free', 'Egg-Free', 'Peanut-Free',
-                                            'Tree-Nut-Free', 'Soy-Free', 'Fish-Free', 'Shellfish-Free',
-                                            'Pork-Free', 'Red-Meat-Free', 'Crustacean-Free', 'Celery-Free',
-                                            'Mustard-Free', 'Sesame-Free', 'Lupine-Free', 'Mollusk-Free',
-                                            'Alcohol-Free', 'No oil added', 'FODMAP-Free', 'Kosher'])
-
-    submit = SubmitField("Save")
-
-
-class EditProfile(FlaskForm):
     """
     Form for profile questionnaire
     """

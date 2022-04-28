@@ -57,16 +57,24 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- Header -->
-                    <div class="modal-header">
-                        <button type="button" class="btn-close btn-close-white" aria-label="Close"
+
+                    <div class="modal-header d-flex justify-content-between" style="background: #000000">
+                        <div>
+                        </div>
+                        <div>
+                            <h4 class="=modal-title text-white font-weight-bold">
+                                Sign In
+                            </h4>
+                        </div>
+                        <div>
+                            <button type="button" class="btn-close btn-close-white" aria-label="Close"
                                 data-bs-dismiss="modal" aria-hidden="true"></button>
+                        </div>
                     </div>
 
                     <br>
                     <div class="modal-name" id="login-content">
-                        <h4 class="=modal-title text-center w-100 font-weight-bold">
-                            Sign In
-                        </h4>
+
                     </div>
 
                     <!-- Body -->
@@ -80,6 +88,9 @@
                                     <input type="text" id="email" name="email">
                                 </div>
                             </div>
+
+                            <br>
+
                             <div class="row justify-content-center">
                                 <div class="col-sm-2">
                                     <label for="password">Password</label>
@@ -88,11 +99,20 @@
                                     <input type="password" id="password" name="password">
                                 </div>
                             </div>
-                        </div>
-                        <br>
+
+                            <br>
+
+                            </div>
+                                <input type="hidden" value="False" name="rememberMe">
+                                <input type="checkbox" value="True" id="rememberMe" name="rememberMe"> <label for="rememberMe">Remember me</label>
+                            </div>
+
                         <!-- Button -->
                         <div class="col text-center">
-                            <input type="submit" class="btn btn-primary" value="Login">
+                            <input type="submit" class="btn btn-primary" value="Login" style="width: 150px;">
+                        </div>
+                        <div>
+                            <br>
                         </div>
                     </div>
 

@@ -18,10 +18,6 @@ def generate_goal_id():
     return goal_id
 
 
-def set_new_current_goal(UID: str, goal_id):
-    fb.set_user_info(UID, FirebaseEnum.CURRENT_GOAL, goal_id)
-
-
 def create_standard_goal(UID: str):
     goal_id = str(generate_goal_id())
     goal_name = "Standard Goal"
@@ -50,8 +46,7 @@ def create_standard_goal(UID: str):
                        "protein": [int(.40 * (calories * grams))]}
 
     standard_goal = Goal(goal_id, goal_name, is_active, round(calories), macro_nutrients, 3, weight)
-    fb.create_user_new_goal(UID, standard_goal)
-
+    return standard_goal
 
 
 @my_goals_page.route('/', methods=["GET", "POST"])
@@ -72,6 +67,7 @@ def my_goals():
         number_of_meals = int(request.form.get("number_of_meals"))
         desired_weight = int(request.form.get("desired_weight"))
         new_goal = Goal(goal_id, goal_name, is_active, calories, macro_nutrients, number_of_meals, desired_weight)
+        fb.set_active_goal_to_false(UID)
         fb.create_user_new_goal(UID, new_goal)
 
     goalList = fb.get_user_goals(UID)
@@ -83,6 +79,7 @@ def my_goals():
 def update_my_goals():
     UID = current_user.get_id()
     if request.form['action'] == "Update":
+        active_goal = fb.get_user_active_goal(UID)
         goal_id = request.form.get("goal_id")
         goal_name = request.form.get("goal_name")
         calories = int(request.form.get("calories"))
@@ -92,6 +89,9 @@ def update_my_goals():
         desired_weight = int(request.form.get("desired_weight"))
         if request.form.get("active_checkbox") is not None:
             is_active = True
+            fb.set_user_info(UID, FirebaseEnum.CURRENT_GOAL, goal_name)
+            if active_goal['goal_id'] != goal_id:
+                fb.set_active_goal_to_false(UID)
         else:
             is_active = False
         updated_goal = Goal(goal_id, goal_name, is_active, calories, macro_nutrients, number_of_meals, desired_weight)
