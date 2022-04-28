@@ -34,14 +34,17 @@ def send_setup_info(result: dict, UID: str) -> None:
     fb.initialize_todays_plan(UID)
 
 
-def calculate_height(height: str) -> float:
-    """
-    Calculate height in feet as a float
-    :param height: string formatted as feet-inches (6'2)
-    :return: height in feet
-    """
-    height = height.split("'")
-    return float(height[0]) + float(height[1]) / 12
+def calculate_height(ft, inches):
+    # calculate height in feet
+    height_ft = ft.split("'")
+    height_in = inches.split("\"")
+
+    ft = int(height_ft[0])
+    inches = int(height_in[0])
+
+    ft_to_inches = ft * 12
+    total_inches = ft_to_inches + inches
+    return total_inches
 
 
 @register_page.route('/', methods=['GET', 'POST'])
@@ -79,7 +82,7 @@ def register():
                         token = response["idToken"]
                         expires_in = response["expiresIn"]
                         user = User(user_id, token, expires_in)
-                        login_user(user)  # log the user in to flask-login
+                        login_user(user, remember=False)  # log the user in to flask-login
 
                         UID = current_user.get_id()
 
@@ -88,9 +91,12 @@ def register():
                                         'birth': request.form["birth"],
                                         'current_goal': "Standard Goal",
                                         'weight': request.form["weight"],
-                                        'height': calculate_height(request.form["height"]),
+                                        'height': calculate_height(request.form["height_feet"],
+                                                                   request.form["height_inches"]),
                                         'activity': request.form["activity"],
                                         'diet': profile_form.diet_type.data}
+
+                        print(setup_result)
                         # Send this result so it can be stored
                         send_setup_info(setup_result, UID)
                         # Go to dashboard
