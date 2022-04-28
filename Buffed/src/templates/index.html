@@ -28,7 +28,7 @@
 
     <!-- Show the Welcome to... with the image below. -->
 
-    <h1 class="display-4"><br>Welcome to</h1><br>
+    <br><br><h1 class="display-4">Welcome to</h1>
     <img src="/static/resources/buffed.png" class="img-fluid" alt="Responsive image">
 
     <!-- Lead Below the Image -->
@@ -38,15 +38,14 @@
 
     <!-- Something Catchy Below (idk) -->
 
-    <p><i>A healthier lifestyle awaits you.<br><br>
-        Login or create an account below.</i></p>
+    <p><i>A healthier lifestyle awaits you.</i></p>
 
     <!-- Show Buttons for Sign In / Create an Account -->
 
     <div class="action-buttons">
-        <a href="/dashboard" class="btn btn-primary btn-lg">Admin</a>
+        <a class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#aboutWindow">About</a>
         <a class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#loginWindow">Login</a>
-        <a href="/register" class="btn btn-primary btn-lg">Register</a>
+        <a href="{{ url_for('register.register') }}" class="btn btn-primary btn-lg">Register</a>
     </div>
 
 
@@ -98,85 +97,70 @@
                                 <div class="col-sm-auto">
                                     <input type="password" id="password" name="password">
                                 </div>
-
                             </div>
 
                             <br>
 
-                            </div>
+                            <div>
                                 <input type="hidden" value="False" name="rememberMe">
                                 <input type="checkbox" value="True" id="rememberMe" name="rememberMe"> <label for="rememberMe">Remember me</label>
                             </div>
-
-                        <!-- Button -->
-                        <div class="col text-center">
-                            <input type="submit" class="btn btn-primary" value="Login" style="width: 150px;">
-                        </div>
-                        <div>
-                            <br>
+                            <!-- Button -->
+                            <div class="col text-center">
+                                <input type="submit" class="btn btn-primary" value="Login" style="width: 150px;">
+                            </div>
+                            <div>
+                                <br>
+                            </div>
                         </div>
                     </div>
-
-                    <br>
-
                 </div>
             </div>
         </div>
     </form>
 
 
-    <!-- Create An Account Modal -->
+    <!-- About Modal -->
 
-    <form id="register-form" method="post" action="#" role="form" class="form-horizontal">
-        <div class="modal" id="registerWindow" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <form id="contact-form" method="post" action="#" role="form" class="form-horizontal">
+        <div class="modal" id="aboutWindow" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
+                 <!-- Header -->
 
-                    <!-- Header -->
-                    <div class="modal-header">
-                        <button type="button" class="btn-close btn-close-white" aria-label="Close"
+                    <div class="modal-header d-flex justify-content-between" style="background: #000000">
+                        <div>
+                        </div>
+                        <div>
+                            <h4 class="=modal-title text-white font-weight-bold">
+                                About
+                            </h4>
+                        </div>
+                        <div>
+                            <button type="button" class="btn-close btn-close-white" aria-label="Close"
                                 data-bs-dismiss="modal" aria-hidden="true"></button>
+                        </div>
                     </div>
-
                     <br>
-                    <div class="modal-name">
-                        <h4 class="=modal-title text-center w-100 font-weight-bold">
-                            Create An Account
-                        </h4>
-                    </div>
-
+                    <div class="modal-name" id="about-content"></div>
                     <!-- Body -->
+                    <div class="modal-body text-start">
 
-                    <div class="modal-body">
-                        <form role="form">
-                            <div class="form-group">
-                                <input type="email" name="email" class="form-control" placeholder="Email">
-                            </div>
+                        {# pass contact_form as the form associated within about_contact.html using with #}
+                        {% with form=contact_form %}
+                            {% include 'incl/about_contact.html' %}
+                        {% endwith %}
 
-                            <div class="form-group">
-                                <input type="email" name="confirm-email" class="form-control"
-                                       placeholder="Confirm Email">
-                            </div>
+                        <!-- Button -->
+                        <div class="col text-center">
+                            <a href="{{ url_for('register.register') }}" class="btn btn-primary" style="width: 150px;">
+                                Sign Up
+                            </a>
+                        </div>
+                        <div>
                             <br>
-                            <div class="form-group">
-                                <input type="password" name="password" class="form-control" placeholder="Password">
-                            </div>
-
-                            <div class="form-group">
-                                <input type="password" name="confirm-password" class="form-control"
-                                       placeholder="Confirm Password">
-                            </div>
-
-
-
-                        </form>
+                        </div>
                     </div>
-
-                    <!-- Button -->
-                    <div class="col text-center">
-                        <input type="submit" name="register-button" value="Create An Account" class="btn btn-primary">
-                    </div>
-                    <br>
                 </div>
             </div>
         </div>

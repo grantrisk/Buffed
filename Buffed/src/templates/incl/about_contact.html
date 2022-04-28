@@ -1,0 +1,91 @@
+{% block about_body %}
+    <!--------- About --------->
+    <div class="container">
+        <p>
+            BUFFED is a calorie-tracking web app built to keep up with <i><b>your</b></i> goals.
+            View a colorful breakdown of desired calories on the BUFFED Dashboard,
+            where you can choose daily meals to stay on track.
+        </p>
+        <p>
+            When you register for a BUFFED account, all it takes are a few questions to help
+            tailor the experience to fit your goals. We handle calculating the details,
+            and we even set up a standard goal to start you off right away.
+            Feel free to add, customize, and delete old goals as you go.
+        </p>
+        <p>
+            BUFFED is the new way to balance food and fitness.
+        </p>
+        <div class="text-center">
+            <a href="https://www.edamam.com/" target="_blank">
+                <img src="{{ url_for('static', filename='resources/Edamam_Badge_Transparent.svg') }}" width="200">
+            </a>
+        </div>
+        <p><ul>
+            <li>Browse over 2.3 million recipes in English</li>
+            <li>500+ top web recipe sources</li>
+            <li>Filter by calories, diet, or allergy restrictions</li>
+        </ul></p>
+        <p>BUFFED lets you take control of your fitness goals.</p>
+        <ul>
+            <li>Sign up takes less than 3 minutes--no long questionnaires</li>
+            <li>Find suggested meals based off of your personalized diet profile</li>
+            <li>Look up and save favorite meals to reuse in your daily plan</li>
+            <li>Edit your Goals, or Create more than one to Flex between</li>
+        </ul>
+    </div>
+
+    <!------ Contact Form: if it is displayed -------->
+    {#  To display, change the form's display attribute in ContactForm to True  #}
+    {% if form.display %}
+        <!------- Contact Us ---------->
+        <div class="container">
+            {# Show warning message if not available #}
+            {{ is_available() }}
+            <!------- Alert user if form's not working -------->
+            {% macro is_available() %}
+                {% if not form.available %}
+                    <div class="alert alert-{{ form.alert }}" role="alert">
+                      {{ form.alert_msg }}
+                    </div>
+                {% endif %}
+            {% endmacro %}
+
+            <h1>Contact Us</h1>
+
+            <!--------- Contact Form ------------->
+            <!-- This form uses Flask-WTF forms for input and labels with bootstrap grid layout  -->
+            <form action="/about" method=post>
+                <div class="row g-3">
+                    <div class="col-12">
+                         <!-- Name -->
+                        {{ form.name.label }}<br>
+                        {{ form.name }}
+                    </div>
+                    <div class="col-12">
+                        <!-- Email -->
+                        {{ form.email.label }}<br>
+                        {{ form.email }}
+                    </div>
+                    <div class="col-12">
+                        <!-- Subject Line -->
+                        {{ form.subject.label }}<br>
+                        {{ form.subject }}
+                    </div>
+                    <div class="col-12">
+                        <!-- Message Body -->
+                        {{ form.message.label }}<br>
+                        {{ form.message }}
+                    </div>
+                    <div class="col-12">
+                        <!-- Submit -->
+                        {{ form.submit }}
+                        {# IF not available, show warning message on submission #}
+                        {% if form.submit.data %}
+                            {{ is_available() }}
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+{% endblock about_body %}
