@@ -78,6 +78,22 @@ class EdamamConnector:
         else:
             raise InvalidRequestError("Invalid request: " + r.request.body)
 
+    def pretty_print_POST(req):
+        """
+        At this point it is completely built and ready
+        to be fired; it is "prepared".
+
+        However pay attention at the formatting used in
+        this function because it is programmed to be pretty
+        printed and may differ from the actual request.
+        """
+        print('{}\n{}\r\n{}\r\n\r\n{}'.format(
+            '-----------START-----------',
+            req.method + ' ' + req.url,
+            '\r\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
+            req.body,
+        ))
+
     def search_recipes(self, query: str, diet: dict) -> List[Meal]:
         """
         Queries Recipe Search API for recipes. Raises an exception if the API key(s) are invalid.
@@ -86,9 +102,11 @@ class EdamamConnector:
         :param diet: dict containing dietary/allergy/nutrient filters (must use Edamam API parameter labels)
         :return: list of Meals from search results
         """
-        r = requests.get('https://api.edamam.com/api/recipes/v2',
-                         params={'app_id': self.__recipe_app_id, 'app_key': self.__recipe_app_key,
-                                 'q': query, 'type': 'public', 'health': diet})
+        print("Searching for: " + query + " with diet: " + str(diet))
+        params = {'app_id': self.__recipe_app_id, 'app_key': self.__recipe_app_key, 'q': query, 'type': 'public'}
+        params.update(diet)
+
+        r = requests.get('https://api.edamam.com/api/recipes/v2', params=params)
         if r.status_code == 401:
             raise APIKeyError("Invalid food database app ID or key")
         elif r.status_code != 200:

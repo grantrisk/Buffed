@@ -44,13 +44,13 @@
             <div class="card card-body">
                 <div class="row justify-content-center">
                     <div class="form-check col-sm-4">
-                        <input type="checkbox" class="form-check-input" value="" id="matchUserDiet" name="matchUserDiet" checked>
+                        <input type="checkbox" class="form-check-input" id="matchUserDiet" name="matchUserDiet" checked>
                         <label class="form-check-label" for="matchUserDiet">Use my account's dietary preferences</label>
                     </div>
                 </div>
                 <div id="dietsRow" class="row justify-content-center" style="display: none;">
                     <label><strong>Diets</strong></label>
-                    <select multiple style="width:50%;">
+                    <select multiple style="width:50%;" name="dietSelection">
                         <option value="alcohol-cocktail">Alcohol-Cocktail</option>
                         <option value="alcohol-free">Alcohol-Free</option>
                         <option value="celery-free">Celery-Free</option>
@@ -92,7 +92,7 @@
                 <hr>
                 <div class="row justify-content-center">
                     <div class="form-check col-sm-4">
-                        <input type="checkbox" class="form-check-input" value="" id="matchUserGoal" name="matchUserGoal" checked>
+                        <input type="checkbox" class="form-check-input" id="matchUserGoal" name="matchUserGoal" checked>
                         <label class="form-check-label" for="matchUserGoal">Only include meals that fit within my active goal</label>
                     </div>
                 </div>
@@ -100,40 +100,40 @@
                     <label><strong>Calories</strong></label>
                     <div class="input-group justify-content-center">
                         <div class="input-group-prepend">
-                            <input type="number" class="form-control" id="minCalories" placeholder="min" min="0" max="10000">
+                            <input type="number" class="form-control" id="minCalories" name="minCalories" placeholder="min" min="0" max="10000">
                         </div>
                         <div class="input-group-append">
-                            <input type="number" class="form-control" id="maxCalories" placeholder="max" min="0" max="10000">
+                            <input type="number" class="form-control" id="maxCalories" name="maxCalories" placeholder="max" min="0" max="10000">
                         </div>
                     </div>
                     <br><br>
                     <label><strong>Carbohydrates</strong></label>
                     <div class="input-group justify-content-center">
                         <div class="input-group-prepend">
-                            <input type="number" class="form-control" id="minCarbs" placeholder="min" min="0" max="10000">
+                            <input type="number" class="form-control" id="minCarbs" name="minCarbs" placeholder="min" min="0" max="10000">
                         </div>
                         <div class="input-group-append">
-                            <input type="number" class="form-control" id="maxCarbs" placeholder="max" min="0" max="10000">
+                            <input type="number" class="form-control" id="maxCarbs" name="maxCarbs" placeholder="max" min="0" max="10000">
                         </div>
                     </div>
                     <br><br>
                     <label><strong>Protein</strong></label>
                     <div class="input-group justify-content-center">
                         <div class="input-group-prepend">
-                            <input type="number" class="form-control" id="minProtein" placeholder="min" min="0" max="10000">
+                            <input type="number" class="form-control" id="minProtein" name="minProtein" placeholder="min" min="0" max="10000">
                         </div>
                         <div class="input-group-append">
-                            <input type="number" class="form-control" id="maxProtein" placeholder="max" min="0" max="10000">
+                            <input type="number" class="form-control" id="maxProtein" name="maxProtein" placeholder="max" min="0" max="10000">
                         </div>
                     </div>
                     <br><br>
                     <label><strong>Fat</strong></label>
                     <div class="input-group justify-content-center">
                         <div class="input-group-prepend">
-                            <input type="number" class="form-control" id="minFat" placeholder="min" min="0" max="10000">
+                            <input type="number" class="form-control" id="minFat" name="minFat" placeholder="min" min="0" max="10000">
                         </div>
                         <div class="input-group-append">
-                            <input type="number" class="form-control" id="maxFat" placeholder="max" min="0" max="10000">
+                            <input type="number" class="form-control" id="maxFat" name="maxFat" placeholder="max" min="0" max="10000">
                         </div>
                     </div>
                 </div>

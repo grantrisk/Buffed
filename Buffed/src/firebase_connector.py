@@ -124,14 +124,6 @@ def set_active_goal_to_false(UID: str):
     update_user_goal(UID, old_goal)
 
 
-def get_active_goal(UID: str):
-    goals = get_user_goals(UID)
-    for goal in goals:
-        if goal['is_active'] == 'true':
-            return Goal.from_dict(goal)
-    return None
-
-
 def create_user_new_goal(UID: str, goal: Goal):
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal.goal_id).set(vars(goal))
@@ -271,14 +263,21 @@ def get_all_meals_todays_plan(UID: str):
 
 
 def get_remaining_nutrients(UID: str):
-    curr_goal = get_user_active_goal(current_user.get_id())
-    meals = get_all_meals_todays_plan(current_user.get_id())
-    total_nutrients = sum_nutrients(meals)
-
-    max_calories = curr_goal['calories'] - total_nutrients['ENERC_KCAL']
-    max_carbs = curr_goal['macro_nutrients']['carbs'][0] - total_nutrients['CHOCDF']
-    max_protein = curr_goal['macro_nutrients']['protein'][0] - total_nutrients['PROCNT']
-    max_fat = curr_goal['macro_nutrients']['fat'][0] - total_nutrients['FAT']
+    curr_goal = get_user_active_goal(UID)
+    if not curr_goal:
+        return None
+    meals = get_all_meals_todays_plan(UID)
+    if len(meals) == 0:
+        max_calories = curr_goal['calories']
+        max_carbs = curr_goal['macro_nutrients']['carbs'][0]
+        max_protein = curr_goal['macro_nutrients']['protein'][0]
+        max_fat = curr_goal['macro_nutrients']['fat'][0]
+    else:
+        total_nutrients = sum_nutrients(meals)
+        max_calories = curr_goal['calories'] - total_nutrients['ENERC_KCAL']
+        max_carbs = curr_goal['macro_nutrients']['carbs'][0] - total_nutrients['CHOCDF']
+        max_protein = curr_goal['macro_nutrients']['protein'][0] - total_nutrients['PROCNT']
+        max_fat = curr_goal['macro_nutrients']['fat'][0] - total_nutrients['FAT']
 
     return {'calories': max_calories, 'carbs': max_carbs, 'protein': max_protein, 'fat': max_fat}
 
