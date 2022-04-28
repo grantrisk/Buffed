@@ -90,12 +90,10 @@ def update_my_goals():
         if request.form.get("active_checkbox") is not None:
             is_active = True
             fb.set_user_info(UID, FirebaseEnum.CURRENT_GOAL, goal_name)
-            if active_goal is not None and active_goal['goal_id'] != goal_id:
+            if active_goal['goal_id'] != goal_id:
                 fb.set_active_goal_to_false(UID)
         else:
             is_active = False
-            if active_goal['goal_id'] == goal_id:
-                is_active = True
         updated_goal = Goal(goal_id, goal_name, is_active, calories, macro_nutrients, number_of_meals, desired_weight)
         # Testing standard goal creation for sign up
         # create_standard_goal()
