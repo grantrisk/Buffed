@@ -102,7 +102,6 @@ class EdamamConnector:
         :param diet: dict containing dietary/allergy/nutrient filters (must use Edamam API parameter labels)
         :return: list of Meals from search results
         """
-        print("Searching for: " + query + " with diet: " + str(diet))
         params = {'app_id': self.__recipe_app_id, 'app_key': self.__recipe_app_key, 'q': query, 'type': 'public'}
         params.update(diet)
 

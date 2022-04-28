@@ -42,9 +42,6 @@ def search_results():
 
     diet = {}
 
-    for arg in request.args:
-        print(f'{arg} : {request.args[arg]}')
-
     if 'matchUserDiet' in request.args and request.args['matchUserDiet'] == 'on':
         user = firebase_connector.get_user_info(current_user.get_id())
         if 'diet' in user and len(user['diet']) != 0:
