@@ -244,6 +244,7 @@ def remove_all_meals_todays_plan(UID: str):
     field_updates = {'todays_plan': meal_dict_list}
     doc_ref.update(field_updates)
 
+
 def get_all_meals_todays_plan(UID: str):
     """
     Get all of a user's saved meals in today's plan
