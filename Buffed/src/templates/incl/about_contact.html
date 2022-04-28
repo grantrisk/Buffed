@@ -1,7 +1,6 @@
 {% block about_body %}
     <!--------- About --------->
     <div class="container">
-        <h1>About</h1>
         <p>
             BUFFED is a calorie-tracking web app built to keep up with <i><b>your</b></i> goals.
             View a colorful breakdown of desired calories on the BUFFED Dashboard,
@@ -16,9 +15,11 @@
         <p>
             BUFFED is the new way to balance food and fitness.
         </p>
-        <a href="https://www.edamam.com/" target="_blank">
-            <img src="{{ url_for('static', filename='resources/Edamam_Badge_Transparent.svg') }}" width="200">
-        </a>
+        <div class="text-center">
+            <a href="https://www.edamam.com/" target="_blank">
+                <img src="{{ url_for('static', filename='resources/Edamam_Badge_Transparent.svg') }}" width="200">
+            </a>
+        </div>
         <p><ul>
             <li>Browse over 2.3 million recipes in English</li>
             <li>500+ top web recipe sources</li>

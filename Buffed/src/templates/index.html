@@ -38,15 +38,14 @@
 
     <!-- Something Catchy Below (idk) -->
 
-    <p><i>A healthier lifestyle awaits you.<br>
-        Login or create an account below.</i></p>
+    <p><i>A healthier lifestyle awaits you.</i></p>
 
     <!-- Show Buttons for Sign In / Create an Account -->
 
     <div class="action-buttons">
         <a class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#aboutWindow">About</a>
         <a class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#loginWindow">Login</a>
-        <a href="/register" class="btn btn-primary btn-lg">Register</a>
+        <a href="{{ url_for('register.register') }}" class="btn btn-primary btn-lg">Register</a>
     </div>
 
 
@@ -102,44 +101,66 @@
 
                             <br>
 
-                            </div>
+                            <div>
                                 <input type="hidden" value="False" name="rememberMe">
                                 <input type="checkbox" value="True" id="rememberMe" name="rememberMe"> <label for="rememberMe">Remember me</label>
                             </div>
-
-                        <!-- Button -->
-                        <div class="col text-center">
-                            <input type="submit" class="btn btn-primary" value="Login" style="width: 150px;">
-                        </div>
-                        <div>
-                            <br>
+                            <!-- Button -->
+                            <div class="col text-center">
+                                <input type="submit" class="btn btn-primary" value="Login" style="width: 150px;">
+                            </div>
+                            <div>
+                                <br>
+                            </div>
                         </div>
                     </div>
-
-                    <br>
-
                 </div>
             </div>
         </div>
     </form>
 
 
-    <!-- Create An Account Modal -->
+    <!-- About Modal -->
 
     <form id="contact-form" method="post" action="#" role="form" class="form-horizontal">
         <div class="modal" id="aboutWindow" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    {# pass contact_form as the form associated within about_contact.html using with #}
-                    {% with form=contact_form %}
-                        {% include 'incl/about_contact.html' %}
-                    {% endwith %}
+                 <!-- Header -->
 
-                    <!-- Button -->
-                    <div class="col text-center">
-                        <a href="/register" class="btn btn-primary btn-lg">Create an Account</a>
+                    <div class="modal-header d-flex justify-content-between" style="background: #000000">
+                        <div>
+                        </div>
+                        <div>
+                            <h4 class="=modal-title text-white font-weight-bold">
+                                About
+                            </h4>
+                        </div>
+                        <div>
+                            <button type="button" class="btn-close btn-close-white" aria-label="Close"
+                                data-bs-dismiss="modal" aria-hidden="true"></button>
+                        </div>
                     </div>
                     <br>
+                    <div class="modal-name" id="about-content"></div>
+                    <!-- Body -->
+                    <div class="modal-body text-start">
+
+                        {# pass contact_form as the form associated within about_contact.html using with #}
+                        {% with form=contact_form %}
+                            {% include 'incl/about_contact.html' %}
+                        {% endwith %}
+
+                        <!-- Button -->
+                        <div class="col text-center">
+                            <a href="{{ url_for('register.register') }}" class="btn btn-primary" style="width: 150px;">
+                                Sign Up
+                            </a>
+                        </div>
+                        <div>
+                            <br>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
