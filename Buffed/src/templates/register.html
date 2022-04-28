@@ -39,12 +39,20 @@
     <h1>{% block title %}Account Registration{% endblock %}</h1>
         <hr class="my-4">
 
-    <br>
+    <i>Enter your desired account information below.</i>
+
+    <br><br>
 
     <form action="{{ url_for('register.register') }}" method="post">
-        <div class="form-group">
-            {{ register_form.email.label }}
-            {{ register_form.email }}
+
+        <!-- Email labels and text fields -->
+
+        <div class="form-group" style="margin: auto; width: 300px;">
+            <h6 style="text-align: center;">{{ register_form.email.label }}</h6>
+            <div class="d-flex">
+            {{ register_form.email(class="form-control") }}
+            </div>
+
 
             {% if register_form.email.errors %}
                 <div class="alert alert-warning d-sm-block" role="alert">
@@ -55,16 +63,26 @@
             {% endif %}
         </div>
 
-        <div class="form-group">
-            {{ register_form.confirm_email.label }}
-            {{ register_form.confirm_email }}
+        <div class="form-group" style="margin: auto; width: 300px;">
+             <h6 style="text-align: center;">{{ register_form.confirm_email.label }}</h6>
+            <div class="d-flex">
+                {{ register_form.confirm_email(class="form-control") }}
+            </div>
+
             {% if register_form.confirm_email.data %}
                 {{ confirm_match(register_form.email.data,register_form.confirm_email.data, "Emails do not match") }}
             {% endif %}
         </div>
-        <div class="form-group">
-            {{ register_form.password.label }}
-            {{ register_form.password }}
+
+        <br>
+
+        <!-- Password labels and text fields -->
+
+        <div class="form-group" style="margin: auto; width: 300px;">
+            <h6 style="text-align: center;">{{ register_form.password.label }}</h6>
+            <div class="d-flex">
+                {{ register_form.password(class="form-control") }}
+            </div>
 
             {% if register_form.password.errors %}
                 <div class="alert alert-warning d-sm-block" role="alert">
@@ -74,13 +92,27 @@
                 </div>
             {% endif %}
         </div>
-        <div class="form-group">
-            {{ register_form.confirm_password.label }}
-            {{ register_form.confirm_password }}
+
+
+        <div class="form-group" style="margin: auto; width: 300px;">
+            <h6 style="text-align: center;">{{ register_form.confirm_password.label }}</h6>
+            <div class="d-flex">
+                {{ register_form.confirm_password(class="form-control") }}
+            </div>
+
             {% if register_form.confirm_password.data %}
                 {{ confirm_match(register_form.password.data,register_form.confirm_password.data, "Passwords do not match") }}
             {% endif %}
         </div>
+
+        <br>
+
+        <div class="form-group" style="margin: auto; width: 450px;">
+            <hr>
+        </div>
+
+        <br>
+
     <!-- Setup Questionnaire -->
 
     {% include 'incl/profile_questionnaire.html' %}
