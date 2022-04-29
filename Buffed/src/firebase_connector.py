@@ -182,6 +182,16 @@ def get_all_meals(UID: str):
 
 
 # --------- Today's Meals ---------
+def initialize_todays_plan(UID: str):
+    """
+    Initializes a blank list of meals into users information
+    :param UID: user UID
+    :return: None
+    """
+    doc_ref = db.collection(u'users').document(UID)
+    field_updates = {'todays_plan': []}
+    doc_ref.update(field_updates)
+
 def add_meal_todays_plan(UID: str, meal: Meal):
     """
     Adds a meal to today's plan
