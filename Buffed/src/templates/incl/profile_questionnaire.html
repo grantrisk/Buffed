@@ -6,7 +6,7 @@
 
         <!----- Display Name ----->
         <div class="form-group" style="margin: auto; width: 300px;">
-            <h6 style="text-align: center;">{{ profile_form.name.label }}</h6>
+            <h5 style="text-align: center;">{{ profile_form.name.label }}</h5>
             <div class="d-flex">
             {{ profile_form.name(class="form-control") }}
             </div>
@@ -16,7 +16,7 @@
 
         <!----- Sex ----->
         <div class="form-group" style="margin: auto; width: 300px;">
-            <h6 style="text-align: center;">Sex</h6>
+            <h5 style="text-align: center;">Sex</h5>
             <div style="margin: auto; width: 300px;">
                 {% for subfield in profile_form.sex %}
                     <tr>
@@ -31,17 +31,13 @@
 
         <!----- Birthday ----->
         <div class="form-group" style="margin: auto; width: 300px;">
-            <h6 style="text-align: center;">{{ profile_form.birth.label }}</h6>
+            <h5 style="text-align: center;">{{ profile_form.birth.label }}</h5>
             <div class="d-flex">
                 {{ profile_form.birth(class="form-control") }}
             </div>
         </div>
 
-
-
-
         {% if profile_form.birth.errors %}
-
         <ul class="errors">
             {% for error in profile_form.birth.errors %}
             <li>
@@ -49,23 +45,19 @@
             </li>
             {% endfor %}
         </ul>
-
         {% endif %}
 
         <br>
 
         <!----- Weight ----->
         <div class="form-group" style="margin: auto; width: 300px;">
-            <h6 style="text-align: center;">{{ profile_form.weight.label }}</h6>
+            <h5 style="text-align: center;">{{ profile_form.weight.label }}</h5>
             <div class="d-flex">
                 {{ profile_form.weight(class="form-control") }}
             </div>
         </div>
 
         {% if profile_form.weight.errors %}
-
-
-
         <ul class="errors">
             {% for error in profile_form.weight.errors %}
             <li>
@@ -79,7 +71,7 @@
 
         <!----- Height ----->
         <div class="form-group" style="margin: auto; width: 160px;">
-            <h6 style="text-align: center;">Height</h6>
+            <h5 style="text-align: center;">Height</h5>
         </div>
 
         <!-- Height labels for ft. & inches. -->
@@ -94,23 +86,20 @@
 
         <!-- Dropdowns for Height (ft and inches.) -->
         <div style="margin: auto; display: flex; width: 160px;">
-            <div class="form-group" style="width: 80px">
-                {{ profile_form.height_feet(class="btn btn-secondary dropdown-toggle") }}
+            <div class="form-group">
+                {{ profile_form.height_feet(class="btn btn-light dropdown-toggle") }}
             </div>
 
-            <div class="form-group" style="width: 80px;">
-                {{ profile_form.height_inches(class="btn btn-secondary dropdown-toggle") }}
+            <div class="form-group">
+                {{ profile_form.height_inches(class="btn btn-light dropdown-toggle") }}
             </div>
         </div>
-
-
         <br>
-
         <!----- Activity Level ----->
         <div style="margin: auto; width: 300px;">
             <div class="form-group">
-                <h6 style="text-align: center;">Activity Level</h6>
-                {{ profile_form.activity(class="btn btn-secondary dropdown-toggle") }}
+                <h5 style="text-align: center;">Activity Level</h5>
+                {{ profile_form.activity(class="btn btn-light dropdown-toggle") }}
             </div>
         </div>
 
@@ -118,11 +107,11 @@
 
         <!----- Health Labels ----->
         <div class="form-group" style="margin: auto;">
-            <h6 style="text-align: center;">Diet Health Labels</h6><br>
-            <div class="form-check">
-                <ul style="column-count:4; column-gap: 5%;">
+            <h5 style="text-align: center;">Diet Health Labels</h5>
+            <div class="form-check col-md-6 col-sm-8 col-xs-6">
+                <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))">
                 {% for subfield in profile_form.diet_type %}
-                        <li style="list-style: none;">
+                        <li class="text-start" style="list-style: none;">
                             {{ subfield(class="form-check-input") }}
                             {{ subfield.label }}
                         </li>

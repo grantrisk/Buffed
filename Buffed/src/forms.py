@@ -2,9 +2,9 @@ import re
 import email_validator
 from firebase_admin import auth
 from flask_wtf import FlaskForm
-from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, DecimalField, \
+from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, \
     RadioField, SelectMultipleField, widgets, IntegerField, SelectField
-from wtforms.validators import DataRequired, Email, Regexp, NumberRange, Length, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Email, NumberRange, Length, EqualTo, ValidationError
 
 
 class MultiCheckboxField(SelectMultipleField):
@@ -43,12 +43,13 @@ class LoginForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
-    # TODO: implement more robust email and password requirements and validation
     email = EmailField("Email", validators=[DataRequired(message="Please fill in this field"),
                                             Email(check_deliverability=True), Length(min=7, max=50),
                                             EqualTo(fieldname="confirm_email", message="Emails don't match.")])
     confirm_email = EmailField("Confirm Email", validators=[DataRequired(message="Please fill in this field"), Email()])
     password = PasswordField("Password",
+                             description='Password must include: 1 uppercase letter, 1 lowercase letter, 1 number, '
+                                         'and 1 special character',
                              validators=[DataRequired(message="Please fill in this field"),
                                          Length(min=7, max=50),
                                          EqualTo(fieldname="confirm_password",
@@ -69,8 +70,8 @@ class RegisterForm(FlaskForm):
         reg_exp = "^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!^&+=]).*$"
         reg = re.compile(reg_exp)
         if not re.search(reg, field.data):
-            raise ValidationError("Password must include:"
-                                  "1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character")
+            raise ValidationError("Password must include: "
+                                  "1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character")
 
     def validate_email(form, field):
         """
@@ -82,6 +83,7 @@ class RegisterForm(FlaskForm):
         :param field: the form field in question, in this case email
         :returns: Nothing. raises ValidationErrors with exception messages, or passes
         """
+        found = True
         try:
             emailObj = email_validator.validate_email(field.data)
             auth.get_user_by_email(emailObj.email)
@@ -90,17 +92,11 @@ class RegisterForm(FlaskForm):
         except ValueError as verr:
             raise ValidationError(str(verr))
         except auth.UserNotFoundError:
-            pass  # If user isn't found, they don't already have an account.
-        except auth.EmailAlreadyExistsError:
-            raise ValidationError("Email already in use.")
+            found = False  # If user isn't found, they don't already have an account.
         except:
             raise ValidationError("Error. Please try a different email.")
-
-
-
-
-
-
+        if found:
+            raise ValidationError("Email already in use.")
 
 class ProfileQuestionnaire(FlaskForm):
     """
@@ -116,9 +112,9 @@ class ProfileQuestionnaire(FlaskForm):
                                             NumberRange(min=0, max=5000,
                                                         message='Must be a number between 0-5000.')])
 
-    height_feet = SelectField("Ft.", [DataRequired()], choices=['3\'', '4\'', '5\'', '6\'', '7\''])
+    height_feet = SelectField("Feet", [DataRequired()], choices=['3\'', '4\'', '5\'', '6\'', '7\''])
 
-    height_inches = SelectField("Inches", [DataRequired()], choices=['1"', '2"', '3"', '4"', '5"', '6"', '7"',
+    height_inches = SelectField("Inches", [DataRequired()], choices=['0"', '1"', '2"', '3"', '4"', '5"', '6"', '7"',
                                                                      '8"', '9"', '10"', '11"'])
 
     activity = SelectField("Activity Level", [DataRequired()], choices=["Very Active", "Moderately Active",
