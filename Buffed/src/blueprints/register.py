@@ -17,9 +17,6 @@ def send_setup_info(result: dict, UID: str) -> None:
     """
     Save info to the user object, then send to Firebase connector
     """
-    # TODO: Remove this print
-    print("Sending to FB: ", result)
-
     fb.set_user_info(UID, FirebaseEnum.NAME, result.get('name'))
     fb.set_user_info(UID, FirebaseEnum.GENDER, result.get('sex'))
     fb.set_user_info(UID, FirebaseEnum.BIRTH, result.get('birth'))
@@ -62,8 +59,6 @@ def register():
         password = request.form['password']
         confirm_password = request.form['confirm_password']
 
-        print(email, confirm_email, password, confirm_password)
-
         if email == confirm_email and password == confirm_password and profile_form.validate_on_submit():
             # validate_on_submit checks for submission with POST method,
             # then calls validate() to trigger form validation
@@ -96,7 +91,6 @@ def register():
                                         'activity': request.form["activity"],
                                         'diet': profile_form.diet_type.data}
 
-                        print(setup_result)
                         # Send this result so it can be stored
                         send_setup_info(setup_result, UID)
                         # Go to dashboard
