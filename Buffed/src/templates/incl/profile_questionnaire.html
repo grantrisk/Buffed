@@ -10,6 +10,13 @@
             <div class="d-flex">
             {{ profile_form.name(class="form-control") }}
             </div>
+            {% if profile_form.name.errors %}
+                <div class="alert alert-warning d-sm-block" role="alert">
+                {% for error in profile_form.name.errors %}
+                        {{ error }}
+                {% endfor %}
+                </div>
+            {% endif %}
         </div>
 
         <br>
@@ -24,6 +31,13 @@
                         <td>{{ subfield.label(class="form-check-label") }}</td>
                     </tr>
                 {% endfor %}
+            {% if profile_form.sex.errors %}
+                <div class="alert alert-warning d-sm-block" role="alert">
+                {% for error in profile_form.sex.errors %}
+                        {{ error }}
+                {% endfor %}
+                </div>
+            {% endif %}
             </div>
         </div>
 
@@ -35,17 +49,14 @@
             <div class="d-flex">
                 {{ profile_form.birth(class="form-control") }}
             </div>
+            {% if profile_form.birth.errors %}
+                <div class="alert alert-warning d-sm-block" role="alert">
+                {% for error in profile_form.birth.errors %}
+                        {{ error }}
+                {% endfor %}
+                </div>
+            {% endif %}
         </div>
-
-        {% if profile_form.birth.errors %}
-        <ul class="errors">
-            {% for error in profile_form.birth.errors %}
-            <li>
-                {{ error }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
 
         <br>
 
@@ -55,17 +66,14 @@
             <div class="d-flex">
                 {{ profile_form.weight(class="form-control") }}
             </div>
+            {% if profile_form.weight.errors %}
+                <div class="alert alert-warning d-sm-block" role="alert">
+                {% for error in profile_form.weight.errors %}
+                        {{ error }}
+                {% endfor %}
+                </div>
+            {% endif %}
         </div>
-
-        {% if profile_form.weight.errors %}
-        <ul class="errors">
-            {% for error in profile_form.weight.errors %}
-            <li>
-                {{ error }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
 
         <br>
 
