@@ -9,15 +9,17 @@
     <br><br>
         <div class="row">
             <div class="col">
-                <h3 align="left">
+                <h3 align="left"><u>
                         Active Goal:
 {#                        <a href="/my_goals" class="link-primary">{{ goal.goal_name }}</a>#}
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit{{ goal.goal_id }}" class="link-primary">{{ goal.goal_name }}</a></h3>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit{{ goal.goal_id }}" class="link-primary">{{ goal.goal_name }}</a>
+                </u>
+                </h3>
                 <div>
                     <p class="fs-3" align="left" id="calories">Calories: {{goal.calories}}</p>
-                    <p class="fs-3" align="left" id="carbs">Carbohydrates: {{goal.macro_nutrients['carbs'][0]}}</p>
-                    <p class="fs-3" align="left" id="fats">Fats: {{goal.macro_nutrients['fat'][0]}}</p>
-                    <p class="fs-3" align="left" id="protein">Protein: {{goal.macro_nutrients['protein'][0]}}</p>
+                    <p class="fs-3" align="left" id="carbs"><span class="carbText">Carbs:</span> {{goal.macro_nutrients['carbs'][0]}}g</p>
+                    <p class="fs-3" align="left" id="fats"><span class="fatText">Fats:</span> {{goal.macro_nutrients['fat'][0]}}g</p>
+                    <p class="fs-3" align="left" id="protein"><span class="proteinText">Protein:</span> {{goal.macro_nutrients['protein'][0]}}g</p>
                 </div>
             </div>
             <div class="col" style="position: relative;">
@@ -29,19 +31,26 @@
         <br>
         <br>
         <div class="row">
-            <div class="col-4 chart-container" style="position: relative;">
-                <div id="protein-chart"></div>
+            <div class="col-3">
+                <h3 align="left"><u>Today's Caloric Info:</u></h3>
+                <p class="fs-3" align="left" id="calories">Calories: {{ round(calories["calories"]) }}</p>
+                <p class="fs-3" align="left" id="carbs"><span class="carbText">Carbs:</span> {{ round(calories["carbs"]) }}g</p>
+                <p class="fs-3" align="left" id="fats"><span class="fatText">Fats:</span> {{ round(calories["fat"]) }}g</p>
+                <p class="fs-3" align="left" id="protein"><span class="proteinText">Protein:</span> {{ round(calories["protein"]) }}g</p>
             </div>
-            <div class="col-4 chart-container" style="position: relative;">
+            <div class="col-3 chart-container" style="position: relative;">
                 <div id="carbs-chart"></div>
             </div>
-            <div class="col-4 chart-container" style="position: relative;">
+            <div class="col-3 chart-container" style="position: relative;">
                 <div id="fats-chart"></div>
+            </div>
+            <div class="col-3 chart-container" style="position: relative;">
+                <div id="protein-chart"></div>
             </div>
         </div>
     </div>
     <a href="/todays_plan" >
-        <button type="button" class="btn btn-dark">Log a Meal for Today</button>
+        <button type="button" class="btn btn-dark">My Meal Log for Today</button>
     </a>
     <div class="modal fade" id="edit{{ goal.goal_id }}" tabindex="-1" aria-labelledby="editGoalModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -70,20 +79,23 @@
                                     <div id="slider-range" class="form-group"></div>
                                     <div class="form-group">
                                         <label for="goalCarbInput" class="form-label">Carbohydrates:</label>
-                                        <input type="range" class="form-range" min="0" max="800" id="goalCarbInput" name="carbs"
-                                        oninput="document.getElementById('new_carbs').innerHTML = document.getElementById('goalCarbInput').value">
+                                        <input type="range" class="form-range" min="0" max="{{ goal.calories // 4 }}" id="goalCarbInput" name="carbs"
+                                        oninput="document.getElementById('new_carbs').innerHTML = document.getElementById('goalCarbInput').value"
+                                        value="{{ goal.macro_nutrients['carbs'][0] }}">
                                         <p id="new_carbs">{{ goal.macro_nutrients['carbs'][0]}}</p>
                                     </div>
                                     <div class="form-group">
                                         <label for="goalFatInput" class="form-label">Fat:</label>
-                                        <input type="range" class="form-range" min="0" max="800" id="goalFatInput" name="fat"
-                                        oninput="document.getElementById('new_fat').innerHTML = document.getElementById('goalFatInput').value">
+                                        <input type="range" class="form-range" min="0" max="{{ goal.calories // 9 }}" id="goalFatInput" name="fat"
+                                        oninput="document.getElementById('new_fat').innerHTML = document.getElementById('goalFatInput').value"
+                                        value="{{ goal.macro_nutrients['fat'][0] }}">
                                         <span id="new_fat">{{ goal.macro_nutrients['fat'][0] }}</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="goalProteinInput" class="form-label">Protein:</label>
-                                        <input type="range" class="form-range" min="0" max="800" id="goalProteinInput" name="protein"
-                                        oninput="document.getElementById('new_protein').innerHTML = document.getElementById('goalProteinInput').value">
+                                        <input type="range" class="form-range" min="0" max="{{ goal.calories // 4 }}" id="goalProteinInput" name="protein"
+                                        oninput="document.getElementById('new_protein').innerHTML = document.getElementById('goalProteinInput').value"
+                                        value="{{ goal.macro_nutrients['protein'][0] }}">
                                         <span id="new_protein">{{ goal.macro_nutrients['protein'][0] }}</span>
                                     </div>
                                     <div class="form-group">
@@ -135,7 +147,7 @@
                     },
                     colors: {
                         Carbs: "#136ccc",
-                        CarbsGoal: "#ffffff"
+                        CarbsGoal: "#000000"
                     }
 
                 },
@@ -162,7 +174,7 @@
                     },
                     colors: {
                         Fats: "#5e5c5c",
-                        FatsGoal: "#ffffff"
+                        FatsGoal: "#000000"
                     }
                 },
                 donut: {
@@ -188,7 +200,7 @@
                     },
                     colors: {
                         Protein: "#2ac54d",
-                        ProteinGoal: "#ffffff"
+                        ProteinGoal: "#000000"
                     },
                 },
                 donut: {
@@ -196,7 +208,6 @@
                 },
                 bindto: "#protein-chart",
             });
-
             const macroChart = bb.generate({
                 data: {
                     columns: [
