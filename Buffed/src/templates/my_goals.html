@@ -21,7 +21,7 @@
             {% for goal in goals %}
                 <tr>
                     <td>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#edit{{ goal.goal_id }}" class="btn btn-dark"><i class="fa fa-edit"></i></a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#edit{{ goal.goal_id }}" class="btn btn-dark edit-button" data-loop-index="{{ loop.index }}"><i class="fa fa-edit"></i></a>
                     </td>
                     <td>{{ goal.goal_name }}</td>
                     {% if goal.is_active %}
@@ -112,4 +112,8 @@
         <button type="button" class="btn btn-dark">Create New Goal</button>
     </a>
 
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/my_goals.js') }}"></script>
 {% endblock %}
