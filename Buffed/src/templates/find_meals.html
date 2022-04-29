@@ -1,13 +1,155 @@
 {% extends "base.html" %}
 {% set active_page = "find_meals" %}
 {% block content %}
+
+{% if calorie_warn %}
+    <div class="alert alert-warning" role="alert">
+        <strong>You've exceeded your calorie goal. Meals shown will not fit within your goal.</strong>
+    </div>
+{% endif %}
+
+{% if carbs_warn %}
+    <div class="alert alert-warning" role="alert">
+        <strong>You've exceeded your carbohydrate goal. Meals shown will not fit within your goal.</strong>
+    </div>
+{% endif %}
+
+{% if protein_warn %}
+    <div class="alert alert-warning" role="alert">
+        <strong>You've exceeded your protein goal. Meals shown will not fit within your goal.</strong>
+    </div>
+{% endif %}
+
+{% if fat_warn %}
+    <div class="alert alert-warning" role="alert">
+        <strong>You've exceeded your fat goal. Meals shown will not fit within your goal.</strong>
+    </div>
+{% endif %}
+
 <h1>{% block title %}Find Meals{% endblock %}</h1>
 <form action="{{ url_for('find_meals.search_results') }}">
-    <input type="text" name="search_query" placeholder="Search">
-    <input type="submit">
+    <div class="row">
+        <div class="input-group col-sm-4 justify-content-center">
+            <input type="text" class="form-control" name="search_query" placeholder="Search" style="flex: 0 1 25%;">
+            <div class="input-group-append">
+                <input type="submit" class="btn btn-primary" value="Search">
+            </div>
+        </div>
+    </div>
+    <div id="filters-accordion">
+        <a class="btn btn-link" data-bs-toggle="collapse" href="#collapse" role="button" aria-expanded="false" aria-controls="collapse">
+            Filters
+        </a>
+        <div class="collapse" id="collapse">
+            <div class="card card-body">
+                <div class="row justify-content-center">
+                    <div class="form-check col-sm-4">
+                        <input type="checkbox" class="form-check-input" id="matchUserDiet" name="matchUserDiet" checked>
+                        <label class="form-check-label" for="matchUserDiet">Use my account's dietary preferences</label>
+                    </div>
+                </div>
+                <div id="dietsRow" class="row justify-content-center" style="display: none;">
+                    <label><strong>Diets</strong></label>
+                    <select multiple style="width:50%;" name="dietSelection">
+                        <option value="alcohol-cocktail">Alcohol-Cocktail</option>
+                        <option value="alcohol-free">Alcohol-Free</option>
+                        <option value="celery-free">Celery-Free</option>
+                        <option value="crustacean-free">Crustcean-Free</option>
+                        <option value="dairy-free">Dairy-Free</option>
+                        <option value="DASH">DASH</option>
+                        <option value="egg-free">Egg-Free</option>
+                        <option value="fish-free">Fish-Free</option>
+                        <option value="fodmap-free">FODMAP-Free</option>
+                        <option value="gluten-free">Gluten-Free</option>
+                        <option value="immuno-supportive">Immuno-Supportive</option>
+                        <option value="keto-friendly">Keto-Friendly</option>
+                        <option value="kidney-friendly">Kidney-Friendly</option>
+                        <option value="kosher">Kosher</option>
+                        <option value="low-potassium">Low Potassium</option>
+                        <option value="low-sugar">Low Sugar</option>
+                        <option value="lupine-free">Lupine-Free</option>
+                        <option value="Mediterranean">Mediterranean</option>
+                        <option value="mollusk-free">Mollusk-Free</option>
+                        <option value="mustard-free">Mustard-Free</option>
+                        <option value="No-oil-added">No oil added</option>
+                        <option value="paleo">Paleo</option>
+                        <option value="peanut-free">Peanut-Free</option>
+                        <option value="pecatarian">Pescatarian</option>
+                        <option value="pork-free">Pork-Free</option>
+                        <option value="red-meat-free">Red-Meat-Free</option>
+                        <option value="sesame-free">Sesame-Free</option>
+                        <option value="shellfish-free">Shellfish-Free</option>
+                        <option value="soy-free">Soy-Free</option>
+                        <option value="sugar-conscious">Sugar-Conscious</option>
+                        <option value="sulfite-free">Sulfite-Free</option>
+                        <option value="tree-nut-free">Tree-Nut-Free</option>
+                        <option value="vegan">Vegan</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="wheat-free">Wheat-Free</option>
+                    </select>
+                    <label>Ctrl/&#x2318; + click to select multiple options</label>
+                </div>
+                <hr>
+                <div class="row justify-content-center">
+                    <div class="form-check col-sm-4">
+                        <input type="checkbox" class="form-check-input" id="matchUserGoal" name="matchUserGoal" checked>
+                        <label class="form-check-label" for="matchUserGoal">Only include meals that fit within my active goal</label>
+                    </div>
+                </div>
+                <div id="rangesRow" class="row justify-content-center" style="display: none;">
+                    <label><strong>Calories</strong></label>
+                    <div class="input-group justify-content-center">
+                        <div class="input-group-prepend">
+                            <input type="number" class="form-control" id="minCalories" name="minCalories" placeholder="min" min="0" max="10000">
+                        </div>
+                        <div class="input-group-append">
+                            <input type="number" class="form-control" id="maxCalories" name="maxCalories" placeholder="max" min="0" max="10000">
+                        </div>
+                    </div>
+                    <br><br>
+                    <label><strong>Carbohydrates</strong></label>
+                    <div class="input-group justify-content-center">
+                        <div class="input-group-prepend">
+                            <input type="number" class="form-control" id="minCarbs" name="minCarbs" placeholder="min" min="0" max="10000">
+                        </div>
+                        <div class="input-group-append">
+                            <input type="number" class="form-control" id="maxCarbs" name="maxCarbs" placeholder="max" min="0" max="10000">
+                        </div>
+                    </div>
+                    <br><br>
+                    <label><strong>Protein</strong></label>
+                    <div class="input-group justify-content-center">
+                        <div class="input-group-prepend">
+                            <input type="number" class="form-control" id="minProtein" name="minProtein" placeholder="min" min="0" max="10000">
+                        </div>
+                        <div class="input-group-append">
+                            <input type="number" class="form-control" id="maxProtein" name="maxProtein" placeholder="max" min="0" max="10000">
+                        </div>
+                    </div>
+                    <br><br>
+                    <label><strong>Fat</strong></label>
+                    <div class="input-group justify-content-center">
+                        <div class="input-group-prepend">
+                            <input type="number" class="form-control" id="minFat" name="minFat" placeholder="min" min="0" max="10000">
+                        </div>
+                        <div class="input-group-append">
+                            <input type="number" class="form-control" id="maxFat" name="maxFat" placeholder="max" min="0" max="10000">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
+<div id="filters">
+
+</div>
 <br>
 <a href="https://www.edamam.com/" target="_blank">
     <img src="{{ url_for('static', filename='resources/Edamam_Badge_Transparent.svg') }}" width="200">
 </a>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ url_for('static', filename='js/find_meals.js') }}"></script>
 {% endblock %}

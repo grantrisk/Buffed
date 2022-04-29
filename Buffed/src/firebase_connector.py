@@ -1,5 +1,8 @@
 import json
 import os
+
+from flask_login import current_user
+
 from models import *
 
 import firebase_admin
@@ -244,6 +247,7 @@ def remove_all_meals_todays_plan(UID: str):
     field_updates = {'todays_plan': meal_dict_list}
     doc_ref.update(field_updates)
 
+
 def get_all_meals_todays_plan(UID: str):
     """
     Get all of a user's saved meals in today's plan
@@ -256,6 +260,42 @@ def get_all_meals_todays_plan(UID: str):
     for meal in meal_list:
         meals.append(Meal.from_dict(meal))
     return meals
+
+
+def get_remaining_nutrients(UID: str):
+    curr_goal = get_user_active_goal(UID)
+    if not curr_goal:
+        return None
+    meals = get_all_meals_todays_plan(UID)
+    if len(meals) == 0:
+        max_calories = curr_goal['calories']
+        max_carbs = curr_goal['macro_nutrients']['carbs'][0]
+        max_protein = curr_goal['macro_nutrients']['protein'][0]
+        max_fat = curr_goal['macro_nutrients']['fat'][0]
+    else:
+        total_nutrients = sum_nutrients(meals)
+        max_calories = curr_goal['calories'] - total_nutrients['ENERC_KCAL']
+        max_carbs = curr_goal['macro_nutrients']['carbs'][0] - total_nutrients['CHOCDF']
+        max_protein = curr_goal['macro_nutrients']['protein'][0] - total_nutrients['PROCNT']
+        max_fat = curr_goal['macro_nutrients']['fat'][0] - total_nutrients['FAT']
+
+    return {'calories': max_calories, 'carbs': max_carbs, 'protein': max_protein, 'fat': max_fat}
+
+
+def sum_nutrients(meals: List[Meal]):
+    """
+    Sums up the values of all nutrients in given meals
+    :param meals: meals with nutrients to sum
+    :return: dict containing added nutrient values
+    """
+    total_nutrients = {}
+    for meal in meals:
+        for nutrient in meal.nutrients:
+            if nutrient in total_nutrients:
+                total_nutrients[nutrient] += meal.nutrients[nutrient]['quantity']
+            else:
+                total_nutrients[nutrient] = meal.nutrients[nutrient]['quantity']
+    return total_nutrients
 
 # # ------------------- Create Account -------------------
 # user_email = "riskgrant@gmail.com"
