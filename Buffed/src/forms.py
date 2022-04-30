@@ -42,8 +42,8 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 
-class DeleteAccountForm(FlaskForm):
-    delete = BooleanField("Yes", validators=[DataRequired()])
+class ConfirmForm(FlaskForm):
+    confirm = BooleanField("Yes", validators=[DataRequired()])
 
 
 class RegisterForm(FlaskForm):

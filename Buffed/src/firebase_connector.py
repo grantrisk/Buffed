@@ -67,7 +67,7 @@ def delete_user_document(uid: str):
     db.collection(u'users').document(uid).delete()
 
 
-def reset_password_email(email):
+def reset_user_password(email):
     request_ref = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/getOobConfirmationCode?key={0}".format(FIREBASE_WEB_API_KEY)
     headers = {"content-type": "application/json; charset=UTF-8"}
     data = json.dumps({"requestType": "PASSWORD_RESET", "email": email})
