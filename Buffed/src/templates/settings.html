@@ -33,7 +33,6 @@
 
     <!-- Sign-in to Account Modal -->
 
-    <form id="delete-form" method="post" action="/settings/" role="form" class="form-horizontal">
         <div class="modal" id="deleteWindow" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -57,37 +56,40 @@
 
                     <!-- Body -->
                     <div class="modal-body">
-                        <div class="form-group">
                             <div class="row justify-content-center">
-
                                     <h6>You are about to delete your account.  Are you sure you want to continue with
                                     account deletion?</h6>
-
-
                             </div>
 
 
                             <br>
 
-                            <div>
-                                <input type="checkbox" value="True" id="deleteMe" name="deleteMe"> <label for="deleteMe">Yes</label>
+                        <form method="post">
+                            {{ delete_form.csrf_token }}
+                            <div class="form-group">
+                                {{ delete_form.delete(class="form-check-input") }} {{ delete_form.delete.label(class="form-check-label") }}
                             </div>
 
                             <br>
 
-                            <!-- Button -->
-                            <div class="col text-center">
-                                <input type="submit" name="delete-button" class="btn btn-danger" value="Delete this Account" style="width: 200px;">
+                            <div class="form-group">
+                                <!-- Button -->
+                                <div class="col text-center">
+                                    <input type="submit" name="submit" class="btn btn-danger" value="Delete this Account" style="width: 200px;">
+                                </div>
                             </div>
+
                             <div>
                                 <br>
                             </div>
-                        </div>
+                        </form>
+
+
                     </div>
+
                 </div>
             </div>
         </div>
-    </form>
 </body>
 
 

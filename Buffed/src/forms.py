@@ -3,7 +3,7 @@ import email_validator
 from firebase_admin import auth
 from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, DecimalField, \
-    RadioField, SelectMultipleField, widgets, IntegerField, SelectField
+    RadioField, SelectMultipleField, widgets, IntegerField, SelectField, BooleanField
 from wtforms.validators import DataRequired, Email, Regexp, NumberRange, Length, EqualTo, ValidationError
 
 
@@ -40,6 +40,10 @@ class LoginForm(FlaskForm):
     email = EmailField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")
+
+
+class DeleteAccountForm(FlaskForm):
+    delete = BooleanField("Yes", validators=[DataRequired()])
 
 
 class RegisterForm(FlaskForm):
@@ -95,11 +99,6 @@ class RegisterForm(FlaskForm):
             raise ValidationError("Email already in use.")
         except:
             raise ValidationError("Error. Please try a different email.")
-
-
-
-
-
 
 
 class ProfileQuestionnaire(FlaskForm):
