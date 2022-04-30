@@ -20,10 +20,12 @@
 {% block content %}
     {# macro for confirming if two given fields' data match,
        if not it displays the given alert message #}
-    {% macro confirm_match(item1, item2, alert_msg) %}
-        {% if not item1 == item2 %}
+    {% macro show_errors(field) %}
+        {% if field.errors %}
             <div class="alert alert-warning d-sm-block" role="alert">
-              {{ alert_msg }}
+            {% for error in field.errors %}
+                    {{ error }}
+            {% endfor %}
             </div>
         {% endif %}
     {% endmacro %}
@@ -54,14 +56,7 @@
             <div class="d-flex">
                 {{ register_form.email(class="form-control") }}
             </div>
-
-            {% if register_form.email.errors %}
-                <div class="alert alert-warning d-sm-block" role="alert">
-                {% for error in register_form.email.errors %}
-                        {{ error }}
-                {% endfor %}
-                </div>
-            {% endif %}
+            {{ show_errors(register_form.email) }}
         </div>
 
         <div class="form-group" style="margin: auto; width: 300px;">
@@ -69,10 +64,7 @@
             <div class="d-flex">
                 {{ register_form.confirm_email(class="form-control") }}
             </div>
-
-{#            {% if register_form.confirm_email.data %}#}
-{#                {{ confirm_match(register_form.email.data,register_form.confirm_email.data, "Emails do not match") }}#}
-{#            {% endif %}#}
+            {{ show_errors(register_form.confirm_email) }}
         </div>
 
         <br>
@@ -85,14 +77,7 @@
             <div class="d-flex">
                 {{ register_form.password(class="form-control") }}
             </div>
-
-            {% if register_form.password.errors %}
-                <div class="alert alert-warning d-sm-block" role="alert">
-                {% for error in register_form.password.errors %}
-                        {{ error }}
-                {% endfor %}
-                </div>
-            {% endif %}
+            {{ show_errors(register_form.password) }}
         </div>
 
 
@@ -101,10 +86,7 @@
             <div class="d-flex">
                 {{ register_form.confirm_password(class="form-control") }}
             </div>
-{##}
-{#            {% if register_form.confirm_password.data %}#}
-{#                {{ confirm_match(register_form.password.data,register_form.confirm_password.data, "Passwords do not match") }}#}
-{#            {% endif %}#}
+            {{ show_errors(register_form.confirm_password) }}
         </div>
         <div class="my-4" style="width: 450px;">
             <hr>
