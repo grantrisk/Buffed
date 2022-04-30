@@ -10,6 +10,7 @@
             <div class="d-flex">
             {{ profile_form.name(class="form-control") }}
             </div>
+            {{ show_errors(profile_form.name) }}
         </div>
 
         <br>
@@ -24,6 +25,7 @@
                         <td>{{ subfield.label(class="form-check-label") }}</td>
                     </tr>
                 {% endfor %}
+                {{ show_errors(profile_form.sex) }}
             </div>
         </div>
 
@@ -35,17 +37,8 @@
             <div class="d-flex">
                 {{ profile_form.birth(class="form-control") }}
             </div>
+            {{ show_errors(profile_form.birth) }}
         </div>
-
-        {% if profile_form.birth.errors %}
-        <ul class="errors">
-            {% for error in profile_form.birth.errors %}
-            <li>
-                {{ error }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
 
         <br>
 
@@ -55,17 +48,8 @@
             <div class="d-flex">
                 {{ profile_form.weight(class="form-control") }}
             </div>
+            {{ show_errors(profile_form.weight) }}
         </div>
-
-        {% if profile_form.weight.errors %}
-        <ul class="errors">
-            {% for error in profile_form.weight.errors %}
-            <li>
-                {{ error }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
 
         <br>
 
