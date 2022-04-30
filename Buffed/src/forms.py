@@ -2,9 +2,6 @@ import re
 import email_validator
 from firebase_admin import auth
 from flask_wtf import FlaskForm
-from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, DecimalField, \
-    RadioField, SelectMultipleField, widgets, IntegerField, SelectField, BooleanField
-from wtforms.validators import DataRequired, Email, NumberRange, Length, EqualTo, ValidationError
 from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, \
     RadioField, SelectMultipleField, widgets, IntegerField, SelectField
 from wtforms.validators import DataRequired, Email, NumberRange, Length, EqualTo, ValidationError
