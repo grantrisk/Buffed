@@ -1,6 +1,6 @@
 import flask_login
 from flask import Blueprint, render_template, request, url_for, redirect
-import firebase_connector as fb_connector
+import firebase_connector as fb
 from flask_login import login_user, current_user, login_required
 
 settings_page = Blueprint("settings", __name__, static_folder="static", template_folder="templates")
@@ -14,15 +14,16 @@ def settings():
         :return: render_template('my_profile.html')
         """
     UID = current_user.get_id()
-    print(UID)
+    user_info = fb.get_user_info(UID)
+
     if request.method == 'POST':
         if 'delete-button' in request.form:
             delete_account = request.form['deleteMe']
 
             print(delete_account)
             if delete_account == "True":
-                fb_connector.delete_user_document(UID)
-                fb_connector.delete_user(UID)
+                fb.delete_user_document(UID)
+                fb.delete_user(UID)
                 flask_login.logout_user()
                 return redirect(url_for('index.index'))
 
