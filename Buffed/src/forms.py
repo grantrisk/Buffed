@@ -39,11 +39,16 @@ class ContactForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = EmailField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
+    remember_me = BooleanField("Remember Me")
     submit = SubmitField("Login")
 
 
 class ConfirmForm(FlaskForm):
     confirm = BooleanField("Yes", validators=[DataRequired()])
+
+
+class ForgotPasswordForm(FlaskForm):
+    email = EmailField("Email", validators=[DataRequired(), Email()])
 
 
 class RegisterForm(FlaskForm):
