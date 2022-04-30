@@ -108,6 +108,12 @@
 
                             <br>
 
+                            <a href="{{ url_for('register.register') }}" data-bs-toggle="modal" data-bs-target="#resetPasswordWindow">
+                                <h6>Forgot my password</h6>
+                            </a>
+
+                            <br>
+
                             <!-- Button -->
                             <div class="col text-center">
                                 <input type="submit" class="btn btn-primary" value="Login" style="width: 150px;">
@@ -121,6 +127,72 @@
             </div>
         </div>
     </form>
+
+
+
+
+
+        <!-- Sign-in to Account Modal -->
+
+    <form id="password-form" method="post" action="/" role="form" class="form-horizontal">
+        <div class="modal" id="resetPasswordWindow" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Header -->
+
+                    <div class="modal-header d-flex justify-content-between" style="background: #000000">
+                        <div>
+                        </div>
+                        <div>
+                            <h4 class="=modal-title text-white font-weight-bold">
+                                Reset My Password
+                            </h4>
+                        </div>
+                        <div>
+                            <button type="button" class="btn-close btn-close-white" aria-label="Close"
+                                data-bs-dismiss="modal" aria-hidden="true"></button>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h6>If you have forgotten your password, you can use this form to reset your password.
+                                You will receive an email with instructions.</h6>
+
+                            <br>
+
+                            <form method="post">
+                            Token Here for form
+                            <div class="form-group">
+                                Email EmailField
+                            </div>
+
+                            <br>
+
+                            <div class="form-group">
+                                <!-- Button -->
+                                Button
+                            </div>
+
+                            <br>
+
+                            <div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
 
 
     <!-- About Modal -->

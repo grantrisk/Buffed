@@ -3,7 +3,7 @@ import email_validator
 from firebase_admin import auth
 from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, \
-    RadioField, SelectMultipleField, widgets, IntegerField, SelectField
+    RadioField, SelectMultipleField, widgets, IntegerField, SelectField, BooleanField
 from wtforms.validators import DataRequired, Email, NumberRange, Length, EqualTo, ValidationError
 
 
@@ -39,7 +39,16 @@ class ContactForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = EmailField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
+    remember_me = BooleanField("Remember Me")
     submit = SubmitField("Login")
+
+
+class ConfirmForm(FlaskForm):
+    confirm = BooleanField("Yes", validators=[DataRequired()])
+
+
+class ForgotPasswordForm(FlaskForm):
+    email = EmailField("Email", validators=[DataRequired(), Email()])
 
 
 class RegisterForm(FlaskForm):
@@ -73,8 +82,8 @@ class RegisterForm(FlaskForm):
         reg_exp = "^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!^&+=]).*$"
         reg = re.compile(reg_exp)
         if not re.search(reg, field.data):
-            raise ValidationError("Password must include: "
-                                  "1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character")
+            raise ValidationError("Password must include:"
+                                  "1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character")
 
     def validate_email(form, field):
         """
@@ -116,9 +125,9 @@ class ProfileQuestionnaire(FlaskForm):
                                             NumberRange(min=0, max=5000,
                                                         message='Must be a number between 0-5000.')])
 
-    height_feet = SelectField("Feet", [DataRequired()], choices=['3\'', '4\'', '5\'', '6\'', '7\''])
+    height_feet = SelectField("Ft.", [DataRequired()], choices=['3\'', '4\'', '5\'', '6\'', '7\''])
 
-    height_inches = SelectField("Inches", [DataRequired()], choices=['0"', '1"', '2"', '3"', '4"', '5"', '6"', '7"',
+    height_inches = SelectField("Inches", [DataRequired()], choices=['1"', '2"', '3"', '4"', '5"', '6"', '7"',
                                                                      '8"', '9"', '10"', '11"'])
 
     activity = SelectField("Activity Level", [DataRequired()], choices=["Very Active", "Moderately Active",
