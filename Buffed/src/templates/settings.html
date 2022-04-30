@@ -27,6 +27,68 @@
 
     <p><i>You will be able to change your account settings in this tab. Such as changing your password, email or deleting your account.</i></p>
 
+    <div>
+        <a class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#deleteWindow">Delete Your Account</a>
+    </div>
+
+    <!-- Sign-in to Account Modal -->
+
+    <form id="delete-form" method="post" action="/" role="form" class="form-horizontal">
+        <div class="modal" id="deleteWindow" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Header -->
+
+                    <div class="modal-header d-flex justify-content-between" style="background: #000000">
+                        <div>
+                        </div>
+                        <div>
+                            <h4 class="=modal-title text-white font-weight-bold">
+                                Delete Account
+                            </h4>
+                        </div>
+                        <div>
+                            <button type="button" class="btn-close btn-close-white" aria-label="Close"
+                                data-bs-dismiss="modal" aria-hidden="true"></button>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="row justify-content-center">
+
+                                    <h6>You are about to delete your account.  Are you sure you want to continue with
+                                    account deletion?</h6>
+
+
+                            </div>
+
+
+                            <br>
+
+                            <div>
+                                <input type="hidden" value="False" name="deleteMe">
+                                <input type="checkbox" value="True" id="deleteMe" name="deleteMe"> <label for="deleteMe">Yes</label>
+                            </div>
+
+                            <br>
+
+                            <!-- Button -->
+                            <div class="col text-center">
+                                <input type="submit" name="delete-button" class="btn btn-danger" value="Delete this Account" style="width: 200px;">
+                            </div>
+                            <div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </body>
 
 

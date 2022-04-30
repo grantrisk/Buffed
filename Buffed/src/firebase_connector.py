@@ -52,6 +52,10 @@ def create_firebase_account(email: str, password: str):
     db.collection(u'users').document(userUID).set(data)
 
 
+def delete_user(uid: str):
+    auth.delete_user(uid)
+
+
 def sign_in_with_email_and_password(email: str, password: str):
     """
     Signs in a user account with the given email and password
