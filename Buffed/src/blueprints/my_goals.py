@@ -90,7 +90,7 @@ def update_my_goals():
         if request.form.get("active_checkbox") is not None:
             is_active = True
             fb.set_user_info(UID, FirebaseEnum.CURRENT_GOAL, goal_name)
-            if active_goal['goal_id'] != goal_id:
+            if active_goal and active_goal['goal_id'] != goal_id:
                 fb.set_active_goal_to_false(UID)
         else:
             is_active = False

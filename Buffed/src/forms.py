@@ -4,7 +4,10 @@ from firebase_admin import auth
 from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, DecimalField, \
     RadioField, SelectMultipleField, widgets, IntegerField, SelectField, BooleanField
-from wtforms.validators import DataRequired, Email, Regexp, NumberRange, Length, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Email, NumberRange, Length, EqualTo, ValidationError
+from wtforms import StringField, EmailField, TextAreaField, SubmitField, PasswordField, DateField, \
+    RadioField, SelectMultipleField, widgets, IntegerField, SelectField
+from wtforms.validators import DataRequired, Email, NumberRange, Length, EqualTo, ValidationError
 
 
 class MultiCheckboxField(SelectMultipleField):
@@ -52,17 +55,21 @@ class ForgotPasswordForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
-    # TODO: implement more robust email and password requirements and validation
     email = EmailField("Email", validators=[DataRequired(message="Please fill in this field"),
                                             Email(check_deliverability=True), Length(min=7, max=50),
                                             EqualTo(fieldname="confirm_email", message="Emails don't match.")])
-    confirm_email = EmailField("Confirm Email", validators=[DataRequired(message="Please fill in this field"), Email()])
+    confirm_email = EmailField("Confirm Email", validators=[DataRequired(message="Please fill in this field"), Email(),
+                                                            EqualTo(fieldname="email", message="Emails don't match.")])
     password = PasswordField("Password",
+                             description='Password must include: 1 uppercase letter, 1 lowercase letter, 1 number, '
+                                         'and 1 special character',
                              validators=[DataRequired(message="Please fill in this field"),
                                          Length(min=7, max=50),
                                          EqualTo(fieldname="confirm_password",
                                                  message="Passwords don't match.")])
-    confirm_password = PasswordField("Confirm Password", validators=[DataRequired(message="Please fill in this field")])
+    confirm_password = PasswordField("Confirm Password", validators=[DataRequired(message="Please fill in this field"),
+                                                                     EqualTo(fieldname="password",
+                                                                             message="Passwords don't match.")])
     submit = SubmitField("Register")  # may not be needed
 
     def validate_password(form, field):
@@ -91,6 +98,7 @@ class RegisterForm(FlaskForm):
         :param field: the form field in question, in this case email
         :returns: Nothing. raises ValidationErrors with exception messages, or passes
         """
+        found = True
         try:
             emailObj = email_validator.validate_email(field.data)
             auth.get_user_by_email(emailObj.email)
@@ -99,11 +107,11 @@ class RegisterForm(FlaskForm):
         except ValueError as verr:
             raise ValidationError(str(verr))
         except auth.UserNotFoundError:
-            pass  # If user isn't found, they don't already have an account.
-        except auth.EmailAlreadyExistsError:
-            raise ValidationError("Email already in use.")
+            found = False  # If user isn't found, they don't already have an account.
         except:
             raise ValidationError("Error. Please try a different email.")
+        if found:
+            raise ValidationError("Email already in use.")
 
 
 class ProfileQuestionnaire(FlaskForm):
