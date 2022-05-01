@@ -17,7 +17,7 @@
         {% for meal in saved_meals|batch(3) %}
             <div class="row justify-content-center">
                 {% for card in meal %}
-                    <div class="card g-col-4 w-25">
+                    <div class="card col-lg-3 col-sm-12">
                         <div class="card-body">
                             <button class="save-meal-button btn btn-danger float-end" id="{{ card.meal_id }}">- My Meals</button>
                             <button class="todays-plan-button btn btn-primary float-start" id="today-{{ card.meal_id }}" data-bs-toggle="modal" data-bs-target="#meal-selector">+ Today's Plan</button>
