@@ -21,11 +21,13 @@ def index():
     :return: render_template('index.html')
     """
     if request.method == 'GET':
+        alerts = []
         if "sign_out" in request.args:
             flask_login.logout_user()
+            alerts.append(Alert(AlertType.SUCCESS, "You have been signed out successfully."))
         if current_user.get_id() is not None:
             return redirect(url_for("dashboard.dashboard"))
-        return render_template('index.html', login_form=LoginForm(), contact_form=ContactForm())
+        return render_template('index.html', alerts=alerts, login_form=LoginForm(), contact_form=ContactForm())
     elif request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
