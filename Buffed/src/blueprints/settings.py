@@ -19,16 +19,18 @@ def settings():
     UID = current_user.get_id()
     user_info = fb.get_user_info(UID)
     email = user_info['email']
+    if request.method == 'POST':
+        if 'reset-submit' in request.form and reset_pw_form.validate_on_submit():
+            print("reset form")
+            fb.reset_user_password(email)
+            return redirect(url_for('settings.settings'))
 
-    if reset_pw_form.validate_on_submit():
-        fb.reset_user_password(email)
-        return redirect(url_for('settings.settings'))
-
-    if delete_form.validate_on_submit():
-        delete = delete_form['confirm']
-        print(delete)
-        fb.delete_user(UID)
-        flask_login.logout_user()
-        return redirect(url_for('index.index'))
+        if 'delete-submit' in request.form and delete_form.validate_on_submit():
+            print("delete form")
+            delete = delete_form['confirm']
+            print(delete)
+            fb.delete_user(UID)
+            flask_login.logout_user()
+            return redirect(url_for('index.index'))
 
     return render_template('settings.html', delete_form=delete_form, reset_pw_form=reset_pw_form)
