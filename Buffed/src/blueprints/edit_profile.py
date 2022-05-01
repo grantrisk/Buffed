@@ -68,7 +68,6 @@ def edit_profile():
     current_goal = user_info['current_goal']
     diet_type = user_info['diet']
 
-
     # Split the user's birthdate into year, month, day
     birth_values = birthdate.split('-')
     year = int(birth_values[0])
@@ -94,8 +93,6 @@ def edit_profile():
         profile_form.activity.data = activity
         profile_form.birth.data = datetime(year, month, day)
         profile_form.diet_type.data = diet_type
-
-
 
     # Validate_on_submit checks for submission with POST method
 
