@@ -65,11 +65,32 @@ def index():
         email = request.form['email']
         fb_connector.reset_user_password(email)
         print("email sent to ", email)
-        return redirect(url_for('index.index'))
+        return redirect(url_for('index.reset_password'))
 
 
 @index_page.route('/login_required')
 def login_required():
     alerts = [Alert(AlertType.DANGER, "You must be logged in to view this page.")]
+    return render_template('index.html', alerts=alerts, login_form=LoginForm(), contact_form=ContactForm(),
+                           password_reset_email_form=ForgotPasswordForm())
+
+
+@index_page.route('/deleted_account')
+def deleted_account():
+    """
+    Renders index page and shows alert for successfully deleting an account (redirected from settings)
+    """
+    alerts = [Alert(AlertType.SUCCESS, "Your account has been successfully deleted.")]
+    return render_template('index.html', alerts=alerts, login_form=LoginForm(), contact_form=ContactForm(),
+                           password_reset_email_form=ForgotPasswordForm())
+
+
+@index_page.route('/reset_password')
+def reset_password():
+    """
+    Renders index page and shows alert for successfully requesting
+    to reset their password (redirected from index or settings)
+    """
+    alerts = [Alert(AlertType.SUCCESS, "An email with instructions for resetting your password has been sent.")]
     return render_template('index.html', alerts=alerts, login_form=LoginForm(), contact_form=ContactForm(),
                            password_reset_email_form=ForgotPasswordForm())
