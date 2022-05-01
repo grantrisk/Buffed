@@ -62,20 +62,24 @@ def delete_user(uid: str):
     and the user object from firebase authentication.
     :param uid: the user's ID
     """
-    # delete user's collections
-    collections = db.collection(u'users').document(uid).collections()
-    for collection in collections:
-        delete_collection(collection, batch_size=5)
-    # delete user's document
-    db.collection(u'users').document(uid).delete()
-    # delete user from authentication
-    auth.delete_user(uid)
+    try:
+        # delete user's collections
+        collections = db.collection(u'users').document(uid).collections()
+        for collection in collections:
+            delete_collection(collection, batch_size=5)
+    finally:
+        # delete user's document
+        db.collection(u'users').document(uid).delete()
+        # delete user from authentication
+        auth.delete_user(uid)
 
 
 def delete_collection(coll_ref, batch_size):
     """
     Delete each collection by deleting all its documents in batches
     From https://firebase.google.com/docs/firestore/manage-data/delete-data#collections
+    :param coll_ref: the collection reference id
+    :param batch_size: the batch size for deleting documents within collections
     """
     docs = coll_ref.limit(batch_size).stream()
     deleted = 0
@@ -90,6 +94,11 @@ def delete_collection(coll_ref, batch_size):
 
 
 def reset_user_password(email):
+    """
+    Sends user's email a reset-password email using Google Cloud
+    :param email: the user's email
+    :return: the request object's json-encoded response
+    """
     request_ref = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/getOobConfirmationCode?key={0}".format(FIREBASE_WEB_API_KEY)
     headers = {"content-type": "application/json; charset=UTF-8"}
     data = json.dumps({"requestType": "PASSWORD_RESET", "email": email})

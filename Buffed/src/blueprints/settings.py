@@ -1,7 +1,7 @@
 import flask_login
 from flask import Blueprint, render_template, request, url_for, redirect
 import firebase_connector as fb
-from flask_login import login_user, current_user, login_required
+from flask_login import current_user, login_required
 from forms import ConfirmForm
 
 settings_page = Blueprint("settings", __name__, static_folder="static", template_folder="templates")
@@ -11,26 +11,23 @@ settings_page = Blueprint("settings", __name__, static_folder="static", template
 @login_required
 def settings():
     """
-        This method returns the page for my profile.
-        :return: render_template('my_profile.html')
-        """
+    Shows the settings page and handles forms for password reset and account deletion,
+    then redirects the index where it will show appropriate user feedback
+    """
     reset_pw_form = ConfirmForm()
     delete_form = ConfirmForm()
     UID = current_user.get_id()
-    user_info = fb.get_user_info(UID)
-    email = user_info['email']
+
     if request.method == 'POST':
         if 'reset-submit' in request.form and reset_pw_form.validate_on_submit():
-            print("reset form")
+            user_info = fb.get_user_info(UID)
+            email = user_info['email']
             fb.reset_user_password(email)
-            return redirect(url_for('settings.settings'))
-
+            return redirect(url_for('index.reset_password'))
         if 'delete-submit' in request.form and delete_form.validate_on_submit():
-            print("delete form")
-            delete = delete_form['confirm']
-            print(delete)
+            # will only get to this point if the user confirms Yes to delete
             fb.delete_user(UID)
             flask_login.logout_user()
-            return redirect(url_for('index.index'))
+            return redirect(url_for('index.deleted_account'))
 
     return render_template('settings.html', delete_form=delete_form, reset_pw_form=reset_pw_form)
