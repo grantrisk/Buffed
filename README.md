@@ -24,7 +24,7 @@ Our application __**BUFFED**__ will use web technologies to allow the average pe
 * Python 3.9 - [Python Download Page](https://www.python.org/downloads/) | [Python Installation Instructions](https://phoenixnap.com/kb/how-to-install-python-3-windows)
 * Pycharm - [Pycharm Download Page](https://www.jetbrains.com/pycharm/download/#section=mac) | [Pycharm Installation Instructions](https://www.jetbrains.com/help/pycharm/installation-guide.html)
 
-## Running Syetem Tests
+## Running System Tests
 
 1. Open Buffed project and run app.py 
 2. Open Google Chrome and install Selenium IDE into chrome extensions
