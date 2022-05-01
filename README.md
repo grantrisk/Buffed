@@ -7,12 +7,23 @@ Our application __**BUFFED**__ will use web technologies to allow the average pe
 ## Getting Started
 
 1. Install Pycharm or another IDE
-2. Clone the repo
+2. Clone the repo onto your machine
    ```sh
    git clone https://github.com/UNCW-CSC-450/team-project-team-1
    ```
-3. Open "Buffed" folder in your specific IDE
+3. Open "team-project-team-1" folder, which was cloned from repo, in your specific IDE
 4. Create or add Virtual Environment into your project folder inside IDE (Make sure python version 3.9 or less is being used for venv)
 5. Install all dependencies from requirements.txt into your virtual environment
-6. Run app.py through IDE
-7. Open website on http://127.0.0.1:5000 (local host)
+6. Open Run Configurations and add "FIREBASE_WEB_API_KEY=..." into Environment variables section (replace "..." with actual key from Firebase)
+7. If you need the API key from firebase, go to the databse project in Firebase, click "Project setting", and copy the key next to "Web API Key"
+8. Run app.py through IDE
+9. Open website on http://127.0.0.1:5000 (local host) in chrome browser
+
+## Running Syetem Tests
+
+1. Open Buffed project and run app.py 
+2. Open Google Chrome and install Selenium IDE into chrome extensions
+3. Open Selenium IDE
+4. Click "Open an existing project"
+5. Go into the Buffed directory and find the file named "Buffed.side" inside "test_selenium" directory
+6. Click on one of the tests and clikc "Run current test" or click "Run all tests" to run the test suite 
