@@ -57,17 +57,36 @@ def create_firebase_account(email: str, password: str):
 
 def delete_user(uid: str):
     """
-    Deletes a user object from firebase authentication.
+    Deletes a user completely from the database
+    By deleting user collections, the user document,
+    and the user object from firebase authentication.
+    :param uid: the user's ID
     """
+    # delete user's collections
+    collections = db.collection(u'users').document(uid).collections()
+    for collection in collections:
+        delete_collection(collection, batch_size=5)
+    # delete user's document
+    db.collection(u'users').document(uid).delete()
+    # delete user from authentication
     auth.delete_user(uid)
 
 
-def delete_user_document(uid: str):
+def delete_collection(coll_ref, batch_size):
     """
-    Deletes a user document from the firestore database.
+    Delete each collection by deleting all its documents in batches
+    From https://firebase.google.com/docs/firestore/manage-data/delete-data#collections
+    """
+    docs = coll_ref.limit(batch_size).stream()
+    deleted = 0
 
-    """
-    db.collection(u'users').document(uid).delete()
+    for doc in docs:
+        print(f'Deleting doc {doc.id} => {doc.to_dict()}')
+        doc.reference.delete()
+        deleted = deleted + 1
+
+    if deleted >= batch_size:
+        return delete_collection(coll_ref, batch_size)
 
 
 def reset_user_password(email):
