@@ -21,7 +21,8 @@
             {% for goal in goals %}
                 <tr>
                     <td>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#edit{{ goal.goal_id }}" class="btn btn-dark"><i class="fa fa-edit"></i></a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#edit{{ goal.goal_id }}" class="btn btn-dark edit-button"
+                           data-loop-index="{{ loop.index }}"><i class="fa fa-edit"></i></a>
                     </td>
                     <td>{{ goal.goal_name }}</td>
                     {% if goal.is_active %}
@@ -40,7 +41,7 @@
                                 <h5 class="modal-title w-100" id="editGoalModalLabel">Edit My Goal</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <form id="editGoalForm" action="/my_goals/update_goals/" method="POST">
+                            <form id="editGoalForm-{{ loop.index }}" action="/my_goals/update_goals/" method="POST">
                                 <div class="modal-body">
                                     <div class="form-group" style="display: none;">
                                         <label for="goalGoalId" class="form-label">Goal ID</label>
@@ -56,7 +57,6 @@
                                         <label for="goalCalorieInput">Number of Calories</label>
                                         <input type="number" class="form-control" id="goalCalorieInput" value="{{ goal.calories }}"
                                                name="calories" placeholder="Enter calorie amount:" required>
-{#                                        {{ wtf.form_field(form.calories, placeholder="Enter calorie amount:", value=goal.calories) }}#}
                                     </div>
                                     <div id="slider-range" class="form-group"></div>
                                     <div class="form-group">
@@ -101,10 +101,9 @@
                                             <input class="form-check-input" type="checkbox" name="active_checkbox" value="" id="goalIsActiveCheckbox">
                                         {% endif %}
                                     </div>
-                                </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                                    <button type="sumbit" name="action" value="Update" class="btn btn-primary submit" data-bs-dismiss="modal">Save changes</button>
+                                    <button type="submit" name="action" value="Update" class="btn btn-primary submit" data-bs-dismiss="modal">Save changes</button>
                                     <button type="submit" name="action" value="Delete" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
                                 </div>
                             </form>
@@ -119,4 +118,8 @@
     </a>
 {% endblock %}
 {% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+            integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ url_for('static', filename='js/my_goals.js') }}"></script>
 {% endblock %}

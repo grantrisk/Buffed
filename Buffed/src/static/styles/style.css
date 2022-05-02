@@ -61,4 +61,21 @@ a:hover, a:visited, a:link, a:active {
 .proteinText {
     color: #2ac54d;
 }
+label.error {
+    color: red;
+    font-size: 1rem;
+    display: block;
+    margin-top: 5px;
+}
 
+label.error.fail-alert {
+border: 2px solid red;
+border-radius: 4px;
+line-height: 1;
+padding: 2px 0 6px 6px;
+background: #ffe6eb;
+}
+input.valid.success-alert {
+border: 2px solid #4CAF50;
+color: green;
+}
