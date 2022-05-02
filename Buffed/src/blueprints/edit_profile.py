@@ -14,14 +14,9 @@ edit_profile_page = Blueprint("edit_profile", __name__, static_folder="static", 
 
 def send_info(result, UID):
     """
-    Save info to the user object, then send to Firebase connector
+    Sends information edited by the user to Firebase
+    :return: None
     """
-    print("Sending to FB: ", result)
-
-    # how do I get a current user's id?
-    # UID = User.get_id()
-    # UID = "aTgX2eI0XLN6CGPiGRacjTOM8g32"  # email: fake.email@email.com // pass: 123456
-
     fb.set_user_info(UID, FirebaseEnum.NAME, result.get('name'))
     fb.set_user_info(UID, FirebaseEnum.GENDER, result.get('sex'))
     fb.set_user_info(UID, FirebaseEnum.BIRTH, result.get('birth'))
@@ -34,6 +29,10 @@ def send_info(result, UID):
 
 
 def calculate_height(ft, inches):
+    """
+    Parses a user's inputted height, then converts to inches
+    :return: int parsed height in inches
+    """
     # calculate height in feet
     height_ft = ft.split("'")
     height_in = inches.split("\"")
@@ -50,10 +49,9 @@ def calculate_height(ft, inches):
 @login_required
 def edit_profile():
     """
-        This method returns the page for my profile.
-        :return: render_template('my_profile.html')
-        """
-
+    Renders the Profile page
+    :return: HTML content for the goal creation page
+    """
     UID = current_user.get_id()
     user_info = fb.get_user_info(UID)
 
@@ -108,7 +106,6 @@ def edit_profile():
                         'current_goal': current_goal}
 
         # Send this result so it can be stored
-        print("Passing on: ", setup_result)
         send_info(setup_result, UID)
 
         # Go to profile to see changes on submit

@@ -1,4 +1,3 @@
-from firebase_admin._auth_utils import EmailAlreadyExistsError
 from flask_login import current_user, login_user
 from flask import Blueprint, render_template, request, redirect, url_for
 
@@ -15,7 +14,8 @@ register_page = Blueprint("register", __name__, static_folder="static", template
 
 def send_setup_info(result: dict, UID: str) -> None:
     """
-    Save info to the user object, then send to Firebase connector
+    Sends user information gathered during registration to Firebase
+    :return: None
     """
     fb.set_user_info(UID, FirebaseEnum.NAME, result.get('name'))
     fb.set_user_info(UID, FirebaseEnum.GENDER, result.get('sex'))
@@ -32,6 +32,10 @@ def send_setup_info(result: dict, UID: str) -> None:
 
 
 def calculate_height(ft, inches):
+    """
+    Parses a user's inputted height, then converts to inches
+    :return: int parsed height in inches
+    """
     # calculate height in feet
     height_ft = ft.split("'")
     height_in = inches.split("\"")
@@ -47,7 +51,8 @@ def calculate_height(ft, inches):
 @register_page.route('/', methods=['GET', 'POST'])
 def register():
     """
-    Render html and pass setup form to html
+    Renders the user registration page
+    :return: HTML content for the user registration page
     """
     register_form = RegisterForm()
     profile_form = ProfileQuestionnaire()

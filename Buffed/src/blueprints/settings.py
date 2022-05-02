@@ -11,8 +11,9 @@ settings_page = Blueprint("settings", __name__, static_folder="static", template
 @login_required
 def settings():
     """
-    Shows the settings page and handles forms for password reset and account deletion,
-    then redirects the index where it will show appropriate user feedback
+    Shows the settings page and handles forms for password reset and account deletion, then redirects the index where
+    it will show appropriate user feedback
+    :return: HTML content for Settings page
     """
     reset_pw_form = ConfirmForm()
     delete_form = ConfirmForm()

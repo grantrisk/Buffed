@@ -1,8 +1,6 @@
 import json
 import os
 
-from flask_login import current_user
-
 from models import *
 
 import firebase_admin
@@ -57,9 +55,8 @@ def create_firebase_account(email: str, password: str):
 
 def delete_user(uid: str):
     """
-    Deletes a user completely from the database
-    By deleting user collections, the user document,
-    and the user object from firebase authentication.
+    Deletes a user completely from the database by deleting user collections, the user document, and the user object
+    from firebase authentication
     :param uid: the user's ID
     """
     try:
@@ -85,7 +82,6 @@ def delete_collection(coll_ref, batch_size):
     deleted = 0
 
     for doc in docs:
-        print(f'Deleting doc {doc.id} => {doc.to_dict()}')
         doc.reference.delete()
         deleted = deleted + 1
 
@@ -150,6 +146,11 @@ def set_user_info(UID: str, element: Enum, new_value: str):
 
 # --------- User Goals ---------
 def get_user_goals(UID: str):
+    """
+    Get all goals saved by a user
+    :param UID: user UID
+    :return: list of Goals
+    """
     goal_doc = db.collection(u'users').document(UID).collection(u'savedGoals').get()
     goalList = []
     for item in goal_doc:
@@ -158,6 +159,11 @@ def get_user_goals(UID: str):
 
 
 def get_user_active_goal(UID: str):
+    """
+    Get a user's active goal
+    :param UID: user UID
+    :return: Goal
+    """
     goalList = get_user_goals(UID)
     for goal in goalList:
         if goal['is_active']:
@@ -165,6 +171,11 @@ def get_user_active_goal(UID: str):
 
 
 def set_active_goal_to_false(UID: str):
+    """
+    Sets a given goal's active status to False
+    :param UID: user UID
+    :return: None
+    """
     active_goal = get_user_active_goal(UID)
     old_goal = Goal(active_goal['goal_id'],
                     active_goal['goal_name'], False,
@@ -176,16 +187,34 @@ def set_active_goal_to_false(UID: str):
 
 
 def create_user_new_goal(UID: str, goal: Goal):
+    """
+    Creates a new goal and saves it to the user
+    :param UID: user UID
+    :goal: Goal to be created
+    :return: None
+    """
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal.goal_id).set(vars(goal))
 
 
 def delete_user_goal(UID: str, goal_id: str):
+    """
+    Deletes a user's goal by ID
+    :param UID: user UID
+    :param goal_id: goal ID
+    :return: None
+    """
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal_id).delete()
 
 
 def update_user_goal(UID: str, goal: Goal):
+    """
+    Updates a user's goal
+    :param UID: user UID
+    :param goal: Goal to be updated
+    :return: None
+    """
     goal_doc_ref = db.collection(u'users').document(UID).collection(u'savedGoals')
     goal_doc_ref.document(goal.goal_id).set(vars(goal), merge=True)
 
@@ -225,7 +254,7 @@ def get_all_meals(UID: str):
     """
     Get all of a user's saved meals
     :param UID: user UID
-    :return: stream
+    :return: stream of saved meals
     """
     meals = []
     results = db.collection(u'users').document(UID).collection(u'saved_meals').stream()
@@ -314,6 +343,10 @@ def get_all_meals_todays_plan(UID: str):
 
 
 def get_remaining_nutrients(UID: str):
+    """
+    Gets the max calories and macros that can fit within a user's plan
+    :return: dict containing calories, carbs, protein, and fat amounts
+    """
     curr_goal = get_user_active_goal(UID)
     if not curr_goal:
         return None

@@ -1,5 +1,3 @@
-from urllib.parse import urlencode, quote_plus
-
 from flask import Blueprint, render_template, request, redirect, jsonify
 from flask_login import login_required, current_user
 
@@ -34,8 +32,8 @@ def find_meals():
 @login_required
 def search_results():
     """
-    Renders the search results page for Find Meals searches
-    :return: search results page template
+    Renders the search results page from Find Meals
+    :return: HTML content for the search results page
     """
     if 'search_query' not in request.args:
         redirect('find_meals')
@@ -63,6 +61,7 @@ def search_results():
                 diet['protein'] = remaining_nutrients['protein']
             if remaining_nutrients['fat'] > 0:
                 diet['fat'] = remaining_nutrients['fat']
+
     if 'minCalories' in request.args and request.args['minCalories'] != '':
         min_calories = int(request.args['minCalories'])
         if 'maxCalories' in request.args and request.args['maxCalories'] != '':
@@ -117,8 +116,8 @@ def search_results():
 @login_required
 def nutrition():
     """
-    Returns the Nutrition page, which shows an individual meal's nutrition details
-    :return: nutrition page template
+    Renders the Nutrition page for individual meals
+    :return: HTML content for the Nutrition page
     """
     if 'meal_id' in request.args:
         meal_id = request.args['meal_id']
@@ -131,6 +130,10 @@ def nutrition():
 @find_meals_page.route('/save_meal/', methods=['POST'])
 @login_required
 def save_meal():
+    """
+    Handles POST requests for saving meals to a user's account
+    :return: POST request response
+    """
     if 'id' in request.json:
         meal = edamam_instance.get_recipe_by_id(request.json['id'])
         firebase_connector.save_meal(current_user.get_id(), meal)
@@ -143,6 +146,10 @@ def save_meal():
 @find_meals_page.route('/remove_meal/', methods=['POST'])
 @login_required
 def remove_meal():
+    """
+    Handles POST requests for removing meals from a user's account
+    :return: POST request response
+    """
     if 'id' in request.json:
         firebase_connector.remove_meal(current_user.get_id(), request.json['id'])
         resp = jsonify(success=True)

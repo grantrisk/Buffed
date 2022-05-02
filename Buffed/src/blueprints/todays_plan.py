@@ -1,17 +1,14 @@
-import uuid
-
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 
 import firebase_connector as fb
-from models import Meal, MealType
 
 todays_plan_page = Blueprint("todays_plan", __name__, static_folder="static", template_folder="templates")
 
 
 def calculate_totals(meals):
     """
-    This method calculates the total of all the macros from the meal list in the database
+    Calculates the total of all the macros from the meal list in the database
     :return: dictionary of the macros
     """
     total_num_meals = 0
@@ -33,8 +30,8 @@ def calculate_totals(meals):
 @login_required
 def todays_plan():
     """
-    This method returns the page for todays_plan.
-    :return: render_template('todays_plan.html')
+    Renders the Today's Plan page
+    :return: HTML content for the Today's Plan page
     """
     UID = current_user.get_id()
     todays_meals = fb.get_all_meals_todays_plan(UID)
@@ -45,8 +42,8 @@ def todays_plan():
 @todays_plan_page.route('/update_plan/', methods=["POST"])
 def update_plan():
     """
-    This method updated a users plan in Firebase
-    :return: redirect of todays_plan page
+    This method updates a user's plan in Firebase
+    :return: redirect to todays_plan page
     """
     UID = current_user.get_id()
     if request.form['action'] == "Delete":
