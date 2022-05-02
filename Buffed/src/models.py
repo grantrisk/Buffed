@@ -1,5 +1,4 @@
 import time
-import uuid
 from enum import Enum
 from typing import List
 
@@ -35,24 +34,39 @@ class User(UserMixin):
         try:
             self.__exp_time = time.time() + int(exp_time)
         except ValueError:
-            print("Expire time is invalid. Value: " + exp_time + ". Aborting login.")
             self.__exp_time = 0
 
         User.active_users[user_id] = self
 
     def is_authenticated(self):
+        """
+        Determines if a user is authenticated based on session token expiration time
+        :return: True if authenticated, False otherwise
+        """
         if time.time() < self.__exp_time:
             User.active_users.pop(self.__user_id)
             return False
         return True
 
     def is_active(self):
+        """
+        Determines if a user is active. A user is active if they are authenticated.
+        :return: True if authenticated, False otherwise
+        """
         return self.is_authenticated()
 
     def is_anonymous(self):
+        """
+        Determines if a user is logged in anonymously. Buffed does not support anonymous logins, so will retuirn False.
+        :return: False
+        """
         return False
 
     def get_id(self):
+        """
+        Getter method for a user's ID
+        :return: user ID
+        """
         return self.__user_id
 
 
@@ -61,6 +75,12 @@ class Measure:
     Object representation of a measure, used internally for Ingredient nutrition lookup
     """
     def __init__(self, measure_label, measure_uri, weight):
+        """
+        Creates an instance of a Measure object
+        :param measure_label: display name for the measure
+        :param measure_uri: Edamam URI for measure
+        :param weight: weight in grams
+        """
         self.measure_label = measure_label
         self.measure_uri = measure_uri
         self.weight = weight
@@ -167,6 +187,9 @@ class Goal:
 
 
 class AlertType(Enum):
+    """
+    Enum used for alert types in Bootstrap
+    """
     PRIMARY = 'alert-primary'
     SECONDARY = 'alert-secondary'
     SUCCESS = 'alert-success'
@@ -178,6 +201,9 @@ class AlertType(Enum):
 
 
 class Alert:
+    """
+    Object used for Bootstrap alerts
+    """
     def __init__(self, alert_type: AlertType, message: str):
         """
         Creates an instance of an Alert

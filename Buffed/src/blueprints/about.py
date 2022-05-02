@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request
 
 from forms import ContactForm
 
@@ -7,9 +7,9 @@ about_page = Blueprint("about", __name__, static_folder="static", template_folde
 
 def send_contact(result):
     """
-        Takes a posted contact email result from about's contact form
-        and sends the email.
-        :return: None
+    Takes a posted contact email result from about's contact form
+    and sends the email.
+    :return: None
     """
     # TODO: Implement Contact form functionality that sends email to server?
     # This is for a User Story that's in the icebox currently (noted 3/17/2022)
@@ -19,8 +19,8 @@ def send_contact(result):
 @about_page.route('/', methods=["GET", "POST"])
 def about():
     """
-        This method returns the about us page and handles any posted contact form info.
-        :return: renders template for about.html with contact form
+    Renders the About page
+    :return: HTML content for the About page
     """
     form = ContactForm()
 

@@ -3,7 +3,6 @@ from flask_login import login_required, current_user
 
 import firebase_connector
 from edamam_connector import EdamamConnector
-from models import MealType
 
 my_meals_page = Blueprint("my_meals", __name__, static_folder="static", template_folder="templates")
 
@@ -14,8 +13,8 @@ edamam_instance = EdamamConnector()
 @login_required
 def my_meals():
     """
-    This method returns the my meals page.
-    :return: render_template('my_meals.html')
+    Renders the My Meals page
+    :return: HTML content for the My Meals page
     """
     saved_meals = firebase_connector.get_all_meals(current_user.get_id())
     for meal in saved_meals:
@@ -31,7 +30,7 @@ def my_meals():
 def add_to_todays_plan():
     """
     Used for AJAX POST requests to save a given meal to Today's Plan
-    :return: success status
+    :return: JSON success status
     """
     if 'mealID' in request.form and 'mealTypeOption' in request.form:
         meal = edamam_instance.get_recipe_by_id(request.form['mealID'])

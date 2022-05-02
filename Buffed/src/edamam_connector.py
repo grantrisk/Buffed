@@ -78,22 +78,6 @@ class EdamamConnector:
         else:
             raise InvalidRequestError("Invalid request: " + r.request.body)
 
-    def pretty_print_POST(req):
-        """
-        At this point it is completely built and ready
-        to be fired; it is "prepared".
-
-        However pay attention at the formatting used in
-        this function because it is programmed to be pretty
-        printed and may differ from the actual request.
-        """
-        print('{}\n{}\r\n{}\r\n\r\n{}'.format(
-            '-----------START-----------',
-            req.method + ' ' + req.url,
-            '\r\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
-            req.body,
-        ))
-
     def search_recipes(self, query: str, diet: dict) -> List[Meal]:
         """
         Queries Recipe Search API for recipes. Raises an exception if the API key(s) are invalid.
@@ -179,7 +163,6 @@ class EdamamConnector:
     def is_valid_image(self, img_url: str):
         """
         Determines whether the requested Edamam image has expired.
-
         :param img_url: URL of the requested image
         :return: True if valid, False otherwise
         """
@@ -190,7 +173,6 @@ class EdamamConnector:
     def __build_nutrients_json(self, food_id, measureURI):
         """
         Internal method to build JSON for ingredients input for nutrition input
-
         :param food_id: food ID fetched from Edamam API
         :return: dict in JSON format containing ingredients in correct format
         """

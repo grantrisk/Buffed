@@ -2,7 +2,7 @@ from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 import firebase_connector as fb
 from blueprints import todays_plan
-from models import *
+
 dashboard_page = Blueprint("dashboard", __name__, static_folder="static", template_folder="templates")
 
 
@@ -10,8 +10,8 @@ dashboard_page = Blueprint("dashboard", __name__, static_folder="static", templa
 @login_required
 def dashboard():
     """
-        This method returns the page for the dashboard.
-        :return: render_template('dashboard.html')
+    Renders the Dashboard page
+    :return: HTML content for the Dashboard page
     """
     UID = current_user.get_id()
     goalList = fb.get_user_goals(UID)
