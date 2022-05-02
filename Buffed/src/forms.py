@@ -82,7 +82,7 @@ class RegisterForm(FlaskForm):
         reg_exp = "^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!^&+=]).*$"
         reg = re.compile(reg_exp)
         if not re.search(reg, field.data):
-            raise ValidationError("Password must include:"
+            raise ValidationError("Password must include: "
                                   "1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character")
 
     def validate_email(form, field):
