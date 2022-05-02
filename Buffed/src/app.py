@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_login import LoginManager
+from flask_bootstrap import Bootstrap
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from blueprints.todays_plan import todays_plan_page
@@ -18,6 +19,7 @@ from blueprints.settings import settings_page
 from models import User
 
 app = Flask(__name__, static_url_path='/static')
+Bootstrap(app)
 limiter = Limiter(app, key_func=get_remote_address, default_limits=['75 per minute'])
 
 app.register_blueprint(index_page, url_prefix='/')

@@ -49,3 +49,16 @@ a:hover, a:visited, a:link, a:active {
     outline: none;
     box-shadow: none;
 }
+
+.carbText {
+    color: #136ccc;
+}
+
+.fatText {
+    color: #5e5c5c;
+}
+
+.proteinText {
+    color: #2ac54d;
+}
+
