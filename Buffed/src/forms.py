@@ -129,7 +129,7 @@ class ProfileQuestionnaire(FlaskForm):
 
     height_feet = SelectField("Ft.", [DataRequired()], choices=['3\'', '4\'', '5\'', '6\'', '7\''])
 
-    height_inches = SelectField("Inches", [DataRequired()], choices=['1"', '2"', '3"', '4"', '5"', '6"', '7"',
+    height_inches = SelectField("Inches", [DataRequired()], choices=['0"', '1"', '2"', '3"', '4"', '5"', '6"', '7"',
                                                                      '8"', '9"', '10"', '11"'])
 
     activity = SelectField("Activity Level", [DataRequired()], choices=["Very Active", "Moderately Active",

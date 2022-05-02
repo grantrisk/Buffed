@@ -380,36 +380,3 @@ def sum_nutrients(meals: List[Meal]):
             else:
                 total_nutrients[nutrient] = meal.nutrients[nutrient]['quantity']
     return total_nutrients
-
-# # ------------------- Create Account -------------------
-# user_email = "riskgrant@gmail.com"
-# user_password = "123456"
-# # create_firebase_account(user_email, user_password)
-#
-# # ------------------- Signing in -------------------
-# firebase_user = sign_in_with_email_and_password(user_email, user_password)
-# # If there is no user this is returned: User sign in response: {'error': {'code': 400, 'message': 'EMAIL_NOT_FOUND',
-# # 'errors': [{'message': 'EMAIL_NOT_FOUND', 'domain': 'global', 'reason': 'invalid'}]}}
-# print(f"User sign in response: {firebase_user}")
-# userUID = firebase_user['localId']
-# print(f"User UID in database: {userUID}")
-# user_document = get_user_info(userUID)
-# print(f"Retrieving initial user document: {user_document}")
-#
-# # ------------------- Making Changes -------------------
-# # new_email = "risk@gmail.com"
-# # set_user_info(userUID, FirebaseEnum.EMAIL, new_email)
-#
-# # new_name = "Grant Risk"
-# # set_user_info(userUID, FirebaseEnum.NAME, new_name)
-#
-# from models import Meal
-#
-# meal1 = Meal("burger", "recipe_0b30b0c29576079a12998d386a42d019", MealType.DINNER.value, "",
-#              {"calories": 400, "protein": 20, "carbs": 250, "fat": 50}, [], [])
-#
-# # add_meal_todays_plan(userUID, meal1)
-# remove_meal_todays_plan(userUID, meal1.meal_id)
-#
-# user_document = get_user_info(userUID)
-# print(f"Retrieving modified user document: {user_document}")
