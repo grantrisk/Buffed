@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% set active_page = "edit_profile" %}
 {% block content %}
 
@@ -37,17 +38,7 @@
 
     <hr/>
     <div class="jumbotron" align="center">
-        {# macro for confirming if two given fields' data match,
-           if not it displays the given alert message #}
-        {% macro show_errors(field) %}
-            {% if field.errors %}
-                <div class="alert alert-warning d-sm-block" role="alert">
-                {% for error in field.errors %}
-                        {{ error }}
-                {% endfor %}
-                </div>
-            {% endif %}
-        {% endmacro %}
+
     <!-- Form-entries below need to be put into a form. -->
     <!-- Datepicker is deprecated in bootstrap, so trying to figure out how to implement it. -->
 
