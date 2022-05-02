@@ -8,3 +8,4 @@ pytest
 flask_login
 datastore_entity
 flask_limiter
+flask_bootstrap
