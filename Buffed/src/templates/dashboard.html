@@ -3,25 +3,31 @@
 {% block title %}
     Dashboard
 {% endblock %}
+{% block head %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+{%  endblock %}
 {% block content %}
     <h1>Dashboard</h1>
     <div class="container" >
     <br><br>
         <div class="row">
-            <div class="col">
-                <h3 align="left">
+            <div class="col-4">
+                <h3 align="left"><u>
                         Active Goal:
 {#                        <a href="/my_goals" class="link-primary">{{ goal.goal_name }}</a>#}
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit{{ goal.goal_id }}" class="link-primary">{{ goal.goal_name }}</a></h3>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit{{ goal.goal_id }}" class="link-primary">{{ goal.goal_name }}</a>
+                </u>
+                </h3>
                 <div>
                     <p class="fs-3" align="left" id="calories">Calories: {{goal.calories}}</p>
-                    <p class="fs-3" align="left" id="carbs">Carbohydrates: {{goal.macro_nutrients['carbs'][0]}}</p>
-                    <p class="fs-3" align="left" id="fats">Fats: {{goal.macro_nutrients['fat'][0]}}</p>
-                    <p class="fs-3" align="left" id="protein">Protein: {{goal.macro_nutrients['protein'][0]}}</p>
+                    <p class="fs-3" align="left" id="carbs"><span class="carbText">Carbs:</span> {{goal.macro_nutrients['carbs'][0]}}g</p>
+                    <p class="fs-3" align="left" id="fats"><span class="fatText">Fats:</span> {{goal.macro_nutrients['fat'][0]}}g</p>
+                    <p class="fs-3" align="left" id="protein"><span class="proteinText">Protein:</span> {{goal.macro_nutrients['protein'][0]}}g</p>
                 </div>
             </div>
-            <div class="col" style="position: relative;">
-                <div id="macro-chart"></div>
+            <div class="col-7" align="right">
+                <canvas id="macro-chart" width="350" height="350"></canvas>
             </div>
         </div>
         <br>
@@ -29,19 +35,26 @@
         <br>
         <br>
         <div class="row">
-            <div class="col-4 chart-container" style="position: relative;">
-                <div id="protein-chart"></div>
+            <div class="col-3 justify-content-around">
+                <h3 align="left"><u>Today's Caloric Info:</u></h3>
+                <p class="fs-3" align="left" id="calories">Calories: {{ round(calories["calories"]) }}</p>
+                <p class="fs-3" align="left" id="carbs"><span class="carbText">Carbs:</span> {{ round(calories["carbs"]) }}g</p>
+                <p class="fs-3" align="left" id="fats"><span class="fatText">Fats:</span> {{ round(calories["fat"]) }}g</p>
+                <p class="fs-3" align="left" id="protein"><span class="proteinText">Protein:</span> {{ round(calories["protein"]) }}g</p>
             </div>
-            <div class="col-4 chart-container" style="position: relative;">
-                <div id="carbs-chart"></div>
+            <div class="col-3">
+                <canvas id="carb-chart" width="245" height="245"></canvas>
             </div>
-            <div class="col-4 chart-container" style="position: relative;">
-                <div id="fats-chart"></div>
+            <div class="col-3">
+                <canvas id="fats-chart" width="245" height="245"></canvas>
+            </div>
+            <div class="col-3">
+                <canvas id="protein-chart" width="245" height="245"></canvas>
             </div>
         </div>
     </div>
     <a href="/todays_plan" >
-        <button type="button" class="btn btn-dark">Log a Meal for Today</button>
+        <button type="button" class="btn btn-dark">My Meal Log for Today</button>
     </a>
     <div class="modal fade" id="edit{{ goal.goal_id }}" tabindex="-1" aria-labelledby="editGoalModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -52,13 +65,13 @@
                             </div>
                             <form action="/my_goals/update_goals/" method="POST">
                                 <div class="modal-body">
-                                    <div class="form-group">
+                                    <div class="form-group" style="display: none;">
                                         <label for="goalGoalId" class="form-label">Goal ID</label>
                                         <input type="text" class="form-control" id="goalGoalId" value="{{ goal.goal_id }}"
                                                name="goal_id" readonly>
                                     </div>
                                     <div class="form-group">
-                                        <label for="goalTitleInput" class="form-label">Title</label>
+                                        <label for="goalTitleInput" class="form-label">Goal Name</label>
                                         <input type="text" class="form-control" id="goalTitleInput" value="{{ goal.goal_name }}"
                                                name="goal_name" placeholder="Enter goal name:">
                                     </div>
@@ -70,20 +83,23 @@
                                     <div id="slider-range" class="form-group"></div>
                                     <div class="form-group">
                                         <label for="goalCarbInput" class="form-label">Carbohydrates:</label>
-                                        <input type="range" class="form-range" min="0" max="800" id="goalCarbInput" name="carbs"
-                                        oninput="document.getElementById('new_carbs').innerHTML = document.getElementById('goalCarbInput').value">
+                                        <input type="range" class="form-range" min="0" max="{{ goal.calories // 4 }}" id="goalCarbInput" name="carbs"
+                                        oninput="document.getElementById('new_carbs').innerHTML = document.getElementById('goalCarbInput').value"
+                                        value="{{ goal.macro_nutrients['carbs'][0] }}">
                                         <p id="new_carbs">{{ goal.macro_nutrients['carbs'][0]}}</p>
                                     </div>
                                     <div class="form-group">
                                         <label for="goalFatInput" class="form-label">Fat:</label>
-                                        <input type="range" class="form-range" min="0" max="800" id="goalFatInput" name="fat"
-                                        oninput="document.getElementById('new_fat').innerHTML = document.getElementById('goalFatInput').value">
+                                        <input type="range" class="form-range" min="0" max="{{ goal.calories // 9 }}" id="goalFatInput" name="fat"
+                                        oninput="document.getElementById('new_fat').innerHTML = document.getElementById('goalFatInput').value"
+                                        value="{{ goal.macro_nutrients['fat'][0] }}">
                                         <span id="new_fat">{{ goal.macro_nutrients['fat'][0] }}</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="goalProteinInput" class="form-label">Protein:</label>
-                                        <input type="range" class="form-range" min="0" max="800" id="goalProteinInput" name="protein"
-                                        oninput="document.getElementById('new_protein').innerHTML = document.getElementById('goalProteinInput').value">
+                                        <input type="range" class="form-range" min="0" max="{{ goal.calories // 4 }}" id="goalProteinInput" name="protein"
+                                        oninput="document.getElementById('new_protein').innerHTML = document.getElementById('goalProteinInput').value"
+                                        value="{{ goal.macro_nutrients['protein'][0] }}">
                                         <span id="new_protein">{{ goal.macro_nutrients['protein'][0] }}</span>
                                     </div>
                                     <div class="form-group">
@@ -117,113 +133,162 @@
                 </div>
     {% block javascript %}
         <script>
-            const carbChart = bb.generate({
+            var ctx = document.getElementById("macro-chart").getContext("2d");
+            var anotherChart = new Chart(ctx, {
+                type: "pie",
                 data: {
-                    columns: [
-                        ["Carbs", 7],
-                        ["CarbsGoal", 3],
-                    ],
-                    type: "donut",
-                    onclick: function (d, i) {
-                        console.log("onclick", d, i);
-                    },
-                    onover: function (d, i) {
-                        console.log("onover", d, i);
-                    },
-                    onout: function (d, i) {
-                        console.log("onout", d, i);
-                    },
-                    colors: {
-                        Carbs: "#136ccc",
-                        CarbsGoal: "#ffffff"
-                    }
+                    labels: ["Protein", "Carbs", "Fat"],
+                    datasets: [{
+                        label: "Macros",
+                        data: {{ macrosAvgs | safe }},
+                        backgroundColor: [
+                            '#2ac54d',
+                            '#136ccc',
+                            '#5e5c5c',
+                        ],
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    plugins: {
+                        datalabels: {
+                            formatter: (value) => {
+                                return value + '%';
 
-                },
-                donut: {
-                    title: "Carbohydrates",
-                },
-                bindto: "#carbs-chart",
-            });
-            const fatChart = bb.generate({
-                data: {
-                    columns: [
-                        ["Fats", 8],
-                        ["FatsGoal", 1],
-                    ],
-                    type: "donut",
-                    onclick: function (d, i) {
-                        console.log("onclick", d, i);
-                    },
-                    onover: function (d, i) {
-                        console.log("onover", d, i);
-                    },
-                    onout: function (d, i) {
-                        console.log("onout", d, i);
-                    },
-                    colors: {
-                        Fats: "#5e5c5c",
-                        FatsGoal: "#ffffff"
+                            },
+                            color: '#fff',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Macro-nutrient Summary'
+                        },
+                        legend: {
+                            position: 'bottom',
+                            align: 'center'
+                        },
                     }
                 },
-                donut: {
-                    title: "Fats",
-                },
-                bindto: "#fats-chart",
+                plugins: [ChartDataLabels]
             });
-            const proteinChart = bb.generate({
+        </script>
+        <script>
+            const carbData = {{ [(macrosVals[1] / (goal['macro_nutrients']['carbs'][0]) * 100),
+                         (1 - (macrosVals[1] / goal['macro_nutrients']['carbs'][0])) * 100] | safe }};
+            const carbColors = [];
+            if (carbData[0] > 100) {carbColors.push("#EF0404FF"), carbData.pop() }
+            else {carbColors.push('#136ccc', '#000000')}
+            var ctx = document.getElementById("carb-chart").getContext("2d");
+            var anotherChart = new Chart(ctx, {
+                type: "doughnut",
                 data: {
-                    columns: [
-                        ["Protein", 5],
-                        ["ProteinGoal", 5],
-                    ],
-                    type: "donut",
-                    onclick: function (d, i) {
-                        console.log("onclick", d, i);
-                    },
-                    onover: function (d, i) {
-                        console.log("onover", d, i);
-                    },
-                    onout: function (d, i) {
-                        console.log("onout", d, i);
-                    },
-                    colors: {
-                        Protein: "#2ac54d",
-                        ProteinGoal: "#ffffff"
-                    },
+                    labels: ["Carbs", "Carbs Goal"],
+                    datasets: [{
+                        label: "Macros",
+                        data: carbData,
+                        backgroundColor: carbColors
+                    }]
                 },
-                donut: {
-                    title: "Protein",
-                },
-                bindto: "#protein-chart",
-            });
+                options: {
+                    responsive: false,
+                    plugins: {
+                        datalabels: {
+                            formatter: (value) => {
+                                return value.toFixed(2) + '%';
 
-            const macroChart = bb.generate({
-                data: {
-                    columns: [
-                        ["Protein", 3.6],
-                        ["Carbs", 4.2],
-                        ["Fats", 2.2]
-                    ],
-                    type: "pie",
-                    colors: {
-                        Protein: "#2ac54d",
-                        Carbs: "#136ccc",
-                        Fats: "#5e5c5c"
-                    },
-                    pie: {
-                    title: "Macro Summary",
-                    },
-                    onclick: function (d, i) {
-                        console.log("onclick", d, i);
-                    },
-                    onover: function (d, i) {
-                        console.log("onover", d, i);
-                    },
-                    onout: function (d, i) {
-                        console.log("onout", d, i);
-                    },
+                            },
+                            color: '#fff',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Carbohydrates'
+                        },
+                        legend: {
+                            position: 'bottom',
+                            align: 'center'
+                        },
+                    }
                 },
-                bindto: "#macro-chart",
+                plugins: [ChartDataLabels]
+            });
+        </script>
+        <script>
+            const fatData = {{ [(macrosVals[2] / (goal['macro_nutrients']['fat'][0]) * 100),
+                         (1 - (macrosVals[2] / goal['macro_nutrients']['fat'][0])) * 100] | safe }};
+            const fatColors = [];
+            if (fatData[0] > 100) {fatColors.push("#EF0404FF"), fatData.pop() }
+            else {fatColors.push('#5e5c5c', '#000000')}
+            var ctx = document.getElementById("fats-chart").getContext("2d");
+            var anotherChart = new Chart(ctx, {
+                type: "doughnut",
+                data: {
+                    labels: ["Fats", "Fat Goal"],
+                    datasets: [{
+                        label: "Macros",
+                        data: fatData,
+                        backgroundColor: fatColors
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    plugins: {
+                        datalabels: {
+                            formatter: (value) => {
+                                return value.toFixed(2) + '%';
+
+                            },
+                            color: '#fff',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Fats'
+                        },
+                        legend: {
+                            position: 'bottom',
+                            align: 'center'
+                        },
+                    }
+                },
+                plugins: [ChartDataLabels]
+            });
+        </script>
+        <script>
+            const proteinData = {{ [(macrosVals[0] / (goal['macro_nutrients']['protein'][0]) * 100),
+                         (1 - (macrosVals[0] / goal['macro_nutrients']['protein'][0])) * 100] | safe }};
+            const proteinColors = [];
+            if (proteinData[0] > 100) {proteinColors.push("#EF0404FF"), proteinData.pop() }
+            else {proteinColors.push('#2ac54d','#000000')}
+            var ctx = document.getElementById("protein-chart").getContext("2d");
+            var anotherChart = new Chart(ctx, {
+                type: "doughnut",
+                data: {
+                    labels: ["Protein", "Protein Goal"],
+                    datasets: [{
+                        label: "Macros",
+                        data: proteinData,
+                        backgroundColor: proteinColors
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    plugins: {
+                        datalabels: {
+                            formatter: (value) => {
+                                return value.toFixed(2) + '%';
+
+                            },
+                            color: '#fff',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Protein'
+                        },
+                        legend: {
+                            position: 'bottom',
+                            align: 'center'
+                        },
+                    }
+                },
+                plugins: [ChartDataLabels]
             });
         </script>
     {% endblock %}

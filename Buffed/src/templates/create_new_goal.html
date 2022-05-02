@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% set active_page = "my_goals" %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block title %}
     Create New Goal
 {% endblock %}
@@ -8,41 +9,67 @@
     <br>
     <form action="/my_goals/" method="POST">
         <div class="form-group w-50 p-3">
-            <label for="goalTitleInput" class="form-label">Title</label>
-            <input type="text" class="form-control" id="goalTitleInput" name="goal_name" placeholder="Enter goal name:">
+{#            <label for="goalTitleInput" class="form-label">Title</label>#}
+{#            <input type="text" class="form-control" id="goalTitleInput" name="goal_name" placeholder="Enter goal name:">#}
+            {{ wtf.form_field(form.goal_name, placeholder="Enter Goal Name:") }}
+            {% if form.goal_name.errors %}
+                {% for error in form.goal_name.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
+
         </div>
         <div class="form-group w-50 p-3">
-            <label for="goalCalorieInput">Calories</label>
-            <input type="number" class="form-control" id="goalCalorieInput" name="calories" placeholder="Enter calorie amount:">
+{#            <label for="goalCalorieInput">Calories</label>#}
+{#            <input type="number" class="form-control" id="goalCalorieInput" name="calories" placeholder="Enter calorie amount:">#}
+            {{ wtf.form_field(form.calories, placeholder="Enter calorie amount:") }}
+            {% if form.calories.errors %}
+                {% for error in form.calories.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
         </div>
         <div class="form-group w-50 p-3">
             <label for="goalCarbInput" class="form-label">Carbohydrates:</label>
             <input type="range" class="form-range" min="0" max="800" id="goalCarbInput" name="carbs"
-                    onChange="document.getElementById('rangeval1').innerText = document.getElementById('goalCarbInput').value">
+                    oninput="document.getElementById('rangeval1').innerText = document.getElementById('goalCarbInput').value"
+                    value="document.getElementBy">
             <span id="rangeval1">150<!-- Default value --></span>
         </div>
         <div class="form-group w-50 p-3">
             <label for="goalFatInput" class="form-label">Fat:</label>
             <input type="range" class="form-range" min="0" max="800" id="goalFatInput" name="fat"
-                    onChange="document.getElementById('rangeval2').innerText = document.getElementById('goalFatInput').value">
+                    oninput="document.getElementById('rangeval2').innerText = document.getElementById('goalFatInput').value">
             <span id="rangeval2">100<!-- Default value --></span>
         </div>
         <div class="form-group w-50 p-3">
             <label for="goalProteinInput" class="form-label">Protein:</label>
             <input type="range" class="form-range" min="0" max="800" id="goalProteinInput" name="protein"
-                    onChange="document.getElementById('rangeval3').innerText = document.getElementById('goalProteinInput').value">
+                    oninput="document.getElementById('rangeval3').innerText = document.getElementById('goalProteinInput').value">
             <span id="rangeval3">200<!-- Default value --></span>
         </div>
         <div class="form-group w-50 p-3">
-            <label for="goalNumberOfMealsInput">Number of Meals</label>
-            <input type="number" class="form-control" id="goalNumberOfMealsInput" name="number_of_meals" placeholder="Number of Meals:">
+{#            <label for="goalNumberOfMealsInput">Number of Meals</label>#}
+{#            <input type="number" class="form-control" id="goalNumberOfMealsInput" name="number_of_meals" placeholder="Number of Meals:">#}
+            {{ wtf.form_field(form.number_of_meals, placeholder="Enter a number of meals for goal:") }}
+            {% if form.number_of_meals.errors %}
+                {% for error in form.number_of_meals.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
         </div>
         <div class="form-group w-50 p-3">
-            <label for="goalDesiredWeightInput">Desired Weight</label>
-            <input type="number" class="form-control" id="goalDesiredWeightInput" name="desired_weight" placeholder="Desired Weight:">
+{#            <label for="goalDesiredWeightInput">Desired Weight</label>#}
+{#            <input type="number" class="form-control" id="goalDesiredWeightInput" name="desired_weight" placeholder="Desired Weight:">#}
+            {{ wtf.form_field(form.desired_weight, placeholder="Enter a desired weight:") }}
+            {% if form.desired_weight.errors %}
+                {% for error in form.desired_weight.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
         </div>
         <div class="w-50">
-            <button type="submit" class="btn btn-dark">Save Goal</button>
+            <button type="submit" name="action" value="New" class="btn btn-dark">Save Goal</button>
         </div>
     </form>
 {% endblock %}

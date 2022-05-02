@@ -97,11 +97,6 @@ class RegisterForm(FlaskForm):
             raise ValidationError("Error. Please try a different email.")
 
 
-
-
-
-
-
 class ProfileQuestionnaire(FlaskForm):
     """
     Form for profile questionnaire
@@ -133,4 +128,31 @@ class ProfileQuestionnaire(FlaskForm):
                                             'Mustard-Free', 'Sesame-Free', 'Lupine-Free', 'Mollusk-Free',
                                             'Alcohol-Free', 'No oil added', 'FODMAP-Free', 'Kosher'])
 
+    submit = SubmitField("Save")
+
+
+class MyGoals(FlaskForm):
+
+    goal_id = StringField("Goal ID", validators=[DataRequired()])
+
+    goal_name = StringField("Goal Name",
+                            validators=[DataRequired(),
+                                        Length(min=1, max=50, message='Name must be between 1-50 characters long')])
+    calories = IntegerField("Calories",
+                            validators=[DataRequired(), NumberRange(min=1000, max=10000,
+                                                                    message='Must be a number between 1000-10000.')])
+    carb_goal = IntegerField("Carb Goal",
+                             validators=[DataRequired(), NumberRange(min=0, max=2500,
+                                                                     message='Must be a number between 0-2500.')])
+    fat_goal = IntegerField("Fat Goal",
+                            validators=[DataRequired(), NumberRange(min=0, max=1500,
+                                                                    message='Must be a number between 0-2500.')])
+    protein_goal = IntegerField("Protein Goal",
+                                validators=[DataRequired(), NumberRange(min=0, max=2500,
+                                                                        message='Must be a number between 0-2500.')])
+    number_of_meals = IntegerField("Number of Meals", validators=[DataRequired(), NumberRange(min=1, max=25,
+                                                                                        message='Must be a number between 1-25.')])
+    desired_weight = IntegerField("Desired Weight",
+                                  validators=[DataRequired(), NumberRange(min=25, max=2000,
+                                                                          message='Must be a number between 25-2000.')])
     submit = SubmitField("Save")
