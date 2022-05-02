@@ -9,7 +9,8 @@
 {%  endblock %}
 {% block content %}
     <h1>Dashboard</h1>
-    <div class="container" >
+    {% if goal %}
+    <div class="container">
     <br><br>
         <div class="row">
             <div class="col-4">
@@ -292,4 +293,8 @@
             });
         </script>
     {% endblock %}
+    {% else %}
+        <br>
+        <h2>You don't have an active goal set. Go to <a href="{{ url_for('my_goals.my_goals') }}">My Goals</a> to set one.</h2>
+    {% endif %}
 {% endblock %}

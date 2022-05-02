@@ -14,18 +14,17 @@ def dashboard():
     :return: HTML content for the Dashboard page
     """
     UID = current_user.get_id()
-    goalList = fb.get_user_goals(UID)
-    todays_meals = fb.get_all_meals_todays_plan(UID)
-    calories = todays_plan.calculate_totals(todays_meals)
-    macrosLabel = []
-    macrosVals = []
-    macroAvgs = []
-    for goal in goalList:
-        if goal['is_active']:
-            active_goal = goal
-    for macro in calories:
-        if macro in ("protein", "carbs", "fat"):
-            macrosVals.append(round(calories[macro]))
-    for i in range(len(macrosVals)):
-        macroAvgs.append(float("{:.2f}".format((macrosVals[i] / (sum(macrosVals) + 1)) * 100)))
-    return render_template('dashboard.html', goal=active_goal, calories=calories, macrosAvgs=macroAvgs, round=round)
+    active_goal = fb.get_user_active_goal(UID)
+    if active_goal:
+        todays_meals = fb.get_all_meals_todays_plan(UID)
+        calories = todays_plan.calculate_totals(todays_meals)
+        macrosLabel = []
+        macrosVals = []
+        macroAvgs = []
+        for macro in calories:
+            if macro in ("protein", "carbs", "fat"):
+                macrosVals.append(round(calories[macro]))
+        for i in range(len(macrosVals)):
+            macroAvgs.append(float("{:.2f}".format((macrosVals[i] / (sum(macrosVals) + 1)) * 100)))
+        return render_template('dashboard.html', goal=active_goal, calories=calories, macrosAvgs=macroAvgs, round=round)
+    return render_template('dashboard.html', goal=None)
