@@ -40,54 +40,57 @@
                                 <h5 class="modal-title w-100" id="editGoalModalLabel">Edit My Goal</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <form action="/my_goals/update_goals/" method="POST">
+                            <form id="editGoalForm" action="/my_goals/update_goals/" method="POST">
                                 <div class="modal-body">
-                                    <div class="form-group">
+                                    <div class="form-group" style="display: none;">
                                         <label for="goalGoalId" class="form-label">Goal ID</label>
                                         <input type="text" class="form-control" id="goalGoalId" value="{{ goal.goal_id }}"
                                                name="goal_id" readonly>
                                     </div>
                                     <div class="form-group">
-                                        <label for="goalTitleInput" class="form-label">Title</label>
+                                        <label for="goalTitleInput" class="form-label">Goal Name</label>
                                         <input type="text" class="form-control" id="goalTitleInput" value="{{ goal.goal_name }}"
-                                               name="goal_name" placeholder="Enter goal name:">
+                                               name="goal_name" placeholder="Enter goal name:" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="goalCalorieInput">Calories</label>
+                                        <label for="goalCalorieInput">Number of Calories</label>
                                         <input type="number" class="form-control" id="goalCalorieInput" value="{{ goal.calories }}"
-                                               name="calories" placeholder="Enter calorie amount:">
+                                               name="calories" placeholder="Enter calorie amount:" required>
+{#                                        {{ wtf.form_field(form.calories, placeholder="Enter calorie amount:", value=goal.calories) }}#}
                                     </div>
                                     <div id="slider-range" class="form-group"></div>
                                     <div class="form-group">
                                         <label for="goalCarbInput-{{ loop.index }}" class="form-label">Carbohydrates:</label>
                                         <input type="range" class="form-range" min="0" max="{{ goal.calories // 4 }}" id="goalCarbInput-{{ loop.index }}" name="carbs"
                                         oninput="document.getElementById('new_carbs-{{ loop.index }}').innerHTML = document.getElementById('goalCarbInput-{{ loop.index }}').value"
-                                        value="{{ goal.macro_nutrients['carbs'][0] }}">
+                                        value="{{ goal.macro_nutrients['carbs'][0] }}" required>
                                         <span id="new_carbs-{{ loop.index }}">{{ goal.macro_nutrients['carbs'][0] }}</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="goalFatInput-{{ loop.index }}" class="form-label">Fat:</label>
                                         <input type="range" class="form-range" min="0" max="{{ goal.calories // 9}}" id="goalFatInput-{{ loop.index }}" name="fat"
                                         oninput="document.getElementById('new_fat-{{ loop.index }}').innerHTML = document.getElementById('goalFatInput-{{ loop.index }}').value"
-                                        value="{{ goal.macro_nutrients['fat'][0] }}">
+                                        value="{{ goal.macro_nutrients['fat'][0] }}" required>
                                         <span id="new_fat-{{ loop.index }}">{{ goal.macro_nutrients['fat'][0] }}</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="goalProteinInput-{{ loop.index }}" class="form-label">Protein:</label>
                                         <input type="range" class="form-range" min="0" max="{{ goal.calories // 4}}" id="goalProteinInput-{{ loop.index }}" name="protein"
                                         oninput="document.getElementById('new_protein-{{ loop.index }}').innerHTML = document.getElementById('goalProteinInput-{{ loop.index }}').value"
-                                        value="{{ goal.macro_nutrients['protein'][0] }}">
+                                        value="{{ goal.macro_nutrients['protein'][0] }}" required>
                                         <span id="new_protein-{{ loop.index }}">{{ goal.macro_nutrients['protein'][0] }}</span>
                                     </div>
                                     <div class="form-group">
                                         <label for="goalNumberOfMealsInput">Number of Meals</label>
                                         <input type="number" class="form-control" id="goalNumberOfMealsInput" value="{{ goal.number_of_meals }}"
-                                               name="number_of_meals" placeholder="Enter number of meals:">
+                                               name="number_of_meals" placeholder="Enter number of meals:" required>
+{#                                        {{ wtf.form_field(form.num_meals, placeholder="Enter number of meals:", value=goal.number_of_meals) }}#}
                                     </div>
                                     <div class="form-group">
                                         <label for="goalDesiredWeightInput">Desired Weight</label>
                                         <input type="number" class="form-control" id="goalDesiredWeightInput" value="{{ goal.desired_weight }}"
-                                               name="desired_weight" placeholder="Enter desired weight:">
+                                               name="desired_weight" placeholder="Enter desired weight:" required>
+{#                                        {{ wtf.form_field(form.num_meals, placeholder="Enter desired weight:", value=goal.desired_weight) }}#}
                                     </div>
                                     <div class="form-check">
                                         {% if goal.is_active %}
@@ -101,7 +104,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                                    <button type="sumbit" name="action" value="Update" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                                    <button type="sumbit" name="action" value="Update" class="btn btn-primary submit" data-bs-dismiss="modal">Save changes</button>
                                     <button type="submit" name="action" value="Delete" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
                                 </div>
                             </form>
@@ -114,4 +117,6 @@
     <a href="/create_new_goal" >
         <button type="button" class="btn btn-dark">Create New Goal</button>
     </a>
+{% endblock %}
+{% block js %}
 {% endblock %}

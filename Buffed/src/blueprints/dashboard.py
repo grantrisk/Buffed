@@ -17,8 +17,18 @@ def dashboard():
     goalList = fb.get_user_goals(UID)
     todays_meals = fb.get_all_meals_todays_plan(UID)
     calories = todays_plan.calculate_totals(todays_meals)
+    macrosLabel = []
+    macrosVals = []
+    macroAvgs = []
+
     for goal in goalList:
         if goal['is_active']:
             active_goal = goal
-
-    return render_template('dashboard.html', goal=active_goal, calories=calories, round=round)
+    for macro in calories:
+        if macro in ("protein", "carbs", "fat"):
+            macrosLabel.append(macro)
+            macrosVals.append(round(calories[macro]))
+    for i in range(len(macrosVals)):
+        macroAvgs.append(float("{:.2f}".format((macrosVals[i] / sum(macrosVals)) * 100)))
+    return render_template('dashboard.html', goal=active_goal, calories=calories, macrosLabel=macrosLabel,
+                           macrosAvgs=macroAvgs, macrosVals=macrosVals, round=round)

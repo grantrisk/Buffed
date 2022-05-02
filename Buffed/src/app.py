@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_login import LoginManager
+from flask_bootstrap import Bootstrap
 
 from blueprints.todays_plan import todays_plan_page
 from blueprints.index import index_page
@@ -17,7 +18,7 @@ from blueprints.settings import settings_page
 from models import User
 
 app = Flask(__name__, static_url_path='/static')
-
+Bootstrap(app)
 app.register_blueprint(index_page, url_prefix='/')
 app.register_blueprint(register_page, url_prefix='/register')
 app.register_blueprint(dashboard_page, url_prefix='/dashboard')
