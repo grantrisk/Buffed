@@ -6,195 +6,56 @@
 <div class ="body">
 
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-md navbar-light">
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#toggleMobileMenu"
+            aria-controls="toggleMobileMenu"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse" id="toggleMobileMenu">
             <ul class="navbar-nav">
-                <li class="nav-item">
+                <li>
                     <a class="nav-link" href="{{ url_for('my_profile.my_profile') }}">Profile</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ url_for('edit_profile.edit_profile') }}">Edit<span class="sr-only">(current)</span></a>
+                <li>
+                    <a class="nav-link" href="{{ url_for('edit_profile.edit_profile') }}">Edit</a>
                 </li>
-                <li class="nav-item">
+                <li>
                     <a class="nav-link" href="{{ url_for('settings.settings') }}">Settings</a>
                 </li>
             </ul>
-      </div>
+        </div>
     </nav>
 
-    <br>
     <p><i>You can change your information below.</i></p>
 
     <hr/>
-
-
+    <div class="jumbotron" align="center">
+        {# macro for confirming if two given fields' data match,
+           if not it displays the given alert message #}
+        {% macro show_errors(field) %}
+            {% if field.errors %}
+                <div class="alert alert-warning d-sm-block" role="alert">
+                {% for error in field.errors %}
+                        {{ error }}
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endmacro %}
     <!-- Form-entries below need to be put into a form. -->
     <!-- Datepicker is deprecated in bootstrap, so trying to figure out how to implement it. -->
 
     <form action="{{ url_for('edit_profile.edit_profile') }}" method="post">
-
-
-        {#!= 'hidden' and p.widget.input_type != 'submit' #}
-{#      {% for p in profile_form if p not in ['sex','diet_type'] and p.widget.input_type not in ['hidden','submit']  %}#}
-{#
-
-
-        <div class="form-group">#}
-            {# {{ p.label() }}#}
-            {# {{ p }}#}
-            {#
-        </div>#}
-{#        {% endfor %}#}
-
-
-
-        <!----- Display Name ----->
-        <div class="form-group" style="margin: auto; width: 300px;">
-            <h6 style="text-align: center;">{{ profile_form.name.label }}</h6>
-            <div class="d-flex">
-            {{ profile_form.name(class="form-control") }}
-            </div>
-        </div>
-
-        <br>
-
-        <!----- Sex ----->
-        <div class="form-group" style="margin: auto; width: 300px;">
-            <h6 style="text-align: center;">Sex</h6>
-            <div style="margin: auto; width: 300px;">
-                {% for subfield in profile_form.sex %}
-                    <tr>
-                        <td>{{ subfield(class="form-check-input") }}</td>
-                        <td>{{ subfield.label(class="form-check-label") }}</td>
-                    </tr>
-                {% endfor %}
-            </div>
-        </div>
-
-        <br>
-
-        <!----- Birthday ----->
-        <div class="form-group" style="margin: auto; width: 300px;">
-            <h6 style="text-align: center;">{{ profile_form.birth.label }}</h6>
-            <div class="d-flex">
-                {{ profile_form.birth(class="form-control") }}
-            </div>
-        </div>
-
-
-
-
-        {% if profile_form.birth.errors %}
-
-        <ul class="errors">
-            {% for error in profile_form.birth.errors %}
-            <li>
-                {{ error }}
-            </li>
-            {% endfor %}
-        </ul>
-
-        {% endif %}
-
-        <br>
-
-        <!----- Weight ----->
-        <div class="form-group" style="margin: auto; width: 300px;">
-            <h6 style="text-align: center;">{{ profile_form.weight.label }}</h6>
-            <div class="d-flex">
-                {{ profile_form.weight(class="form-control") }}
-            </div>
-        </div>
-
-        {% if profile_form.weight.errors %}
-
-
-
-        <ul class="errors">
-            {% for error in profile_form.weight.errors %}
-            <li>
-                {{ error }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-
-        <br>
-
-        <!----- Height ----->
-        <div class="form-group" style="margin: auto; width: 160px;">
-            <h6 style="text-align: center;">Height</h6>
-        </div>
-
-        <!-- Height labels for ft. & inches. -->
-        <div style="margin: auto; display: flex; width: 160px;">
-            <div style="width: 80px;">
-                {{ profile_form.height_feet.label }}
-            </div>
-            <div style="width: 80px;">
-                {{ profile_form.height_inches.label }}
-            </div>
-        </div>
-
-        <!-- Dropdowns for Height (ft and inches.) -->
-        <div style="margin: auto; display: flex; width: 160px;">
-            <div class="form-group" style="width: 80px">
-                {{ profile_form.height_feet(class="btn btn-secondary dropdown-toggle") }}
-            </div>
-
-            <div class="form-group" style="width: 80px;">
-                {{ profile_form.height_inches(class="btn btn-secondary dropdown-toggle") }}
-            </div>
-        </div>
-
-
-        <br>
-
-        <!----- Activity Level ----->
-        <div style="margin: auto; width: 300px;">
-            <div class="form-group">
-                <h6 style="text-align: center;">Activity Level</h6>
-                {{ profile_form.activity(class="btn btn-secondary dropdown-toggle") }}
-            </div>
-        </div>
-
-        <br>
-
-        <!----- Health Labels ----->
-        <div class="form-group" style="margin: auto;">
-            <h6 style="text-align: center;">Diet Health Labels</h6><br>
-            <div class="form-check">
-                <ul style="column-count:4; column-gap: 5%;">
-                {% for subfield in profile_form.diet_type %}
-                        <li style="list-style: none;">
-                            {{ subfield(class="form-check-input") }}
-                            {{ subfield.label }}
-                        </li>
-                {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <!-- Submit -->
-            <br>
-{#            {{ profile_form.submit }}#}
-            <input type="submit" class="btn btn-primary btn-lg" name="submit" value="Submit">
-        </div>
-        {{ profile_form.csrf_token }}
-        {##}
-        {#            {% if profile_form.submit.data %}#}
-        {#                {{ is_available() }}#}
-        {#            {% endif %}#}
+        {% include 'incl/profile_questionnaire.html' %}
     </form>
 
 
-
+    </div>
 </div>
 {% endblock %}

@@ -79,39 +79,47 @@
                     <!-- Body -->
                     <div class="modal-body">
                         <div class="form-group">
-                            <div class="row justify-content-center">
-                                <div class="col-sm-2">
-                                    <label for="email">Email</label>
+                            <form method="post">
+                                {{ login_form.csrf_token }}
+                                <div class="row justify-content-center">
+                                    <div class="col-sm-2">
+                                        {{ login_form.email.label }}
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        {{ login_form.email(class="form-control") }}
+                                    </div>
                                 </div>
-                                <div class="col-sm-auto">
-                                    <input type="text" id="email" name="email">
+
+                                <br>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-sm-2">
+                                        {{ login_form.password.label }}
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        {{ login_form.password(class="form-control") }}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <br>
+                                <br>
 
-                            <div class="row justify-content-center">
-                                <div class="col-sm-2">
-                                    <label for="password">Password</label>
+                                <div>
+                                    {{ login_form.remember_me(class="form-check-input") }} {{ login_form.remember_me.label(class="form-check-label") }}
                                 </div>
-                                <div class="col-sm-auto">
-                                    <input type="password" id="password" name="password">
+
+                                <br>
+
+                                <a href="{{ url_for('register.register') }}" data-bs-toggle="modal" data-bs-target="#resetPasswordWindow">
+                                    <h6>Forgot my password</h6>
+                                </a>
+
+                                <br>
+
+                                <!-- Button -->
+                                <div class="col text-center">
+                                    <input type="submit" class="btn btn-primary" value="Login" style="width: 150px;">
                                 </div>
-                            </div>
-
-                            <br>
-
-                            <div>
-                                <input type="hidden" value="False" name="rememberMe">
-                                <input type="checkbox" value="True" id="rememberMe" name="rememberMe"> <label for="rememberMe">Remember me</label>
-                            </div>
-
-                            <br>
-
-                            <!-- Button -->
-                            <div class="col text-center">
-                                <input type="submit" class="btn btn-primary" value="Login" style="width: 150px;">
-                            </div>
+                            </form>
                             <div>
                                 <br>
                             </div>
@@ -121,6 +129,75 @@
             </div>
         </div>
     </form>
+
+
+
+
+
+        <!-- Sign-in to Account Modal -->
+
+    <form id="password-form" method="post" action="/" role="form" class="form-horizontal">
+        <div class="modal" id="resetPasswordWindow" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Header -->
+
+                    <div class="modal-header d-flex justify-content-between" style="background: #000000">
+                        <div>
+                        </div>
+                        <div>
+                            <h4 class="=modal-title text-white font-weight-bold">
+                                Reset My Password
+                            </h4>
+                        </div>
+                        <div>
+                            <button type="button" class="btn-close btn-close-white" aria-label="Close"
+                                data-bs-dismiss="modal" aria-hidden="true"></button>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h6>If you have forgotten your password, you can use this form to reset your password.
+                                You will receive an email with instructions.</h6>
+
+                            <br>
+
+                            <form method="post">
+                                {{ login_form.csrf_token }}
+                                <div class="form-group">
+                                    Email {{ password_reset_email_form.email(class="form-control") }}
+                                </div>
+
+                                <br>
+
+                                <div class="form-group">
+                                    <!-- Button -->
+                                    <div class="col text-center">
+                                        <input type="submit" class="btn btn-primary" value="Login" style="width: 150px;">
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <div>
+                                    <br>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
 
 
     <!-- About Modal -->

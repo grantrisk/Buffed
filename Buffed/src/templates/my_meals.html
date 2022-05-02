@@ -13,12 +13,11 @@
 </div>
 
 <h1>{% block title %}My Meals{% endblock %}</h1>
-<div class="grid">
     {% if saved_meals|length > 0 %}
         {% for meal in saved_meals|batch(3) %}
             <div class="row justify-content-center">
                 {% for card in meal %}
-                    <div class="card g-col-4 w-25">
+                    <div class="card col-lg-3 col-sm-12">
                         <div class="card-body">
                             <button class="save-meal-button btn btn-danger float-end" id="{{ card.meal_id }}">- My Meals</button>
                             <button class="todays-plan-button btn btn-primary float-start" id="today-{{ card.meal_id }}" data-bs-toggle="modal" data-bs-target="#meal-selector">+ Today's Plan</button>
@@ -33,7 +32,6 @@
     {% else %}
         <h2>No meals saved.</h2>
     {% endif %}
-</div>
 
 <div class="modal fade" id="meal-selector" tabindex="-1" aria-labelledby="mealModalLabel" aria-hidden="true">
     <div class="modal-dialog">

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask_login import current_user
+from flask_login import current_user, login_required
 from flask import Blueprint, render_template, request, redirect, url_for
 
 import firebase_connector as fb
@@ -47,6 +47,7 @@ def calculate_height(ft, inches):
 
 
 @edit_profile_page.route('/', methods=['GET', 'POST'])
+@login_required
 def edit_profile():
     """
         This method returns the page for my profile.
@@ -66,7 +67,6 @@ def edit_profile():
     birthdate = user_info['birth']
     current_goal = user_info['current_goal']
     diet_type = user_info['diet']
-
 
     # Split the user's birthdate into year, month, day
     birth_values = birthdate.split('-')
@@ -93,8 +93,6 @@ def edit_profile():
         profile_form.activity.data = activity
         profile_form.birth.data = datetime(year, month, day)
         profile_form.diet_type.data = diet_type
-
-
 
     # Validate_on_submit checks for submission with POST method
 
