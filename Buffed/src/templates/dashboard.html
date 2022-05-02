@@ -172,8 +172,8 @@
             });
         </script>
         <script>
-            const carbData = {{ [(macrosVals[1] / (goal['macro_nutrients']['carbs'][0]) * 100),
-                         (1 - (macrosVals[1] / goal['macro_nutrients']['carbs'][0])) * 100] | safe }};
+            const carbData = {{ [(calories['carbs'] / (goal['macro_nutrients']['carbs'][0]) * 100),
+                         (1 - (calories['carbs'] / goal['macro_nutrients']['carbs'][0])) * 100] | safe }};
             const carbColors = [];
             if (carbData[0] > 100) {carbColors.push("#EF0404FF"), carbData.pop() }
             else {carbColors.push('#136ccc', '#000000')}
@@ -212,8 +212,8 @@
             });
         </script>
         <script>
-            const fatData = {{ [(macrosVals[2] / (goal['macro_nutrients']['fat'][0]) * 100),
-                         (1 - (macrosVals[2] / goal['macro_nutrients']['fat'][0])) * 100] | safe }};
+            const fatData = {{ [(calories['fat'] / (goal['macro_nutrients']['fat'][0]) * 100),
+                         (1 - (calories['fat'] / goal['macro_nutrients']['fat'][0])) * 100] | safe }};
             const fatColors = [];
             if (fatData[0] > 100) {fatColors.push("#EF0404FF"), fatData.pop() }
             else {fatColors.push('#5e5c5c', '#000000')}
@@ -252,8 +252,8 @@
             });
         </script>
         <script>
-            const proteinData = {{ [(macrosVals[0] / (goal['macro_nutrients']['protein'][0]) * 100),
-                         (1 - (macrosVals[0] / goal['macro_nutrients']['protein'][0])) * 100] | safe }};
+            const proteinData = {{ [(calories['protein'] / (goal['macro_nutrients']['protein'][0]) * 100),
+                         (1 - (calories['protein'] / goal['macro_nutrients']['protein'][0])) * 100] | safe }};
             const proteinColors = [];
             if (proteinData[0] > 100) {proteinColors.push("#EF0404FF"), proteinData.pop() }
             else {proteinColors.push('#2ac54d','#000000')}

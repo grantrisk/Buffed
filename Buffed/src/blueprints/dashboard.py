@@ -20,15 +20,12 @@ def dashboard():
     macrosLabel = []
     macrosVals = []
     macroAvgs = []
-
     for goal in goalList:
         if goal['is_active']:
             active_goal = goal
     for macro in calories:
         if macro in ("protein", "carbs", "fat"):
-            macrosLabel.append(macro)
             macrosVals.append(round(calories[macro]))
     for i in range(len(macrosVals)):
-        macroAvgs.append(float("{:.2f}".format((macrosVals[i] / sum(macrosVals)) * 100)))
-    return render_template('dashboard.html', goal=active_goal, calories=calories, macrosLabel=macrosLabel,
-                           macrosAvgs=macroAvgs, macrosVals=macrosVals, round=round)
+        macroAvgs.append(float("{:.2f}".format((macrosVals[i] / (sum(macrosVals) + 1)) * 100)))
+    return render_template('dashboard.html', goal=active_goal, calories=calories, macrosAvgs=macroAvgs, round=round)
