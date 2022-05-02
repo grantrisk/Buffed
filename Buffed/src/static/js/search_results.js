@@ -24,7 +24,7 @@ $(document).ready(function () {
                 }
             },
             error: function (result) {
-                alert('Failed to save meal');
+                window.location.reload();
             }
         });
     });

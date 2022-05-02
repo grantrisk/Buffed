@@ -51,8 +51,12 @@ login_manager.login_view = 'index.login_required'
 
 @login_manager.user_loader
 def load_user(user_id):
+    """
+    Method used for flask-login. Gets a User object based on their ID.
+    :return: User with given ID, None if it does not exist
+    """
     return User.get(user_id)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

@@ -7,8 +7,8 @@ create_new_goal_page = Blueprint("create_new_goal", __name__, static_folder="sta
 @create_new_goal_page.route('/', methods=["GET", "POST"])
 def create_new_goal():
     """
-        This method returns the create new goal page.
-        :return: render_template('create_new_goal.html')
+    Renders the goal creation page
+    :return: HTML content for the goal creation page
     """
     new_goal_form = MyGoals()
     return render_template('create_new_goal.html', form=new_goal_form)

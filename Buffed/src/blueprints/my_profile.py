@@ -11,15 +11,14 @@ my_profile_page = Blueprint("my_profile", __name__, static_folder="static", temp
 @login_required
 def my_profile():
     """
-        This method returns the page for my profile.
-        :return: render_template('my_profile.html')
-        """
+    Renders the My Profile page
+    :return: HTML content for the My Profile page
+    """
     UID = current_user.get_id()
     user_info = fb.get_user_info(UID)
 
     greeting_list = ['Howdy', 'Hello', 'Welcome', 'Welcome back', 'How\'s it going', 'Long-time no see',
                      'Yo', 'What\'s up', 'Heyyyyy', 'Sup']
-    print(user_info)
     # Assign a random greeting when they go to the profile page.
     greeting = greeting_list[random.randint(0, 9)]
 
@@ -52,6 +51,5 @@ def my_profile():
         age = age - 1
     else:
         age = age
-    print(activity)
     return render_template('my_profile.html', name=name, weight=weight, ft=ft, inches=inches, email=email,
                            activity=activity, gender=gender, goal=current_goal, greeting=greeting, age=age)

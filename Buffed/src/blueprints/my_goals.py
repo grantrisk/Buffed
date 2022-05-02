@@ -1,10 +1,8 @@
-import os
 import uuid
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 
 import firebase_connector as fb
-from firebase_admin import firestore
 
 from datetime import date
 from models import Goal
@@ -15,11 +13,19 @@ my_goals_page = Blueprint("my_goals", __name__, static_folder="static", template
 
 
 def generate_goal_id():
+    """
+    Generates a random UUID for goal IDs
+    :return: random UUID
+    """
     goal_id = uuid.uuid4()
     return goal_id
 
 
 def create_standard_goal(UID: str):
+    """
+    Generates a standard goal for a given user based off their age, gender, height, and weight
+    :return: generated Goal
+    """
     goal_id = str(generate_goal_id())
     goal_name = "Standard Goal"
     is_active = True
@@ -54,8 +60,8 @@ def create_standard_goal(UID: str):
 @login_required
 def my_goals():
     """
-        This method returns the page my_goals as well as the goals per user.
-        :return: render_template('my_goals.html'), goals
+    Renders the My Goals page
+    :return: HTML content for the My Goals page
     """
     UID = current_user.get_id()
     form = MyGoals()
@@ -80,6 +86,10 @@ def my_goals():
 @my_goals_page.route('/update_goals/', methods=["GET", "POST"])
 @login_required
 def update_my_goals():
+    """
+    Handles POST requests for updating a user's goals
+    :return: redirect to My Goals
+    """
     UID = current_user.get_id()
     if request.method == "POST":
         calories = int(request.form.get("calories"))
@@ -88,7 +98,6 @@ def update_my_goals():
 
         if request.form['action'] == "Update":
             active_goal = fb.get_user_active_goal(UID)
-            print(active_goal)
             goal_id = request.form.get("goal_id")
             goal_name = request.form.get("goal_name")
             number_of_meals = int(request.form.get("number_of_meals"))

@@ -78,6 +78,8 @@ class RegisterForm(FlaskForm):
         - 1 symbol or more
         - 1 uppercase letter or more
         - 1 lowercase letter or more
+        :param field: password field
+        :returns: None. raises ValidationErrors with exception messages, or passes
         """
         reg_exp = "^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!^&+=]).*$"
         reg = re.compile(reg_exp)
@@ -93,7 +95,7 @@ class RegisterForm(FlaskForm):
             using Flask-Login's authentication. Handle all exceptions, but
             if the user is not found then they may successfully pass this validation
         :param field: the form field in question, in this case email
-        :returns: Nothing. raises ValidationErrors with exception messages, or passes
+        :returns: None. raises ValidationErrors with exception messages, or passes
         """
         found = True
         try:
@@ -127,7 +129,7 @@ class ProfileQuestionnaire(FlaskForm):
 
     height_feet = SelectField("Ft.", [DataRequired()], choices=['3\'', '4\'', '5\'', '6\'', '7\''])
 
-    height_inches = SelectField("Inches", [DataRequired()], choices=['1"', '2"', '3"', '4"', '5"', '6"', '7"',
+    height_inches = SelectField("Inches", [DataRequired()], choices=['0"', '1"', '2"', '3"', '4"', '5"', '6"', '7"',
                                                                      '8"', '9"', '10"', '11"'])
 
     activity = SelectField("Activity Level", [DataRequired()], choices=["Very Active", "Moderately Active",
@@ -146,6 +148,9 @@ class ProfileQuestionnaire(FlaskForm):
 
 
 class MyGoals(FlaskForm):
+    """
+    Form for creating and updating goals in My Goals
+    """
 
     goal_id = StringField("Goal ID", validators=[DataRequired()])
 
