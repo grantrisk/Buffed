@@ -81,8 +81,8 @@ def register():
                         user_id = response["localId"]
                         token = response["idToken"]
                         expires_in = response["expiresIn"]
-                        user = User(user_id, token, expires_in)
-                        login_user(user, remember=False)  # log the user in to flask-login
+                        user = User(user_id)
+                        login_user(user, duration=expires_in)  # log the user in to flask-login
 
                         UID = current_user.get_id()
 
