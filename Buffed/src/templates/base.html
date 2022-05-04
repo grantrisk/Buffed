@@ -44,15 +44,15 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url_for('my_meals.my_meals') }}" class="nav-link align-middle px-0">
-                            <i class="fa fa-utensils fa-fw {{ 'active' if active_page == 'my_meals' else '' }}"></i>
-                            <span class="fs-4 ms-2 d-none d-sm-inline {{ 'active' if active_page == 'my_meals' else '' }}">My Meals</span>
-                        </a>
-                    </li>
-                    <li>
                         <a href="{{ url_for('find_meals.find_meals') }}" class="nav-link align-middle px-0">
                             <i class="fa fa-magnifying-glass fa-fw {{ 'active' if active_page == 'find_meals' else '' }}"></i>
                             <span class="fs-4 ms-2 d-none d-sm-inline {{ 'active' if active_page == 'find_meals' else '' }}">Find Meals</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('my_meals.my_meals') }}" class="nav-link align-middle px-0">
+                            <i class="fa fa-utensils fa-fw {{ 'active' if active_page == 'my_meals' else '' }}"></i>
+                            <span class="fs-4 ms-2 d-none d-sm-inline {{ 'active' if active_page == 'my_meals' else '' }}">My Meals</span>
                         </a>
                     </li>
                     <li>
