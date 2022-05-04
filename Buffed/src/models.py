@@ -7,10 +7,8 @@ from flask_login import UserMixin
 
 class User(UserMixin):
     """
-    Object used for flask-login authentication. Stores a user's ID, session token, and token expiration time.
+    Object used for flask-login authentication. Stores a user's ID.
     """
-    # Dictionary to store active user sessions. Elements stored in {"user_id": User} format.
-    active_users = {}
 
     @classmethod
     def get(cls, user_id):
@@ -19,10 +17,9 @@ class User(UserMixin):
         :param user_id:
         :return:
         """
-        if user_id in cls.active_users:
-            return cls.active_users[user_id]
+        return User(user_id)
 
-    def __init__(self, user_id, session_token, exp_time):
+    def __init__(self, user_id):
         """
         Creates an instance of a User object.
         :param user_id: user's unique ID
@@ -30,22 +27,8 @@ class User(UserMixin):
         :param exp_time: user's session token expiration time in seconds
         """
         self.__user_id = user_id
-        self.__session_token = session_token
-        try:
-            self.__exp_time = time.time() + int(exp_time)
-        except ValueError:
-            self.__exp_time = 0
-
-        User.active_users[user_id] = self
 
     def is_authenticated(self):
-        """
-        Determines if a user is authenticated based on session token expiration time
-        :return: True if authenticated, False otherwise
-        """
-        if time.time() < self.__exp_time:
-            User.active_users.pop(self.__user_id)
-            return False
         return True
 
     def is_active(self):
@@ -68,6 +51,13 @@ class User(UserMixin):
         :return: user ID
         """
         return self.__user_id
+
+    def to_json(self):
+        return {'user_id': self.__user_id}
+
+    @classmethod
+    def from_json(cls, json):
+        return User(json['user_id'])
 
 
 class Measure:
