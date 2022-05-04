@@ -1,4 +1,3 @@
-import time
 from enum import Enum
 from typing import List
 
@@ -23,8 +22,6 @@ class User(UserMixin):
         """
         Creates an instance of a User object.
         :param user_id: user's unique ID
-        :param session_token: user's session token
-        :param exp_time: user's session token expiration time in seconds
         """
         self.__user_id = user_id
 
