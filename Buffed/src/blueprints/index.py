@@ -47,7 +47,7 @@ def index():
                 user_id = response["localId"]
                 token = response["idToken"]
                 expires_in = response["expiresIn"]
-                user = User(user_id, token, expires_in)
+                user = User(user_id)
 
                 try:
                     if request.form['remember_me']:
