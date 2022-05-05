@@ -31,4 +31,4 @@ Our application __**BUFFED**__ will use web technologies to allow the average pe
 3. Open Selenium IDE
 4. Click "Open an existing project"
 5. Go into the Buffed directory and find the file named "Buffed.side" inside "test_selenium" directory
-6. Click on one of the tests and clikc "Run current test" or click "Run all tests" to run the test suite 
+6. Click on one of the tests and click "Run current test" or click "Run all tests" to run the test suite 
