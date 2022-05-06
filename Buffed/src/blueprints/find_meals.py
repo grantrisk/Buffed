@@ -122,7 +122,12 @@ def nutrition():
     if 'meal_id' in request.args:
         meal_id = request.args['meal_id']
         meal = edamam_instance.get_recipe_by_id(meal_id)
-        return render_template('nutrition.html', meal=meal, round=round)
+        saved_meals = firebase_connector.get_all_meals(current_user.get_id())
+        is_saved = False
+        for saved_meal in saved_meals:
+            if meal.meal_id == saved_meal.meal_id:
+                is_saved = True
+        return render_template('nutrition.html', meal=meal, round=round, is_saved=is_saved)
     else:
         return redirect('/find_meals')
 
