@@ -1,7 +1,6 @@
 venv/
 .idea/
+keys/
 .DS_Store
-buffed-9aca2-firebase-adminsdk-ugcpz-0d366e7b2c.json
 __pycache__
-keys.cfg
 Buffed.egg-info

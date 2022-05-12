@@ -9,7 +9,7 @@ class EdamamConnector:
     Provides an interface to fetch Edamam API data
     """
     config = {}
-    with open('static/resources/keys.cfg') as file:
+    with open('static/resources/keys/keys.cfg') as file:
         lines = file.readlines()
         for line in lines:
             key_val = line.split('=')

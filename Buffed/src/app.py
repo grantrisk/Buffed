@@ -36,7 +36,7 @@ app.register_blueprint(edit_profile_page, url_prefix='/edit_profile')
 app.register_blueprint(settings_page, url_prefix='/settings')
 
 config = {}
-with open('static/resources/keys.cfg') as file:
+with open('static/resources/keys/keys.cfg') as file:
     lines = file.readlines()
     for line in lines:
         key_val = line.split('=')

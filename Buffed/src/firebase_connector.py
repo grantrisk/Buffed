@@ -12,7 +12,7 @@ from models import Meal
 FIREBASE_WEB_API_KEY = os.environ.get("FIREBASE_WEB_API_KEY")
 rest_api_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
 
-cred = credentials.Certificate("static/resources/buffed-9aca2-firebase-adminsdk-ugcpz-0d366e7b2c.json")
+cred = credentials.Certificate("static/resources/keys/buffed-9aca2-firebase-adminsdk-ugcpz-fb90d1a83c.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
